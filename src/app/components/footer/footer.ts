@@ -1,11 +1,40 @@
-import { Component } from '@angular/core';
+// FILE: src/app/pages/footer/footer.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Product } from '../../models/product.model';
+import { Observable, map } from 'rxjs';
+import { ProductService } from '../../services/product';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.html',
-  styleUrl: './footer.css'
+  styleUrls: ['./footer.css']
 })
-export class Footer {
+export class footerComponent implements OnInit {
+  featuredProducts$: Observable<Product[]> | null = null;
+  isAuthenticated$: Observable<boolean>;
+  currentYear: number = new Date().getFullYear();
 
+  constructor(
+    private productService: ProductService,
+    private authService: AuthService
+  ) {
+    // Check authentication by mapping currentUser$ to boolean
+    this.isAuthenticated$ = this.authService.currentUser$.pipe(
+      map(user => !!user)
+    );
+  }
+
+  ngOnInit(): void {
+    this.loadFeaturedProducts();
+  }
+
+  loadFeaturedProducts(): void {
+    this.featuredProducts$ = this.productService.getFeaturedProducts(8);
+  }
 }

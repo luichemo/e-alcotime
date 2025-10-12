@@ -1,1 +1,109 @@
-<p>home works!</p>
+<!-- FILE: src/app/pages/home/home.component.html -->
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="container text-center">
+      <!-- <img src="logo.png" alt="AlcoTime Logo" class="hero-logo mb-4" style="max-width: 300px;"> -->
+      <h1 class="display-3 fw-bold text-white mb-3">Welcome to AlcoTime</h1>
+      <p class="lead text-white mb-4">Premium Selection of Fine Wines, Spirits & Craft Beers</p>
+      <div class="d-flex gap-3 justify-content-center">
+        <a routerLink="/products" class="btn btn-warning btn-lg px-5">Shop Now</a>
+        <a routerLink="/register" class="btn btn-outline-light btn-lg px-5">Join Us</a>
+      </div>
+      <p class="text-white mt-3 sub-lead">
+        <i class="bi bi-shield-check me-2"></i>
+        Must be 18+ to purchase
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">Shop by Category</h2>
+    <div class="row g-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
+          <i class="bi bi-droplet fs-1 text-warning mb-3"></i>
+          <h4>Wine</h4>
+          <p class="text-muted">Premium wines from around the world</p>
+          <a routerLink="/products" [queryParams]="{category: 'wine'}" class="btn btn-sm btn-outline-dark">Browse</a>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
+          <i class="bi bi-thermometer-high fs-1 text-warning mb-3"></i>
+          <h4>Spirits</h4>
+          <p class="text-muted">Fine whiskey, vodka, rum & more</p>
+          <a routerLink="/products" [queryParams]="{category: 'spirits'}" class="btn btn-sm btn-outline-dark">Browse</a>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
+          <i class="bi bi-moisture fs-1 text-warning mb-3"></i>
+          <h4>Beer</h4>
+          <p class="text-muted">Craft beers and classics</p>
+          <a routerLink="/products" [queryParams]="{category: 'beer'}" class="btn btn-sm btn-outline-dark">Browse</a>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
+          <i class="bi bi-stars fs-1 text-warning mb-3"></i>
+          <h4>Champagne</h4>
+          <p class="text-muted">Celebrate with elegance</p>
+          <a routerLink="/products" [queryParams]="{category: 'champagne'}" class="btn btn-sm btn-outline-dark">Browse</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Featured Products</h2>
+    
+    <div *ngIf="featuredProducts$ | async as products; else loading">
+      <div *ngIf="products.length > 0; else noProducts" class="row g-4">
+        <div *ngFor="let product of products" class="col-lg-3 col-md-4 col-sm-6">
+          <div class="card h-100 shadow-sm product-card">
+            <img [src]="product.imageUrl" alt="AlcoTime Logo" class="hero-logo mb-4" style="max-width: 300px;">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text text-muted small">{{ product.brand }}</p>
+              <p class="card-text text-muted small flex-grow-1">{{ product.description | slice:0:80 }}...</p>
+              <div class="d-flex justify-content-between align-items-center mt-auto">
+                <div>
+                  <span *ngIf="product.discountPrice" class="text-decoration-line-through text-muted small">₾{{ product.price }}</span>
+                  <h5 class="text-warning mb-0">₾{{ product.discountPrice || product.price }}</h5>
+                </div>
+                <a [routerLink]="['/product', product.id]" class="btn btn-sm btn-dark">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noProducts>
+        <div class="text-center py-5">
+          <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
+          <p class="text-muted">No products available yet. Check back soon!</p>
+          <p class="text-muted small">Admin can add products from the admin panel.</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <ng-template #loading>
+      <div class="text-center py-5">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Loading products...</p>
+      </div>
+    </ng-template>
+  </div>
+</section>
+

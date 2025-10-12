@@ -1,1 +1,194 @@
-<p>product-detail works!</p>
+<!-- FILE: src/app/pages/product-detail/product-detail.component.html -->
+
+<!-- Loading State -->
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Product Detail -->
+<div *ngIf="!loading && product" class="product-detail-page">
+
+  <!-- Breadcrumb -->
+  <section class="breadcrumb-section py-3 bg-light">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+          <li class="breadcrumb-item active">{{ product.name }}</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Main Product Section -->
+  <section class="product-main py-5">
+    <div class="container">
+      <div class="row g-5">
+        <!-- Product Image -->
+        <div class="col-lg-6">
+          <div class="product-image-main">
+            <div class="product-badge" *ngIf="product.discountPrice">
+              <i class="bi bi-tag-fill me-2"></i>
+              Sale
+            </div>
+            <img [src]="product.imageUrl" [alt]="product.name" class="img-fluid">
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-lg-6">
+          <div class="product-info">
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h1 class="product-title">{{ product.name }}</h1>
+              <p class="product-brand">by <strong>{{ product.brand }}</strong></p>
+            </div>
+
+
+            <!-- Rating (placeholder) -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+
+            <div class="product-rating mb-3">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+              <span class="ms-2">(4.5 / 5)</span>
+            </div>
+            <span class="category-badge">{{ product.category }}</span>
+            </div>
+
+            <!-- Price -->
+            <div class="price-section mb-4" style="width: 100%;">
+              <span *ngIf="product.discountPrice" class="old-price">₾{{ product.price }}</span>
+              <h2 class="current-price">₾{{ product.discountPrice || product.price }}</h2>
+              <span *ngIf="product.discountPrice" class="save-badge">
+                Save ₾{{ (product.price - product.discountPrice).toFixed(2) }}
+              </span>
+            </div>
+            <div class="purchase-section" *ngIf="product.stock > 0">
+              <div class="quantity-selector">
+                <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 0">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <input type="number" class="qty-input" [(ngModel)]="quantity" min="1" [max]="product.stock">
+                <button class="qty-btn" (click)="increaseQuantity()" [disabled]="quantity >= product.stock">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+
+              <button class="btn-add-to-cart" (click)="addToCart()" [disabled]="addedToCart">
+                <i class="bi" [class.bi-cart-plus]="!addedToCart" [class.bi-cart-check-fill]="addedToCart"></i>
+                <span *ngIf="!addedToCart">Add to Cart</span>
+                <span *ngIf="addedToCart">Added to Cart!</span>
+              </button>
+
+              <a routerLink="/cart" class="btn-view-cart" *ngIf="isInCart()">
+                <i class="bi bi-cart3 me-2"></i>
+                View Cart ({{ getCartQuantity() }})
+              </a>
+
+              <button class="btn-add-to-cart danger" *ngIf="isCartNotEmpty()" (click)="clearCart()">
+                <i class="bi bi-trash3 me-1"></i>
+                Clear Cart
+              </button>
+            </div>
+
+
+            <div class="product-description mb-4" style="width: 100%;">
+              <p>
+                {{ isDescriptionExpanded ? product.description : (product.description | slice:0:150) +
+                (product.description.length > 150 ? '...' : '') }}
+              </p>
+
+              <button *ngIf="product.description.length > 150" class="btn btn-link p-0 read-more-btn"
+                (click)="toggleDescription()">
+                {{ isDescriptionExpanded ? 'Read Less' : 'Read More' }}
+              </button>
+            </div>
+
+
+            <!-- Product Specs -->
+            <div class="product-specs mb-4">
+              <div class="spec-item">
+                <i class="bi bi-droplet-half"></i>
+                <div>
+                  <strong>Alcohol Content</strong>
+                  <span>{{ product.alcoholContent }}%</span>
+                </div>
+              </div>
+              <div class="spec-item">
+                <i class="bi bi-cup"></i>
+                <div>
+                  <strong>Volume</strong>
+                  <span>{{ product.volume }} ml</span>
+                </div>
+              </div>
+              <div class="spec-item">
+                <i class="bi bi-geo-alt"></i>
+                <div>
+                  <strong>Origin</strong>
+                  <span>{{ product.country }}</span>
+                </div>
+              </div>
+              <div class="spec-item">
+                <i class="bi bi-box-seam"></i>
+                <div>
+                  <strong>Stock</strong>
+                  <span [class.text-danger]="product.stock < 10">
+                    {{ product.stock }} units available
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stock Warning -->
+            <div *ngIf="product.stock < 10 && product.stock > 0" class="alert alert-warning">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              <strong>Hurry!</strong> Only {{ product.stock }} left in stock
+            </div>
+
+            <!-- Out of Stock -->
+            <div *ngIf="product.stock === 0" class="alert alert-danger">
+              <i class="bi bi-x-circle me-2"></i>
+              <strong>Out of Stock</strong> - This product is currently unavailable
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  <section class="related-products py-5 bg-light" *ngIf="relatedProducts.length > 0">
+    <div class="container">
+      <h2 class="section-title text-center mb-5">You May Also Like</h2>
+      <div class="row g-4">
+        <div *ngFor="let relatedProduct of relatedProducts" class="col-md-6 col-lg-3">
+          <div class="card h-100 product-card">
+            <div class="product-image-wrapper">
+              <img [src]="relatedProduct.imageUrl" class="card-img-top" [alt]="relatedProduct.name">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ relatedProduct.name }}</h5>
+              <p class="text-muted small">{{ relatedProduct.brand }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="product-price mb-0">₾{{ relatedProduct.discountPrice || relatedProduct.price }}</h5>
+                <a [routerLink]="['/product', relatedProduct.id]" class="btn btn-sm btn-outline-primary">
+                  View
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

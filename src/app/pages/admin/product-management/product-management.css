@@ -1,0 +1,545 @@
+/* Product Management - Premium Earthy Design */
+/* Color Palette:
+   #ad8d66 - Light brown
+   #a18448 - Medium brown
+   #ebdec7 - Cream/beige
+   #544731 - Dark brown
+   #d7bc96 - Light tan
+   #937652 - Medium tan
+   #a38e70 - Muted brown
+   #c0a27c - Golden tan
+   #292a23 - Almost black
+*/
+
+.product-management {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Page Header */
+.product-management h2 {
+  color: #544731;
+  font-weight: 700;
+  font-size: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.product-management h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #c0a27c, #ad8d66);
+  border-radius: 2px;
+}
+
+/* Header Actions */
+.product-management .d-flex {
+  margin-bottom: 2rem;
+}
+
+.product-management .btn-primary {
+  background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%);
+  border: none;
+  color: #292a23;
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.3);
+}
+
+.product-management .btn-primary:hover {
+  background: linear-gradient(135deg, #d7bc96 0%, #c0a27c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(192, 162, 124, 0.5);
+}
+
+.product-management .btn-primary i {
+  font-size: 1.1rem;
+}
+
+/* Alerts */
+.product-management .alert {
+  border-radius: 12px;
+  border-left: 4px solid;
+  animation: slideDown 0.4s ease-out;
+  font-weight: 500;
+}
+
+.product-management .alert-success {
+  background: linear-gradient(135deg, rgba(192, 162, 124, 0.15) 0%, rgba(215, 188, 150, 0.1) 100%);
+  border-left-color: #c0a27c;
+  color: #544731;
+}
+
+.product-management .alert-danger {
+  background: linear-gradient(135deg, rgba(161, 132, 72, 0.12) 0%, rgba(147, 118, 82, 0.08) 100%);
+  border-left-color: #a18448;
+  color: #544731;
+}
+
+/* Card */
+.product-management .card {
+  border: 1px solid rgba(163, 142, 112, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(84, 71, 49, 0.08);
+  background: #fff;
+  overflow: hidden;
+}
+
+.product-management .card-body {
+  padding: 0;
+}
+
+/* Table */
+.product-management .table-responsive {
+  border-radius: 16px;
+}
+
+.product-management .table {
+  margin-bottom: 0;
+  color: #544731;
+}
+
+.product-management .table thead {
+  background: linear-gradient(135deg, #faf8f5 0%, #f5f3ef 100%);
+  border-bottom: 2px solid rgba(192, 162, 124, 0.2);
+}
+
+.product-management .table thead th {
+  color: #544731;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  padding: 1.25rem 1rem;
+  border: none;
+}
+
+.product-management .table tbody tr {
+  border-bottom: 1px solid rgba(163, 142, 112, 0.1);
+  transition: all 0.3s ease;
+}
+
+.product-management .table tbody tr:hover {
+  background: rgba(192, 162, 124, 0.05);
+}
+
+.product-management .table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.product-management .table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+/* Product Image */
+.product-management .table tbody td img {
+  border-radius: 8px;
+  border: 2px solid rgba(192, 162, 124, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(84, 71, 49, 0.1);
+}
+
+.product-management .table tbody td img:hover {
+  border-color: #c0a27c;
+  box-shadow: 0 4px 12px rgba(192, 162, 124, 0.3);
+}
+
+/* Product Name */
+.product-management .table tbody td strong {
+  color: #544731;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.product-management .table tbody td small {
+  color: #937652;
+  font-size: 0.85rem;
+}
+
+/* Badges */
+.product-management .badge {
+  padding: 0.5em 0.9em;
+  font-weight: 600;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
+}
+
+.product-management .badge.bg-secondary {
+  background: linear-gradient(135deg, #a38e70 0%, #937652 100%) !important;
+  color: #ebdec7;
+}
+
+.product-management .badge.bg-success {
+  background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%) !important;
+  color: #292a23;
+}
+
+.product-management .badge.bg-danger {
+  background: linear-gradient(135deg, #a18448 0%, #937652 100%) !important;
+  color: #ebdec7;
+}
+
+/* Stock Warning */
+.product-management .text-danger {
+  color: #a18448 !important;
+  font-weight: 600;
+}
+
+/* Button Group */
+.product-management .btn-group-sm .btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  margin: 0 2px;
+}
+
+.product-management .btn-outline-primary {
+  border: 2px solid #c0a27c;
+  color: #a18448;
+}
+
+.product-management .btn-outline-primary:hover {
+  background: #c0a27c;
+  color: #292a23;
+  border-color: #c0a27c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(192, 162, 124, 0.3);
+}
+
+.product-management .btn-outline-warning {
+  border: 2px solid #d7bc96;
+  color: #a18448;
+}
+
+.product-management .btn-outline-warning:hover {
+  background: #d7bc96;
+  color: #544731;
+  border-color: #d7bc96;
+  transform: translateY(-2px);
+}
+
+.product-management .btn-outline-danger {
+  border: 2px solid #a18448;
+  color: #a18448;
+}
+
+.product-management .btn-outline-danger:hover {
+  background: #a18448;
+  color: #ebdec7;
+  border-color: #a18448;
+  transform: translateY(-2px);
+}
+
+/* Empty State */
+.product-management .table tbody td[colspan] {
+  padding: 3rem 1rem;
+}
+
+.product-management .table tbody td[colspan] i {
+  color: #a38e70;
+  opacity: 0.5;
+}
+
+/* Modal */
+.product-management .modal {
+  background: rgba(41, 42, 35, 0.75);
+  backdrop-filter: blur(5px);
+}
+
+.product-management .modal.show {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-management .modal-dialog {
+  margin: 1.75rem auto;
+  max-width: 600px;
+}
+
+.product-management .modal-content {
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(41, 42, 35, 0.5);
+  overflow: hidden;
+  animation: modalSlideIn 0.4s ease-out;
+}
+
+.product-management .modal-header {
+  background: linear-gradient(135deg, #faf8f5 0%, #f5f3ef 100%);
+  border-bottom: 2px solid rgba(192, 162, 124, 0.2);
+  padding: 1.25rem 1.5rem;
+}
+
+.product-management .modal-title {
+  color: #544731;
+  font-weight: 700;
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+.product-management .btn-close {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(14%) saturate(1283%) hue-rotate(351deg) brightness(95%) contrast(88%);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.product-management .btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+.product-management .modal-body {
+  padding: 1.5rem;
+  background: #fff;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.product-management .modal-footer {
+  background: linear-gradient(135deg, #faf8f5 0%, #f5f3ef 100%);
+  border-top: 2px solid rgba(192, 162, 124, 0.2);
+  padding: 1rem 1.5rem;
+}
+
+/* Form in Modal */
+.product-management .modal-body .form-label {
+  color: #544731;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.3px;
+}
+
+.product-management .modal-body .form-control,
+.product-management .modal-body .form-select {
+  border: 2px solid rgba(163, 142, 112, 0.2);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: #544731;
+  background: rgba(250, 248, 245, 0.5);
+  transition: all 0.3s ease;
+}
+
+.product-management .modal-body .form-control:focus,
+.product-management .modal-body .form-select:focus {
+  border-color: #c0a27c;
+  box-shadow: 0 0 0 0.25rem rgba(192, 162, 124, 0.15);
+  background: #fff;
+  outline: none;
+}
+
+.product-management .modal-body .form-text {
+  color: #937652;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 0.4rem;
+}
+
+.product-management .modal-body textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Checkbox in Modal */
+.product-management .modal-body .form-check {
+  padding-left: 2rem;
+  margin-top: 0.5rem;
+}
+
+.product-management .modal-body .form-check-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(163, 142, 112, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgba(250, 248, 245, 0.5);
+}
+
+.product-management .modal-body .form-check-input:focus {
+  border-color: #c0a27c;
+  box-shadow: 0 0 0 0.25rem rgba(192, 162, 124, 0.15);
+}
+
+.product-management .modal-body .form-check-input:checked {
+  background-color: #c0a27c;
+  border-color: #c0a27c;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23292a23' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
+.product-management .modal-body .form-check-label {
+  color: #544731;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+/* Modal Footer Buttons */
+.product-management .modal-footer .btn-secondary {
+  background: #a38e70;
+  border: none;
+  color: #ebdec7;
+  font-weight: 600;
+  padding: 0.65rem 1.5rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.product-management .modal-footer .btn-secondary:hover {
+  background: #937652;
+  transform: translateY(-2px);
+}
+
+.product-management .modal-footer .btn-primary {
+  padding: 0.65rem 1.5rem;
+}
+
+/* Modal Backdrop */
+.product-management .modal-backdrop {
+  background-color: rgba(41, 42, 35, 0.75);
+  backdrop-filter: blur(5px);
+}
+
+.product-management .modal-backdrop.show {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .product-management .modal-dialog {
+    max-width: 90%;
+  }
+
+  .product-management .table {
+    font-size: 0.85rem;
+  }
+
+  .product-management .btn-group-sm .btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-management h2 {
+    font-size: 1.5rem;
+  }
+
+  .product-management .d-flex {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .product-management .btn-primary {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .product-management .modal-body {
+    padding: 1.5rem;
+  }
+
+  .product-management .modal-footer {
+    padding: 1rem 1.5rem;
+  }
+
+  .product-management .table thead {
+    display: none;
+  }
+
+  .product-management .table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(163, 142, 112, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+
+  .product-management .table tbody td {
+    display: block;
+    padding: 0.5rem 0;
+    border: none;
+    text-align: left;
+  }
+
+  .product-management .table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    display: inline-block;
+    width: 100px;
+    color: #544731;
+  }
+
+  .product-management .table tbody td:first-child {
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .product-management .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-management .modal-dialog {
+    max-width: 95%;
+    margin: 0.5rem auto;
+  }
+
+  .product-management .modal-body .row > div {
+    margin-bottom: 1rem !important;
+  }
+}
+
+/* Spinner */
+.product-management .spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15rem;
+  border-color: #292a23;
+  border-right-color: transparent;
+}

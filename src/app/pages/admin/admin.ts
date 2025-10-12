@@ -1,11 +1,14 @@
+// FILE: src/app/pages/admin/admin.component.ts
+
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './admin.html',
-  styleUrl: './admin.css'
+  styleUrls: ['./admin.css']
 })
-export class Admin {
-
-}
+export class Admin {}

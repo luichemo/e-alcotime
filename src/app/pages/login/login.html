@@ -1,1 +1,68 @@
-<p>login works!</p>
+<!-- FILE: src/app/pages/login/login.component.html -->
+
+<div class="login-page">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-5 col-lg-4">
+        <div class="card shadow">
+          <div class="card-body p-5">
+            <h2 class="text-center mb-4">Welcome Back</h2>
+            
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ errorMessage }}
+            </div>
+
+            <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  id="email"
+                  [(ngModel)]="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                  type="password" 
+                  class="form-control" 
+                  id="password"
+                  [(ngModel)]="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  required>
+              </div>
+
+              <button 
+                type="submit" 
+                class="btn btn-primary w-100 mb-3"
+                [disabled]="loading || !loginForm.valid">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ loading ? 'Logging in...' : 'Login' }}
+              </button>
+
+              <div class="text-center">
+                <p class="mb-0">
+                  Don't have an account? 
+                  <a routerLink="/register" class="text-decoration-none">Register here</a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="text-center mt-4 text-muted" style="display: flex; justify-content: center; align-items: center;">
+          <small>
+            <i class="bi bi-shield-check me-1"></i>
+            You must be 18+ to access this site
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,159 @@
-<p>products works!</p>
+<!-- Filters Section -->
+<section class="filters-section py-4 bg-light">
+  <div class="container">
+    <div class="row g-3 align-items-center">
+      <!-- Search -->
+      <div class="col-lg-4">
+        <div class="search-wrapper">
+          <i class="bi bi-search search-icon"></i>
+          <input 
+            type="text" 
+            class="form-control search-input" 
+            placeholder="Search products..."
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearchChange()">
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="col-lg-3">
+        <select class="form-select custom-select" [(ngModel)]="sortBy" (ngModelChange)="onSortChange()">
+          <option value="name">Sort by Name</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+        </select>
+      </div>
+
+      <!-- Results Count -->
+      <div class="col-lg-5 text-end">
+        <span class="results-count">
+          <i class="bi bi-box-seam me-2"></i>
+          {{ filteredProducts.length }} {{ filteredProducts.length === 1 ? 'Product' : 'Products' }} Found
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <!-- Sidebar Categories -->
+      <div class="col-lg-3 mb-4">
+        <div class="categories-sidebar">
+          <h5 class="sidebar-title">Categories</h5>
+          <div class="category-list">
+            @for (cat of categories; track cat.value) {
+              <button 
+                class="category-btn"
+                [class.active]="selectedCategory === cat.value"
+                (click)="onCategoryChange(cat.value)">
+                <i class="bi" [ngClass]="cat.icon"></i>
+                <span>{{ cat.label }}</span>
+                <span class="count">{{ getCategoryCount(cat.value) }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="col-lg-9">
+        <!-- Loading State -->
+        @if (loading) {
+          <div class="text-center py-5">
+            <div class="spinner-border text-warning" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-muted">Loading products...</p>
+          </div>
+        }
+        @else if (!loading && filteredProducts.length > 0) {
+          <div class="row g-4">
+            @for (product of filteredProducts; track product.id) {
+              <div class="col-md-6 col-lg-4">
+                <div class="card h-100 product-card">
+                  <div class="product-image-wrapper">
+                    <img [src]="product.imageUrl" class="card-img-top" [alt]="product.name">
+                    @if (product.discountPrice) {
+                      <div class="product-badge"><span>Sale</span></div>
+                    }
+                  </div>
+
+                  <div class="card-body d-flex flex-column">
+                    <span class="product-category">{{ product.category }}</span>
+                    <h5 class="card-title mt-2">{{ product.name }}</h5>
+                    <p class="product-brand text-muted mb-2">{{ product.brand }}</p>
+                    <p class="card-text text-muted small flex-grow-1">
+                      {{ product.description | slice:0:80 }}...
+                    </p>
+                    
+                    <div class="product-details mb-3">
+                      <span class="detail-item">
+                        <i class="bi bi-droplet-half"></i> {{ product.alcoholContent }}%
+                      </span>
+                      <span class="detail-item">
+                        <i class="bi bi-cup"></i> {{ product.volume }}ml
+                      </span>
+                      <span class="detail-item">
+                        <i class="bi bi-geo-alt"></i> {{ product.country }}
+                      </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                      <div class="price-wrapper">
+                        @if (product.discountPrice) {
+                          <span class="old-price">₾{{ product.price }}</span>
+                        }
+                        <h5 class="product-price mb-0">₾{{ product.discountPrice || product.price }}</h5>
+                      </div>
+
+                      <div class="btn-group">
+                        <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary btn-sm">
+                          <i class="bi bi-eye"></i>
+                        </a>
+                        <button 
+                          class="btn btn-primary btn-sm ms-2"
+                          (click)="addToCart(product)"
+                          [disabled]="product.stock === 0">
+                          <i class="bi" 
+                             [class.bi-cart-plus]="!isInCart(product)" 
+                             [class.bi-cart-check]="isInCart(product)">
+                          </i>
+                        </button>
+                      </div>
+                    </div>
+
+                    @if (product.stock < 10 && product.stock > 0) {
+                      <div class="low-stock-badge mt-2">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Only {{ product.stock }} left!
+                      </div>
+                    }
+                    @else if (product.stock === 0) {
+                      <div class="out-of-stock-badge mt-2">Out of Stock</div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+        @else {
+          <div class="empty-state text-center py-5">
+            <i class="bi bi-inbox empty-icon"></i>
+            <h3 class="mt-4 mb-3">No Products Found</h3>
+            <p class="text-muted mb-4">
+              {{ searchTerm ? 'Try adjusting your search term' : 'No products available in this category' }}
+            </p>
+            <button class="btn btn-primary" (click)="selectedCategory = 'all'; searchTerm = ''; applyFilters()">
+              <i class="bi bi-arrow-clockwise me-2"></i>
+              View All Products
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

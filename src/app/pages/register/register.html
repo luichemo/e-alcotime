@@ -1,1 +1,125 @@
-<p>register works!</p>
+<!-- FILE: src/app/pages/register/register.component.html -->
+
+<div class="register-page">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow">
+          <div class="card-body p-5">
+            <h2 class="text-center mb-4">Create Account</h2>
+            
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ errorMessage }}
+            </div>
+
+            <div *ngIf="successMessage" class="alert alert-success" role="alert">
+              <i class="bi bi-check-circle me-2"></i>
+              {{ successMessage }}
+            </div>
+
+            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+              <div class="mb-3">
+                <label for="displayName" class="form-label">Full Name *</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="displayName"
+                  [(ngModel)]="displayName"
+                  name="displayName"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  id="email"
+                  [(ngModel)]="email"
+                  name="email"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <input 
+                  type="tel" 
+                  class="form-control" 
+                  id="phoneNumber"
+                  [(ngModel)]="phoneNumber"
+                  name="phoneNumber">
+              </div>
+
+              <div class="mb-3">
+                <label for="dateOfBirth" class="form-label">Date of Birth *</label>
+                <input 
+                  type="date" 
+                  class="form-control" 
+                  id="dateOfBirth"
+                  [(ngModel)]="dateOfBirth"
+                  name="dateOfBirth"
+                  [max]="getMaxDate()"
+                  required>
+                <small class="form-text text-muted">
+                  You must be at least 18 years old
+                </small>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password *</label>
+                <input 
+                  type="password" 
+                  class="form-control" 
+                  id="password"
+                  [(ngModel)]="password"
+                  name="password"
+                  required>
+                <small class="form-text text-muted">
+                  Minimum 6 characters
+                </small>
+              </div>
+
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password *</label>
+                <input 
+                  type="password" 
+                  class="form-control" 
+                  id="confirmPassword"
+                  [(ngModel)]="confirmPassword"
+                  name="confirmPassword"
+                  required>
+              </div>
+
+              <div class="mb-3 form-check">
+                <input 
+                  type="checkbox" 
+                  class="form-check-input" 
+                  id="agreeTerms"
+                  [(ngModel)]="agreeTerms"
+                  name="agreeTerms"
+                  required>
+                <label class="form-check-label" for="agreeTerms">
+                  I agree to the Terms and Conditions and confirm I am 18+ years old
+                </label>
+              </div>
+
+              <button 
+                type="submit" 
+                class="btn btn-primary w-100 mb-3"
+                [disabled]="loading || !registerForm.valid">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ loading ? 'Creating Account...' : 'Register' }}
+              </button>
+
+              <p class="text-center mb-0">
+                Already have an account? 
+                <a routerLink="/login" class="text-decoration-none">Login here</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
