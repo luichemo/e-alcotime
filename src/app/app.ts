@@ -1,12 +1,19 @@
+// FILE: src/app/app.component.ts
+
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent],
+  template: `
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  `,
+  styles: []
 })
-export class App {
-  protected title = 'e-alcotime';
+export class AppComponent {
+  title = 'alcohol-store';
 }
