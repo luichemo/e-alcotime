@@ -1,0 +1,59 @@
+<div class="age-verification-overlay" *ngIf="showModal">
+  <div class="age-verification-modal">
+    <div class="modal-content">
+      <!-- Icon -->
+      <div class="verification-icon">
+        <i class="bi bi-shield-check"></i>
+      </div>
+
+      <!-- Logo (Optional) -->
+      <div class="modal-logo">
+        <h1 class="brand-name">AlcoTime</h1>
+      </div>
+
+      <!-- Title -->
+      <h2 class="modal-title">Age Verification Required</h2>
+
+      <!-- Message -->
+      <div class="modal-message">
+        <p class="main-text">
+          This website contains alcohol products and is intended for adults of legal drinking age.
+        </p>
+        <p class="age-question">
+          Are you 18 years of age or older?
+        </p>
+      </div>
+
+      <!-- Warning -->
+      <div class="warning-box">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span>You must be at least 18 years old to enter this site.</span>
+      </div>
+
+      <!-- Buttons -->
+      <div class="modal-actions">
+        <button class="btn-confirm" (click)="confirmAge()">
+          <i class="bi bi-check-circle me-2"></i>
+          Yes, I am 18+
+        </button>
+        <button class="btn-deny" (click)="denyAge()">
+          <i class="bi bi-x-circle me-2"></i>
+          No, I am under 18
+        </button>
+      </div>
+
+      <!-- Legal Notice -->
+      <div class="legal-notice">
+        <p>
+          By entering this site, you agree to our 
+          <a href="/terms" target="_blank" (click)="$event.stopPropagation()">Terms & Conditions</a> and 
+          <a href="/privacy" target="_blank" (click)="$event.stopPropagation()">Privacy Policy</a>
+        </p>
+        <small class="text-muted d-block mt-2">
+          <i class="bi bi-info-circle me-1"></i>
+          You can view our policies without age verification
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

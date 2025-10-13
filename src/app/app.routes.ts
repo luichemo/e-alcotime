@@ -3,7 +3,8 @@
 import { Routes } from '@angular/router';
 import { adminGuard } from './guards/admin-guard';
 import { authGuard } from './guards/auth-guard';
-
+import { Privacy } from './pages/privacy/privacy';
+import { Terms } from './pages/terms/terms';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/checkout/checkout').then(m => m.Checkout),
     canActivate: [authGuard]
   },
+  // {
+  //   path: 'order-confirmation/:id',
+  //   // loadComponent: () => import('./pages/order-confirmation/order-confirmation').then(m => m.OrderConfirmation),
+  //   canActivate: [authGuard]
+  // },
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent)
@@ -47,7 +53,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'products',
         pathMatch: 'full'
       },
       {
@@ -63,6 +69,15 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/admin/order-management/order-management').then(m => m.OrderManagement)
       }
     ]
+  },
+  // Legal Pages - Accessible without age verification
+  { 
+    path: 'terms', 
+    component: Terms 
+  },
+  { 
+    path: 'privacy', 
+    component: Privacy 
   },
   {
     path: '**',

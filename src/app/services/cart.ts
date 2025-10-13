@@ -131,7 +131,6 @@ export class CartService {
       const savedCart = localStorage.getItem('alcotime_cart');
       
       if (savedCart) {
-        console.log('Found saved cart:', savedCart);
         const cart = JSON.parse(savedCart);
         // Convert date strings back to Date objects
         cart.updatedAt = new Date(cart.updatedAt);
@@ -143,7 +142,6 @@ export class CartService {
             item.product.updatedAt = new Date(item.product.updatedAt);
           }
         });
-        console.log('Cart loaded successfully:', cart);
         return cart;
       }
       
