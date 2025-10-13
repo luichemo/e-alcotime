@@ -1,5 +1,3 @@
-// FILE: src/app/pages/products/products.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
@@ -7,6 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart';
 import { ProductService } from '../../services/product';
+
+interface PriceRange {
+  min: number;
+  max: number;
+  label: string;
+}
 
 @Component({
   selector: 'app-products',
@@ -23,6 +27,30 @@ export class Products implements OnInit {
   sortBy: string = 'name';
   loading: boolean = true;
 
+  // Advanced Filters
+  showOnSale: boolean = false;
+  selectedBrands: string[] = [];
+  selectedPriceRange: string = 'all';
+  minAlcoholContent: number = 0;
+  maxAlcoholContent: number = 100;
+  selectedVolumes: number[] = [];
+  selectedCountries: string[] = [];
+  inStockOnly: boolean = false;
+
+  // Available options
+  availableBrands: string[] = [];
+  availableCountries: string[] = [];
+  availableVolumes: number[] = [];
+
+  priceRanges: PriceRange[] = [
+    { min: 0, max: 999999, label: 'All Prices' },
+    { min: 0, max: 20, label: 'Under ₾20' },
+    { min: 20, max: 50, label: '₾20 - ₾50' },
+    { min: 50, max: 100, label: '₾50 - ₾100' },
+    { min: 100, max: 200, label: '₾100 - ₾200' },
+    { min: 200, max: 999999, label: 'Over ₾200' }
+  ];
+
   categories = [
     { value: 'all', label: 'All Products', icon: 'bi-grid' },
     { value: 'wine', label: 'Wine', icon: 'bi-droplet' },
@@ -32,6 +60,9 @@ export class Products implements OnInit {
     { value: 'other', label: 'Other', icon: 'bi-three-dots' }
   ];
 
+  // Filter panel state
+  showFilters: boolean = true;
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
@@ -39,7 +70,6 @@ export class Products implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Check for category from query params
     this.route.queryParams.subscribe(params => {
       if (params['category']) {
         this.selectedCategory = params['category'];
@@ -47,15 +77,18 @@ export class Products implements OnInit {
       this.loadProducts();
     });
   }
+
   getCategoryCount(category: string): number {
-  if (category === 'all') return this.products.length;
-  return this.products.filter(p => p.category === category).length;
-}
+    if (category === 'all') return this.products.length;
+    return this.products.filter(p => p.category === category).length;
+  }
+
   loadProducts(): void {
     this.loading = true;
     this.productService.getAvailableProducts().subscribe({
       next: (products) => {
         this.products = products;
+        this.extractFilterOptions();
         this.applyFilters();
         this.loading = false;
       },
@@ -66,6 +99,17 @@ export class Products implements OnInit {
     });
   }
 
+  extractFilterOptions(): void {
+    // Extract unique brands
+    this.availableBrands = [...new Set(this.products.map(p => p.brand))].sort();
+    
+    // Extract unique countries
+    this.availableCountries = [...new Set(this.products.map(p => p.country))].sort();
+    
+    // Extract unique volumes
+    this.availableVolumes = [...new Set(this.products.map(p => p.volume))].sort((a, b) => a - b);
+  }
+
   applyFilters(): void {
     let filtered = [...this.products];
 
@@ -74,14 +118,59 @@ export class Products implements OnInit {
       filtered = filtered.filter(p => p.category === this.selectedCategory);
     }
 
+    // Filter by On Sale (Priority Filter)
+    if (this.showOnSale) {
+      filtered = filtered.filter(p => p.discountPrice && p.discountPrice < p.price);
+    }
+
     // Filter by search term
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(p =>
         p.name.toLowerCase().includes(term) ||
         p.brand.toLowerCase().includes(term) ||
-        p.description.toLowerCase().includes(term)
+        p.description.toLowerCase().includes(term) ||
+        p.country.toLowerCase().includes(term)
       );
+    }
+
+    // Filter by brands
+    if (this.selectedBrands.length > 0) {
+      filtered = filtered.filter(p => this.selectedBrands.includes(p.brand));
+    }
+
+    // Filter by price range
+    if (this.selectedPriceRange !== 'all') {
+      const range = this.priceRanges.find(r => 
+        `${r.min}-${r.max}` === this.selectedPriceRange
+      );
+      if (range) {
+        filtered = filtered.filter(p => {
+          const price = p.discountPrice || p.price;
+          return price >= range.min && price <= range.max;
+        });
+      }
+    }
+
+    // Filter by alcohol content
+    filtered = filtered.filter(p => 
+      p.alcoholContent >= this.minAlcoholContent && 
+      p.alcoholContent <= this.maxAlcoholContent
+    );
+
+    // Filter by volumes
+    if (this.selectedVolumes.length > 0) {
+      filtered = filtered.filter(p => this.selectedVolumes.includes(p.volume));
+    }
+
+    // Filter by countries
+    if (this.selectedCountries.length > 0) {
+      filtered = filtered.filter(p => this.selectedCountries.includes(p.country));
+    }
+
+    // Filter by stock availability
+    if (this.inStockOnly) {
+      filtered = filtered.filter(p => p.stock > 0);
     }
 
     // Sort products
@@ -99,12 +188,17 @@ export class Products implements OnInit {
           return (b.discountPrice || b.price) - (a.discountPrice || a.price);
         case 'name':
           return a.name.localeCompare(b.name);
+        case 'alcohol-low':
+          return a.alcoholContent - b.alcoholContent;
+        case 'alcohol-high':
+          return b.alcoholContent - a.alcoholContent;
         default:
           return 0;
       }
     });
   }
 
+  // Toggle filters
   onCategoryChange(category: string): void {
     this.selectedCategory = category;
     this.applyFilters();
@@ -118,11 +212,103 @@ export class Products implements OnInit {
     this.applyFilters();
   }
 
+  toggleOnSale(): void {
+    this.showOnSale = !this.showOnSale;
+    this.applyFilters();
+  }
+
+  toggleBrand(brand: string): void {
+    const index = this.selectedBrands.indexOf(brand);
+    if (index > -1) {
+      this.selectedBrands.splice(index, 1);
+    } else {
+      this.selectedBrands.push(brand);
+    }
+    this.applyFilters();
+  }
+
+  onPriceRangeChange(): void {
+    this.applyFilters();
+  }
+
+  onAlcoholContentChange(): void {
+    this.applyFilters();
+  }
+
+  toggleVolume(volume: number): void {
+    const index = this.selectedVolumes.indexOf(volume);
+    if (index > -1) {
+      this.selectedVolumes.splice(index, 1);
+    } else {
+      this.selectedVolumes.push(volume);
+    }
+    this.applyFilters();
+  }
+
+  toggleCountry(country: string): void {
+    const index = this.selectedCountries.indexOf(country);
+    if (index > -1) {
+      this.selectedCountries.splice(index, 1);
+    } else {
+      this.selectedCountries.push(country);
+    }
+    this.applyFilters();
+  }
+
+  toggleStockFilter(): void {
+    this.inStockOnly = !this.inStockOnly;
+    this.applyFilters();
+  }
+
+  clearAllFilters(): void {
+    this.selectedCategory = 'all';
+    this.searchTerm = '';
+    this.showOnSale = false;
+    this.selectedBrands = [];
+    this.selectedPriceRange = 'all';
+    this.minAlcoholContent = 0;
+    this.maxAlcoholContent = 100;
+    this.selectedVolumes = [];
+    this.selectedCountries = [];
+    this.inStockOnly = false;
+    this.sortBy = 'name';
+    this.applyFilters();
+  }
+
+  getActiveFiltersCount(): number {
+    let count = 0;
+    if (this.selectedCategory !== 'all') count++;
+    if (this.showOnSale) count++;
+    if (this.selectedBrands.length > 0) count += this.selectedBrands.length;
+    if (this.selectedPriceRange !== 'all') count++;
+    if (this.minAlcoholContent > 0 || this.maxAlcoholContent < 100) count++;
+    if (this.selectedVolumes.length > 0) count += this.selectedVolumes.length;
+    if (this.selectedCountries.length > 0) count += this.selectedCountries.length;
+    if (this.inStockOnly) count++;
+    return count;
+  }
+
+  toggleFiltersPanel(): void {
+    this.showFilters = !this.showFilters;
+  }
+
   addToCart(product: Product): void {
     this.cartService.addToCart(product, 1);
   }
 
   isInCart(product: Product): boolean {
     return this.cartService.isInCart(product.id!);
+  }
+
+  isBrandSelected(brand: string): boolean {
+    return this.selectedBrands.includes(brand);
+  }
+
+  isVolumeSelected(volume: number): boolean {
+    return this.selectedVolumes.includes(volume);
+  }
+
+  isCountrySelected(country: string): boolean {
+    return this.selectedCountries.includes(country);
   }
 }

@@ -21,14 +21,27 @@
           <option value="name">Sort by Name</option>
           <option value="price-low">Price: Low to High</option>
           <option value="price-high">Price: High to Low</option>
+          <option value="alcohol-low">Alcohol: Low to High</option>
+          <option value="alcohol-high">Alcohol: High to Low</option>
         </select>
       </div>
 
+      <!-- Toggle Filters Button (Mobile) -->
+      <div class="col-lg-2">
+        <button class="btn btn-outline-primary w-100" (click)="toggleFiltersPanel()">
+          <i class="bi bi-funnel me-2"></i>
+          Filters
+          <span *ngIf="getActiveFiltersCount() > 0" class="badge bg-danger ms-2">
+            {{ getActiveFiltersCount() }}
+          </span>
+        </button>
+      </div>
+
       <!-- Results Count -->
-      <div class="col-lg-5 text-end">
+      <div class="col-lg-3 text-end">
         <span class="results-count">
           <i class="bi bi-box-seam me-2"></i>
-          {{ filteredProducts.length }} {{ filteredProducts.length === 1 ? 'Product' : 'Products' }} Found
+          {{ filteredProducts.length }} {{ filteredProducts.length === 1 ? 'Product' : 'Products' }}
         </span>
       </div>
     </div>
@@ -39,13 +52,42 @@
 <section class="py-5">
   <div class="container">
     <div class="row">
-      <!-- Sidebar Categories -->
-      <div class="col-lg-3 mb-4">
-        <div class="categories-sidebar">
-          <h5 class="sidebar-title">Categories</h5>
-          <div class="category-list">
-            @for (cat of categories; track cat.value) {
+      <!-- Sidebar Filters -->
+      <div class="col-lg-3 mb-4" [class.d-none]="!showFilters" [class.d-lg-block]="true">
+        <div class="filters-sidebar">
+          <!-- Clear Filters -->
+          <div class="filter-header">
+            <h5 class="sidebar-title">Filters</h5>
+            <button 
+              *ngIf="getActiveFiltersCount() > 0" 
+              class="btn btn-sm btn-link clear-btn"
+              (click)="clearAllFilters()">
+              <i class="bi bi-x-circle me-1"></i>
+              Clear All
+            </button>
+          </div>
+
+          <!-- ON SALE Filter (Priority) -->
+          <div class="filter-section sale-filter">
+            <button 
+              class="sale-filter-btn"
+              [class.active]="showOnSale"
+              (click)="toggleOnSale()">
+              <i class="bi bi-tag-fill me-2"></i>
+              <span>On Sale</span>
+              <i class="bi bi-check-circle-fill check-icon"></i>
+            </button>
+          </div>
+
+          <!-- Categories -->
+          <div class="filter-section">
+            <h6 class="filter-title">
+              <i class="bi bi-grid me-2"></i>
+              Categories
+            </h6>
+            <div class="category-list">
               <button 
+                *ngFor="let cat of categories"
                 class="category-btn"
                 [class.active]="selectedCategory === cat.value"
                 (click)="onCategoryChange(cat.value)">
@@ -53,106 +95,266 @@
                 <span>{{ cat.label }}</span>
                 <span class="count">{{ getCategoryCount(cat.value) }}</span>
               </button>
-            }
+            </div>
+          </div>
+
+          <!-- Price Range -->
+          <div class="filter-section">
+            <h6 class="filter-title">
+              <i class="bi bi-currency-dollar me-2"></i>
+              Price Range
+            </h6>
+            <select 
+              class="form-select filter-select" 
+              [(ngModel)]="selectedPriceRange" 
+              (ngModelChange)="onPriceRangeChange()">
+              <option value="all">All Prices</option>
+              <option 
+                *ngFor="let range of priceRanges.slice(1)" 
+                [value]="range.min + '-' + range.max">
+                {{ range.label }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Brands -->
+          <div class="filter-section" *ngIf="availableBrands.length > 0">
+            <h6 class="filter-title">
+              <i class="bi bi-tag me-2"></i>
+              Brands
+            </h6>
+            <div class="filter-options">
+              <div 
+                *ngFor="let brand of availableBrands.slice(0, 5)" 
+                class="filter-checkbox">
+                <input 
+                  type="checkbox" 
+                  [id]="'brand-' + brand"
+                  [checked]="isBrandSelected(brand)"
+                  (change)="toggleBrand(brand)">
+                <label [for]="'brand-' + brand">{{ brand }}</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alcohol Content -->
+          <div class="filter-section">
+            <h6 class="filter-title">
+              <i class="bi bi-droplet-half me-2"></i>
+              Alcohol Content (%)
+            </h6>
+            <div class="range-inputs">
+              <div class="range-group">
+                <label>Min:</label>
+                <input 
+                  type="number" 
+                  class="form-control form-control-sm" 
+                  [(ngModel)]="minAlcoholContent"
+                  (ngModelChange)="onAlcoholContentChange()"
+                  min="0" 
+                  max="100"
+                  placeholder="0">
+              </div>
+              <span class="range-separator">-</span>
+              <div class="range-group">
+                <label>Max:</label>
+                <input 
+                  type="number" 
+                  class="form-control form-control-sm" 
+                  [(ngModel)]="maxAlcoholContent"
+                  (ngModelChange)="onAlcoholContentChange()"
+                  min="0" 
+                  max="100"
+                  placeholder="100">
+              </div>
+            </div>
+            <div class="range-display">
+              {{ minAlcoholContent }}% - {{ maxAlcoholContent }}%
+            </div>
+          </div>
+
+          <!-- Volume -->
+          <div class="filter-section" *ngIf="availableVolumes.length > 0">
+            <h6 class="filter-title">
+              <i class="bi bi-cup me-2"></i>
+              Volume (ml)
+            </h6>
+            <div class="filter-pills">
+              <button 
+                *ngFor="let volume of availableVolumes"
+                class="filter-pill"
+                [class.active]="isVolumeSelected(volume)"
+                (click)="toggleVolume(volume)">
+                {{ volume }}ml
+              </button>
+            </div>
+          </div>
+
+          <!-- Country -->
+          <div class="filter-section" *ngIf="availableCountries.length > 0">
+            <h6 class="filter-title">
+              <i class="bi bi-geo-alt me-2"></i>
+              Country
+            </h6>
+            <div class="filter-options">
+              <div 
+                *ngFor="let country of availableCountries.slice(0, 5)" 
+                class="filter-checkbox">
+                <input 
+                  type="checkbox" 
+                  [id]="'country-' + country"
+                  [checked]="isCountrySelected(country)"
+                  (change)="toggleCountry(country)">
+                <label [for]="'country-' + country">{{ country }}</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock Availability -->
+          <div class="filter-section">
+            <div class="filter-checkbox stock-filter">
+              <input 
+                type="checkbox" 
+                id="inStock"
+                [(ngModel)]="inStockOnly"
+                (ngModelChange)="toggleStockFilter()">
+              <label for="inStock">
+                <i class="bi bi-box-seam me-2"></i>
+                In Stock Only
+              </label>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Products Grid -->
       <div class="col-lg-9">
-        <!-- Loading State -->
-        @if (loading) {
-          <div class="text-center py-5">
-            <div class="spinner-border text-warning" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mt-3 text-muted">Loading products...</p>
+        <!-- Active Filters Tags -->
+        <div class="active-filters mb-4" *ngIf="getActiveFiltersCount() > 0">
+          <h6 class="active-filters-title">Active Filters:</h6>
+          <div class="filter-tags">
+            <span class="filter-tag" *ngIf="showOnSale">
+              On Sale
+              <i class="bi bi-x" (click)="toggleOnSale()"></i>
+            </span>
+            <span class="filter-tag" *ngIf="selectedCategory !== 'all'">
+              Category: {{ selectedCategory }}
+              <i class="bi bi-x" (click)="onCategoryChange('all')"></i>
+            </span>
+            <span class="filter-tag" *ngFor="let brand of selectedBrands">
+              Brand: {{ brand }}
+              <i class="bi bi-x" (click)="toggleBrand(brand)"></i>
+            </span>
+            <span class="filter-tag" *ngIf="selectedPriceRange !== 'all'">
+              Price Range
+              <i class="bi bi-x" (click)="selectedPriceRange = 'all'; onPriceRangeChange()"></i>
+            </span>
+            <span class="filter-tag" *ngIf="minAlcoholContent > 0 || maxAlcoholContent < 100">
+              Alcohol: {{ minAlcoholContent }}% - {{ maxAlcoholContent }}%
+              <i class="bi bi-x" (click)="minAlcoholContent = 0; maxAlcoholContent = 100; onAlcoholContentChange()"></i>
+            </span>
+            <span class="filter-tag" *ngFor="let volume of selectedVolumes">
+              {{ volume }}ml
+              <i class="bi bi-x" (click)="toggleVolume(volume)"></i>
+            </span>
+            <span class="filter-tag" *ngFor="let country of selectedCountries">
+              {{ country }}
+              <i class="bi bi-x" (click)="toggleCountry(country)"></i>
+            </span>
+            <span class="filter-tag" *ngIf="inStockOnly">
+              In Stock Only
+              <i class="bi bi-x" (click)="toggleStockFilter()"></i>
+            </span>
           </div>
-        }
-        @else if (!loading && filteredProducts.length > 0) {
-          <div class="row g-4">
-            @for (product of filteredProducts; track product.id) {
-              <div class="col-md-6 col-lg-4">
-                <div class="card h-100 product-card">
-                  <div class="product-image-wrapper">
-                    <img [src]="product.imageUrl" class="card-img-top" [alt]="product.name">
-                    @if (product.discountPrice) {
-                      <div class="product-badge"><span>Sale</span></div>
-                    }
-                  </div>
+        </div>
 
-                  <div class="card-body d-flex flex-column">
-                    <span class="product-category">{{ product.category }}</span>
-                    <h5 class="card-title mt-2">{{ product.name }}</h5>
-                    <p class="product-brand text-muted mb-2">{{ product.brand }}</p>
-                    <p class="card-text text-muted small flex-grow-1">
-                      {{ product.description | slice:0:80 }}...
-                    </p>
-                    
-                    <div class="product-details mb-3">
-                      <span class="detail-item">
-                        <i class="bi bi-droplet-half"></i> {{ product.alcoholContent }}%
-                      </span>
-                      <span class="detail-item">
-                        <i class="bi bi-cup"></i> {{ product.volume }}ml
-                      </span>
-                      <span class="detail-item">
-                        <i class="bi bi-geo-alt"></i> {{ product.country }}
-                      </span>
-                    </div>
+        <!-- Loading State -->
+        <div *ngIf="loading" class="text-center py-5">
+          <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-3 text-muted">Loading products...</p>
+        </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                      <div class="price-wrapper">
-                        @if (product.discountPrice) {
-                          <span class="old-price">₾{{ product.price }}</span>
-                        }
-                        <h5 class="product-price mb-0">₾{{ product.discountPrice || product.price }}</h5>
-                      </div>
-
-                      <div class="btn-group">
-                        <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary btn-sm">
-                          <i class="bi bi-eye"></i>
-                        </a>
-                        <button 
-                          class="btn btn-primary btn-sm ms-2"
-                          (click)="addToCart(product)"
-                          [disabled]="product.stock === 0">
-                          <i class="bi" 
-                             [class.bi-cart-plus]="!isInCart(product)" 
-                             [class.bi-cart-check]="isInCart(product)">
-                          </i>
-                        </button>
-                      </div>
-                    </div>
-
-                    @if (product.stock < 10 && product.stock > 0) {
-                      <div class="low-stock-badge mt-2">
-                        <i class="bi bi-exclamation-triangle"></i>
-                        Only {{ product.stock }} left!
-                      </div>
-                    }
-                    @else if (product.stock === 0) {
-                      <div class="out-of-stock-badge mt-2">Out of Stock</div>
-                    }
-                  </div>
+        <!-- Products Grid -->
+        <div *ngIf="!loading && filteredProducts.length > 0" class="row g-4">
+          <div *ngFor="let product of filteredProducts" class="col-md-6 col-lg-4">
+            <div class="card h-100 product-card">
+              <div class="product-image-wrapper">
+                <img [src]="product.imageUrl" class="card-img-top" [alt]="product.name">
+                <div class="product-badge" *ngIf="product.discountPrice">
+                  <span>Sale</span>
                 </div>
               </div>
-            }
+
+              <div class="card-body d-flex flex-column">
+                <span class="product-category">{{ product.category }}</span>
+                <h5 class="card-title mt-2">{{ product.name }}</h5>
+                <p class="product-brand text-muted mb-2">{{ product.brand }}</p>
+                <p class="card-text text-muted small flex-grow-1">
+                  {{ product.description | slice:0:80 }}...
+                </p>
+                
+                <div class="product-details mb-3">
+                  <span class="detail-item">
+                    <i class="bi bi-droplet-half"></i> {{ product.alcoholContent }}%
+                  </span>
+                  <span class="detail-item">
+                    <i class="bi bi-cup"></i> {{ product.volume }}ml
+                  </span>
+                  <span class="detail-item">
+                    <i class="bi bi-geo-alt"></i> {{ product.country }}
+                  </span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-auto">
+                  <div class="price-wrapper">
+                    <span class="old-price" *ngIf="product.discountPrice">
+                      ₾{{ product.price }}
+                    </span>
+                    <h5 class="product-price mb-0">₾{{ product.discountPrice || product.price }}</h5>
+                  </div>
+
+                  <div class="btn-group">
+                    <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary btn-sm">
+                      <i class="bi bi-eye"></i>
+                    </a>
+                    <button 
+                      class="btn btn-primary btn-sm ms-2"
+                      (click)="addToCart(product)"
+                      [disabled]="product.stock === 0">
+                      <i class="bi" 
+                         [class.bi-cart-plus]="!isInCart(product)" 
+                         [class.bi-cart-check]="isInCart(product)">
+                      </i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="low-stock-badge mt-2" *ngIf="product.stock < 10 && product.stock > 0">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  Only {{ product.stock }} left!
+                </div>
+                <div class="out-of-stock-badge mt-2" *ngIf="product.stock === 0">
+                  Out of Stock
+                </div>
+              </div>
+            </div>
           </div>
-        }
-        @else {
-          <div class="empty-state text-center py-5">
-            <i class="bi bi-inbox empty-icon"></i>
-            <h3 class="mt-4 mb-3">No Products Found</h3>
-            <p class="text-muted mb-4">
-              {{ searchTerm ? 'Try adjusting your search term' : 'No products available in this category' }}
-            </p>
-            <button class="btn btn-primary" (click)="selectedCategory = 'all'; searchTerm = ''; applyFilters()">
-              <i class="bi bi-arrow-clockwise me-2"></i>
-              View All Products
-            </button>
-          </div>
-        }
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!loading && filteredProducts.length === 0" class="empty-state text-center py-5">
+          <i class="bi bi-inbox empty-icon"></i>
+          <h3 class="mt-4 mb-3">No Products Found</h3>
+          <p class="text-muted mb-4">
+            {{ searchTerm ? 'Try adjusting your search term or filters' : 'No products match your current filters' }}
+          </p>
+          <button class="btn btn-primary" (click)="clearAllFilters()">
+            <i class="bi bi-arrow-clockwise me-2"></i>
+            Clear All Filters
+          </button>
+        </div>
       </div>
     </div>
   </div>

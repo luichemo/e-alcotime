@@ -113,11 +113,12 @@ export class CartService {
     this.saveCartToStorage(updatedCart);
   }
 
-  // Save cart to localStorage
+// Save cart to localStorage
   private saveCartToStorage(cart: Cart): void {
     try {
-      // Store cart in memory (not localStorage as per restrictions)
-      // In a real app with backend, you'd save to Firestore
+      console.log('Saving cart to localStorage:', cart);
+      localStorage.setItem('alcotime_cart', JSON.stringify(cart));
+      console.log('Cart saved successfully');
     } catch (error) {
       console.error('Error saving cart:', error);
     }
@@ -126,7 +127,27 @@ export class CartService {
   // Get cart from storage
   private getCartFromStorage(): Cart {
     try {
-      // Initialize empty cart (in real app, load from Firestore)
+      console.log('Loading cart from localStorage...');
+      const savedCart = localStorage.getItem('alcotime_cart');
+      
+      if (savedCart) {
+        console.log('Found saved cart:', savedCart);
+        const cart = JSON.parse(savedCart);
+        // Convert date strings back to Date objects
+        cart.updatedAt = new Date(cart.updatedAt);
+        cart.items.forEach((item: any) => {
+          if (item.product.createdAt) {
+            item.product.createdAt = new Date(item.product.createdAt);
+          }
+          if (item.product.updatedAt) {
+            item.product.updatedAt = new Date(item.product.updatedAt);
+          }
+        });
+        console.log('Cart loaded successfully:', cart);
+        return cart;
+      }
+      
+      console.log('No saved cart found, returning empty cart');
       return {
         userId: '',
         items: [],
@@ -147,7 +168,6 @@ export class CartService {
       };
     }
   }
-
   // Set user ID for cart
   setUserId(userId: string): void {
     const currentCart = this.getCurrentCart();

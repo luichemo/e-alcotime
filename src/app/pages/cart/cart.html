@@ -1,1 +1,148 @@
-<p>cart works!</p>
+<!-- FILE: src/app/pages/cart/cart.component.html -->
+
+<!-- Hero Section -->
+<section class="cart-hero">
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="hero-content text-center">
+      <h1 class="display-5 fw-bold mb-2">Shopping Cart</h1>
+      <p class="lead">Review your items before checkout</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cart Content -->
+<section class="cart-content py-5">
+  <div class="container">
+    <!-- Empty Cart -->
+    <div *ngIf="!cartData || cartData.items.length === 0" class="empty-cart text-center py-5">
+      <i class="bi bi-cart-x empty-icon"></i>
+      <h3 class="mt-4 mb-3">Your Cart is Empty</h3>
+      <p class="text-muted mb-4">Looks like you haven't added any items yet</p>
+      <a routerLink="/products" class="btn btn-primary">
+        <i class="bi bi-arrow-left me-2"></i>
+        Continue Shopping
+      </a>
+    </div>
+
+    <!-- Cart Items -->
+    <div *ngIf="cartData && cartData.items.length > 0" class="row g-4">
+      <!-- Items List -->
+      <div class="col-lg-8">
+        <div class="cart-header d-flex justify-content-between align-items-center mb-3">
+          <h4 class="mb-0">Cart Items ({{ cartData.items.length }})</h4>
+          <button class="btn btn-sm btn-outline-danger" (click)="clearCart()">
+            <i class="bi bi-trash me-2"></i>
+            Clear Cart
+          </button>
+        </div>
+
+        <div class="cart-items">
+          <div *ngFor="let item of cartData.items" class="cart-item">
+            <div class="item-image">
+              <img [src]="item.product.imageUrl" [alt]="item.product.name">
+            </div>
+
+            <div class="item-details">
+              <h5 class="item-name">{{ item.product.name }}</h5>
+              <p class="item-brand text-muted mb-1">{{ item.product.brand }}</p>
+              <div class="item-specs">
+                <span><i class="bi bi-droplet-half"></i> {{ item.product.alcoholContent }}%</span>
+                <span><i class="bi bi-cup"></i> {{ item.product.volume }}ml</span>
+              </div>
+              <div class="item-price-mobile d-lg-none mt-2">
+                <span *ngIf="item.product.discountPrice" class="old-price">${{ item.product.price }}</span>
+                <strong class="current-price">${{ item.product.discountPrice || item.product.price }}</strong>
+              </div>
+            </div>
+
+            <div class="item-price d-none d-lg-block">
+              <span *ngIf="item.product.discountPrice" class="old-price">${{ item.product.price }}</span>
+              <strong class="current-price">${{ item.product.discountPrice || item.product.price }}</strong>
+            </div>
+
+            <div class="item-quantity">
+              <div class="quantity-selector">
+                <button class="qty-btn" (click)="decreaseQuantity(item)" [disabled]="item.quantity <= 1">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <span class="qty-display">{{ item.quantity }}</span>
+                <button class="qty-btn" (click)="increaseQuantity(item)" [disabled]="item.quantity >= item.product.stock">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+              <small class="text-muted d-block mt-1 text-center">
+                Max: {{ item.product.stock }}
+              </small>
+            </div>
+
+            <div class="item-total">
+              <strong>${{ getItemTotal(item).toFixed(2) }}</strong>
+            </div>
+
+            <div class="item-remove">
+              <button class="btn-remove" (click)="removeItem(item.product.id!)" title="Remove item">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-lg-4">
+        <div class="order-summary">
+          <h4 class="summary-title">Order Summary</h4>
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <strong>${{ cartData.subtotal.toFixed(2) }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Tax (10%)</span>
+            <strong>${{ cartData.tax.toFixed(2) }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Shipping</span>
+            <strong class="text-success">Free</strong>
+          </div>
+
+          <hr>
+
+          <div class="summary-row total-row">
+            <span>Total</span>
+            <strong>${{ cartData.total.toFixed(2) }}</strong>
+          </div>
+
+          <a routerLink="/checkout" class="btn btn-checkout w-100 mt-3">
+            <i class="bi bi-lock-fill me-2"></i>
+            Proceed to Checkout
+          </a>
+
+          <a routerLink="/products" class="btn btn-continue w-100 mt-2">
+            <i class="bi bi-arrow-left me-2"></i>
+            Continue Shopping
+          </a>
+
+          <!-- Trust Badges -->
+          <div class="trust-badges mt-4">
+            <div class="badge-item">
+              <i class="bi bi-shield-check"></i>
+              <span>Secure Payment</span>
+            </div>
+            <div class="badge-item">
+              <i class="bi bi-truck"></i>
+              <span>Free Shipping</span>
+            </div>
+            <div class="badge-item">
+              <i class="bi bi-arrow-return-left"></i>
+              <span>Easy Returns</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
