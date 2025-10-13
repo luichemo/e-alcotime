@@ -14,7 +14,7 @@
 .navbar {
   background: linear-gradient(135deg, #292a23 0%, #544731 100%) !important;
   box-shadow: 0 4px 20px rgba(41, 42, 35, 0.6);
-  padding: 1rem 0;
+  padding: 0.7rem 0;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(192, 162, 124, 0.2);

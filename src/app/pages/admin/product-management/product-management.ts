@@ -41,6 +41,7 @@ products: Product[] = [];
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
+
     this.loadProducts();
   }
 

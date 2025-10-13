@@ -1,95 +1,78 @@
 <!-- FILE: src/app/pages/checkout/checkout.component.html -->
 
-<section class="checkout-page py-5">
-  <div class="container">
+<div class="checkout-container">
+  <div class="container py-5">
     <!-- Progress Steps -->
     <div class="checkout-steps mb-5">
       <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
         <div class="step-number">1</div>
         <div class="step-label">Shipping</div>
       </div>
-      <div class="step-line" [class.active]="currentStep > 1"></div>
+      <div class="step-line" [class.active]="currentStep >= 2"></div>
       <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
         <div class="step-number">2</div>
         <div class="step-label">Payment</div>
       </div>
-      <div class="step-line" [class.active]="currentStep > 2"></div>
+      <div class="step-line" [class.active]="currentStep >= 3"></div>
       <div class="step" [class.active]="currentStep >= 3">
         <div class="step-number">3</div>
         <div class="step-label">Review</div>
       </div>
     </div>
 
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {{ errorMessage }}
+    </div>
+
     <div class="row g-4">
       <!-- Checkout Form -->
       <div class="col-lg-8">
-        <div class="checkout-card">
-          <!-- Error Message -->
-          <div *ngIf="errorMessage" class="alert alert-danger">
-            <i class="bi bi-exclamation-triangle me-2"></i>
-            {{ errorMessage }}
+        <!-- Step 1: Shipping Information -->
+        <div *ngIf="currentStep === 1" class="checkout-card">
+          <div class="card-header">
+            <h4><i class="bi bi-truck me-2"></i>Shipping Information</h4>
           </div>
-
-          <!-- Step 1: Shipping Address -->
-          <div *ngIf="currentStep === 1" class="checkout-step-content">
-            <h4 class="step-title">
-              <i class="bi bi-truck me-2"></i>
-              Shipping Address
-            </h4>
-
-            <form #shippingForm="ngForm">
-              <div class="mb-3">
-                <label class="form-label">Street Address *</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  [(ngModel)]="shippingAddress.street"
-                  name="street"
-                  required>
-              </div>
-
+          <div class="card-body">
+            <form>
               <div class="row g-3">
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">City *</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    [(ngModel)]="shippingAddress.city"
-                    name="city"
+                <div class="col-md-6">
+                  <label for="fullName" class="form-label">Full Name *</label>
+                  <input type="text" class="form-control" id="fullName" [(ngModel)]="shippingAddress.fullName"
+                    name="fullName" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone Number *</label>
+                  <input type="tel" class="form-control" id="phone" [(ngModel)]="shippingAddress.phone" name="phone"
                     required>
                 </div>
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">State/Province *</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    [(ngModel)]="shippingAddress.state"
-                    name="state"
+                <div class="col-12">
+                  <label for="street" class="form-label">Street Address *</label>
+                  <input type="text" class="form-control" id="street" [(ngModel)]="shippingAddress.street" name="street"
                     required>
                 </div>
-              </div>
-
-              <div class="row g-3">
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">ZIP/Postal Code *</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    [(ngModel)]="shippingAddress.zipCode"
-                    name="zipCode"
+                <div class="col-md-6">
+                  <label for="city" class="form-label">City *</label>
+                  <input type="text" class="form-control" id="city" [(ngModel)]="shippingAddress.city" name="city"
                     required>
                 </div>
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Country *</label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    [(ngModel)]="shippingAddress.country"
-                    name="country"
+                <div class="col-md-6">
+                  <label for="state" class="form-label">State/Province *</label>
+                  <input type="text" class="form-control" id="state" [(ngModel)]="shippingAddress.state" name="state"
                     required>
+                </div>
+                <div class="col-md-6">
+                  <label for="zipCode" class="form-label">Zip/Postal Code *</label>
+                  <input type="text" class="form-control" id="zipCode" [(ngModel)]="shippingAddress.zipCode"
+                    name="zipCode" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="country" class="form-label">Country *</label>
+                  <input type="text" class="form-control" id="country" [(ngModel)]="shippingAddress.country"
+                    name="country" required>
                 </div>
               </div>
-
               <div class="d-flex justify-content-end mt-4">
                 <button type="button" class="btn btn-primary" (click)="nextStep()">
                   Continue to Payment
@@ -98,60 +81,39 @@
               </div>
             </form>
           </div>
+        </div>
 
-          <!-- Step 2: Payment Method -->
-          <div *ngIf="currentStep === 2" class="checkout-step-content">
-            <h4 class="step-title">
-              <i class="bi bi-credit-card me-2"></i>
-              Payment Method
-            </h4>
-
-            <div class="payment-methods">
-              <div class="payment-option" [class.selected]="paymentMethod === 'credit-card'">
-                <input 
-                  type="radio" 
-                  id="credit-card" 
-                  name="payment" 
-                  value="credit-card"
-                  [(ngModel)]="paymentMethod">
+        <!-- Step 2: Payment Method -->
+        <div *ngIf="currentStep === 2" class="checkout-card">
+          <div class="card-header">
+            <h4><i class="bi bi-credit-card me-2"></i>Payment Method</h4>
+          </div>
+          <div class="card-body">
+            <div class="payment-options">
+              <div class="payment-option">
+                <input disabled type="radio" id="credit-card" name="paymentMethod" value="credit-card"
+                  [(ngModel)]="paymentMethod" >
                 <label for="credit-card">
-                  <i class="bi bi-credit-card-2-front"></i>
+                  <i class="bi bi-credit-card"></i>
                   <span>Credit/Debit Card</span>
                 </label>
               </div>
-
-              <div class="payment-option" [class.selected]="paymentMethod === 'paypal'">
-                <input 
-                  type="radio" 
-                  id="paypal" 
-                  name="payment" 
-                  value="paypal"
+              <div class="payment-option">
+                <input disabled type="radio" id="paypal" name="paymentMethod" value="paypal"
                   [(ngModel)]="paymentMethod">
                 <label for="paypal">
                   <i class="bi bi-paypal"></i>
                   <span>PayPal</span>
                 </label>
               </div>
-
-              <div class="payment-option" [class.selected]="paymentMethod === 'cash'">
-                <input 
-                  type="radio" 
-                  id="cash" 
-                  name="payment" 
-                  value="cash"
-                  [(ngModel)]="paymentMethod">
+              <div class="payment-option">
+                <input type="radio" id="cash" name="paymentMethod" value="cash-on-delivery" [(ngModel)]="paymentMethod" checked>
                 <label for="cash">
-                  <i class="bi bi-cash-coin"></i>
+                  <i class="bi bi-cash"></i>
                   <span>Cash on Delivery</span>
                 </label>
               </div>
             </div>
-
-            <div class="payment-notice mt-4">
-              <i class="bi bi-info-circle me-2"></i>
-              <span>This is a demo. No actual payment will be processed.</span>
-            </div>
-
             <div class="d-flex justify-content-between mt-4">
               <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
                 <i class="bi bi-arrow-left me-2"></i>
@@ -163,39 +125,54 @@
               </button>
             </div>
           </div>
+        </div>
 
-          <!-- Step 3: Review Order -->
-          <div *ngIf="currentStep === 3" class="checkout-step-content">
-            <h4 class="step-title">
-              <i class="bi bi-clipboard-check me-2"></i>
-              Review Your Order
-            </h4>
-
-            <!-- Shipping Details -->
-            <div class="review-section">
-              <h6>Shipping Address</h6>
+        <!-- Step 3: Review Order -->
+        <div *ngIf="currentStep === 3" class="checkout-card">
+          <div class="card-header">
+            <h4><i class="bi bi-check-circle me-2"></i>Review Your Order</h4>
+          </div>
+          <div class="card-body">
+            <!-- Shipping Address Review -->
+            <div class="review-section mb-4">
+              <h5>Shipping Address</h5>
+              <p class="mb-1"><strong>{{ shippingAddress.fullName }}</strong></p>
               <p class="mb-1">{{ shippingAddress.street }}</p>
               <p class="mb-1">{{ shippingAddress.city }}, {{ shippingAddress.state }} {{ shippingAddress.zipCode }}</p>
-              <p>{{ shippingAddress.country }}</p>
+              <p class="mb-1">{{ shippingAddress.country }}</p>
+              <p class="mb-0">Phone: {{ shippingAddress.phone }}</p>
+              <button type="button" class="btn btn-sm btn-link p-0 mt-2" (click)="currentStep = 1">
+                Edit Address
+              </button>
             </div>
 
-            <!-- Payment Method -->
-            <div class="review-section">
-              <h6>Payment Method</h6>
-              <p class="text-capitalize">{{ paymentMethod.replace('-', ' ') }}</p>
+            <!-- Payment Method Review -->
+            <div class="review-section mb-4">
+              <h5>Payment Method</h5>
+              <p class="mb-0 text-capitalize">
+                <i class="bi" [ngClass]="{
+                  'bi-credit-card': paymentMethod === 'credit-card',
+                  'bi-paypal': paymentMethod === 'paypal',
+                  'bi-cash': paymentMethod === 'cash-on-delivery'
+                }"></i>
+                {{ paymentMethod === 'cash-on-delivery' ? 'Cash on Delivery' : paymentMethod }}
+              </p>
+              <button type="button" class="btn btn-sm btn-link p-0 mt-2" (click)="currentStep = 2">
+                Change Payment Method
+              </button>
             </div>
 
             <!-- Order Items -->
-            <div class="review-section" *ngIf="cart">
-              <h6>Order Items ({{ cart.items.length }})</h6>
-              <div class="review-items">
-                <div *ngFor="let item of cart.items" class="review-item">
-                  <img [src]="item.product.imageUrl" [alt]="item.product.name">
-                  <div class="review-item-details">
-                    <strong>{{ item.product.name }}</strong>
-                    <span class="text-muted">Qty: {{ item.quantity }}</span>
-                  </div>
-                  <strong>₾{{ (item.product.discountPrice || item.product.price) * item.quantity | number:'1.2-2' }}</strong>
+            <div class="review-section">
+              <h5>Order Items</h5>
+              <div *ngFor="let item of cart?.items" class="order-item-review">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name">
+                <div class="item-details">
+                  <h6>{{ item.product.name }}</h6>
+                  <p>Quantity: {{ item.quantity }}</p>
+                </div>
+                <div class="item-price">
+                  ₾{{ item.product.price * item.quantity | number:'1.2-2' }}
                 </div>
               </div>
             </div>
@@ -205,14 +182,15 @@
                 <i class="bi bi-arrow-left me-2"></i>
                 Back
               </button>
-              <button 
-                type="button" 
-                class="btn btn-success btn-lg" 
-                (click)="placeOrder()"
-                [disabled]="loading">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                <i *ngIf="!loading" class="bi bi-check-circle me-2"></i>
-                {{ loading ? 'Processing...' : 'Place Order' }}
+              <button type="button" class="btn btn-success btn-lg" (click)="placeOrder()" [disabled]="loading">
+                <span *ngIf="!loading">
+                  <i class="bi bi-check-circle me-2"></i>
+                  Place Order
+                </span>
+                <span *ngIf="loading">
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Processing...
+                </span>
               </button>
             </div>
           </div>
@@ -221,45 +199,23 @@
 
       <!-- Order Summary Sidebar -->
       <div class="col-lg-4">
-        <div class="order-summary-card">
-          <h5 class="summary-title">Order Summary</h5>
-
-          <div *ngIf="cart" class="summary-items">
-            <div class="summary-row">
-              <span>Subtotal ({{ cart.items.length }} items)</span>
-              <strong>₾{{ cart.subtotal | number:'1.2-2' }}</strong>
-            </div>
-
-            <div class="summary-row">
-              <span>Tax (10%)</span>
-              <strong>₾{{ cart.tax | number:'1.2-2' }}</strong>
-            </div>
-
-            <div class="summary-row">
-              <span>Shipping</span>
-              <strong><strong class="text-success">Free</strong></strong>
-            </div>
-
-            <hr>
-
-            <div class="summary-row total-row">
-              <span>Total</span>
-              <strong>₾{{ getFinalTotal() | number:'1.2-2' }}</strong>
-            </div>
+        <div class="order-summary sticky-top">
+          <h5>Order Summary</h5>
+          <div class="summary-item">
+            <span>Subtotal ({{ cart?.items?.length || 0 }} items)</span>
+            <span>₾{{ cart?.total || 0 | number:'1.2-2' }}</span>
           </div>
-
-          <div class="security-badges mt-4">
-            <div class="badge-item">
-              <i class="bi bi-shield-check"></i>
-              <span>Secure Checkout</span>
-            </div>
-            <div class="badge-item">
-              <i class="bi bi-lock-fill"></i>
-              <span>Encrypted Payment</span>
-            </div>
+          <div class="summary-item">
+            <span>Shipping</span>
+            <span>₾{{ getShippingFee() | number:'1.2-2' }}</span>
+          </div>
+          <hr>
+          <div class="summary-total">
+            <span>Total</span>
+            <span>₾{{ getFinalTotal() | number:'1.2-2' }}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>

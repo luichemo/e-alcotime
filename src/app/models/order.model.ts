@@ -1,28 +1,30 @@
-import { Address } from "./user.model";
+// FILE: src/app/models/order.model.ts
+
+import { Timestamp } from 'firebase/firestore';
+
+export interface OrderItem {
+  productId: string;
+  productName: string;
+  price: number;
+  quantity: number;
+  imageUrl: string;  // ✅ Changed from 'productImage' to 'imageUrl'
+  // Remove 'subtotal' - we can calculate it when needed
+}
 
 export interface Order {
   id?: string;
   userId: string;
   userEmail: string;
   items: OrderItem[];
-  subtotal: number;
-  tax: number;
-  shippingFee: number;
   total: number;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  shippingAddress: Address;
-  paymentMethod: string;
-  paymentStatus: 'pending' | 'completed' | 'failed';
-  createdAt: Date;
-  updatedAt: Date;
-  deliveredAt?: Date;
-}
-
-export interface OrderItem {
-  productId: string;
-  productName: string;
-  productImage: string;
-  price: number;
-  quantity: number;
-  subtotal: number;
+  shippingAddress: {
+    fullName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    phone: string;
+  };
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }

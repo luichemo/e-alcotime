@@ -1,9 +1,10 @@
+// FILE: src/app/pages/checkout/checkout.component.ts
 
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { Cart } from '../../models/cart.model';
 import { Address } from '../../models/user.model';
 import { AuthService } from '../../services/auth';
@@ -17,17 +18,21 @@ import { OrderService } from '../../services/order';
   templateUrl: './checkout.html',
   styleUrl: './checkout.css'
 })
-export class Checkout implements OnInit {
+export class Checkout implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
   cart: Cart | null = null;
   currentStep: number = 1;
   
   // Shipping Info
   shippingAddress: Address = {
+    fullName: '',
     street: '',
     city: '',
     state: '',
     zipCode: '',
-    country: ''
+    country: '',
+    phone: ''
   };
 
   // Payment Info
@@ -45,36 +50,51 @@ export class Checkout implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cartService.cart$.subscribe(cart => {
-      this.cart = cart;
-      if (!cart || cart.items.length === 0) {
-        this.router.navigate(['/cart']);
-      }
-    });
+    // Subscribe to cart
+    this.cartService.cart$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(cart => {
+        this.cart = cart;
+        if (!cart || cart.items.length === 0) {
+          this.router.navigate(['/cart']);
+        }
+      });
 
-    this.authService.currentUser$.subscribe(user => {
-      if (user) {
-        this.userEmail = user.email || '';
-      }
-    });
+    // Subscribe to current user
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        if (user) {
+          this.userEmail = user.email || '';
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   nextStep(): void {
     if (this.currentStep === 1 && this.validateShipping()) {
       this.currentStep = 2;
+      this.errorMessage = '';
     } else if (this.currentStep === 2) {
       this.currentStep = 3;
+      this.errorMessage = '';
     }
   }
 
   prevStep(): void {
     if (this.currentStep > 1) {
       this.currentStep--;
+      this.errorMessage = '';
     }
   }
 
   validateShipping(): boolean {
-    if (!this.shippingAddress.street || !this.shippingAddress.city || 
+    if (!this.shippingAddress.fullName || !this.shippingAddress.phone ||
+        !this.shippingAddress.street || !this.shippingAddress.city || 
         !this.shippingAddress.state || !this.shippingAddress.zipCode || 
         !this.shippingAddress.country) {
       this.errorMessage = 'Please fill in all shipping address fields';
@@ -99,13 +119,16 @@ export class Checkout implements OnInit {
     this.errorMessage = '';
 
     try {
-      const user = await this.authService.currentUser$.toPromise();
+      // Get current user using firstValueFrom instead of deprecated toPromise()
+      const user = await firstValueFrom(this.authService.currentUser$);
       
       if (!user) {
+        this.loading = false;
         this.router.navigate(['/login'], { queryParams: { returnUrl: '/checkout' } });
         return;
       }
 
+      // Create the order
       const orderId = await this.orderService.createOrder(
         user.uid,
         this.userEmail,
@@ -117,8 +140,10 @@ export class Checkout implements OnInit {
       // Clear cart after successful order
       this.cartService.clearCart();
 
-      // Redirect to success page (or show success message)
-      alert(`Order placed successfully! Order ID: ${orderId}`);
+      this.loading = false;
+
+      // Show success message and redirect
+      alert(`Order placed successfully! Order ID: ${orderId.slice(0, 8)}`);
       this.router.navigate(['/products']);
 
     } catch (error: any) {
@@ -129,7 +154,7 @@ export class Checkout implements OnInit {
   }
 
   getShippingFee(): number {
-    return 0.00; // Fixed shipping fee
+    return 0.00; // Free shipping
   }
 
   getFinalTotal(): number {
