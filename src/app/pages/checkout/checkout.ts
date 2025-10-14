@@ -104,54 +104,55 @@ export class Checkout implements OnInit, OnDestroy {
     return true;
   }
 
-  async placeOrder(): Promise<void> {
-    if (!this.cart || this.cart.items.length === 0) {
-      this.errorMessage = 'Your cart is empty';
-      return;
-    }
+// FILE: src/app/pages/checkout/checkout.component.ts
+// Update the placeOrder() method:
 
-    if (!this.validateShipping()) {
-      this.currentStep = 1;
-      return;
-    }
-
-    this.loading = true;
-    this.errorMessage = '';
-
-    try {
-      // Get current user using firstValueFrom instead of deprecated toPromise()
-      const user = await firstValueFrom(this.authService.currentUser$);
-      
-      if (!user) {
-        this.loading = false;
-        this.router.navigate(['/login'], { queryParams: { returnUrl: '/checkout' } });
-        return;
-      }
-
-      // Create the order
-      const orderId = await this.orderService.createOrder(
-        user.uid,
-        this.userEmail,
-        this.cart,
-        this.shippingAddress,
-        this.paymentMethod
-      );
-
-      // Clear cart after successful order
-      this.cartService.clearCart();
-
-      this.loading = false;
-
-      // Show success message and redirect
-      alert(`Order placed successfully! Order ID: ${orderId.slice(0, 8)}`);
-      this.router.navigate(['/products']);
-
-    } catch (error: any) {
-      this.loading = false;
-      this.errorMessage = error.message || 'Failed to place order. Please try again.';
-      console.error('Order error:', error);
-    }
+async placeOrder(): Promise<void> {
+  if (!this.cart || this.cart.items.length === 0) {
+    this.errorMessage = 'Your cart is empty';
+    return;
   }
+
+  if (!this.validateShipping()) {
+    this.currentStep = 1;
+    return;
+  }
+
+  this.loading = true;
+  this.errorMessage = '';
+
+  try {
+    const user = await firstValueFrom(this.authService.currentUser$);
+    
+    if (!user) {
+      this.loading = false;
+      this.router.navigate(['/login'], { queryParams: { returnUrl: '/checkout' } });
+      return;
+    }
+
+    // Create the order
+    const orderId = await this.orderService.createOrder(
+      user.uid,
+      this.userEmail,
+      this.cart,
+      this.shippingAddress,
+      this.paymentMethod
+    );
+
+    // Clear cart after successful order
+    this.cartService.clearCart();
+
+    this.loading = false;
+
+    // ✅ Redirect to order confirmation page instead of alert
+    this.router.navigate(['/order-confirmation', orderId]);
+
+  } catch (error: any) {
+    this.loading = false;
+    this.errorMessage = error.message || 'Failed to place order. Please try again.';
+    console.error('Order error:', error);
+  }
+}
 
   getShippingFee(): number {
     return 0.00; // Free shipping

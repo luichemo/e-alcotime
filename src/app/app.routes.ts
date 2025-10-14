@@ -33,11 +33,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/checkout/checkout').then(m => m.Checkout),
     canActivate: [authGuard]
   },
-  // {
-  //   path: 'order-confirmation/:id',
-  //   // loadComponent: () => import('./pages/order-confirmation/order-confirmation').then(m => m.OrderConfirmation),
-  //   canActivate: [authGuard]
-  // },
+  {
+  path: 'order-confirmation/:id',
+  loadComponent: () => import('./pages/order-confirmation/order-confirmation').then(m => m.OrderConfirmation),
+  canActivate: [authGuard]
+},
+{
+  path: 'order-history',
+  loadComponent: () => import('./pages/order-history/order-history').then(m => m.OrderHistory),
+  canActivate: [authGuard]
+},
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent)

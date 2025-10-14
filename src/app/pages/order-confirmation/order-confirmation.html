@@ -1,0 +1,195 @@
+<!-- FILE: src/app/pages/order-confirmation/order-confirmation.component.html -->
+
+<div class="confirmation-container">
+  <div class="container py-5">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3 text-muted">Loading order details...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!loading && error" class="text-center py-5">
+      <div class="error-icon">
+        <i class="bi bi-exclamation-triangle"></i>
+      </div>
+      <h3 class="mt-3">{{ error }}</h3>
+      <button class="btn btn-primary mt-3" routerLink="/products">
+        Continue Shopping
+      </button>
+    </div>
+
+    <!-- Success State -->
+    <div *ngIf="!loading && !error && order" class="confirmation-content">
+      <!-- Success Header -->
+      <div class="success-header text-center mb-5">
+        <div class="success-icon">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h1>Order Confirmed!</h1>
+        <p class="lead">Thank you for your order. We've received it and will process it shortly.</p>
+        <div class="order-number">
+          <span>Order Number:</span>
+          <code>#{{ orderId.slice(0, 12) }}</code>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Order Details -->
+        <div class="col-lg-8">
+          <!-- Order Summary Card -->
+          <div class="info-card mb-4">
+            <div class="card-header">
+              <h4><i class="bi bi-receipt me-2"></i>Order Summary</h4>
+            </div>
+            <div class="card-body">
+              <div class="order-items">
+                <div *ngFor="let item of order.items" class="order-item">
+                  <img [src]="item.imageUrl" [alt]="item.productName">
+                  <div class="item-info">
+                    <h5>{{ item.productName }}</h5>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p class="price">₾{{ item.price | number:'1.2-2' }} each</p>
+                  </div>
+                  <div class="item-total">
+                    ₾{{ item.price * item.quantity | number:'1.2-2' }}
+                  </div>
+                </div>
+              </div>
+              
+              <div class="order-totals">
+                <div class="total-row">
+                  <span>Subtotal ({{ getOrderItemsCount() }} items)</span>
+                  <span>₾{{ order.total | number:'1.2-2' }}</span>
+                </div>
+                <div class="total-row">
+                  <span>Shipping</span>
+                  <span>Free</span>
+                </div>
+                <div class="total-row grand-total">
+                  <span>Total</span>
+                  <span>₾{{ order.total | number:'1.2-2' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Info Card -->
+          <div class="info-card mb-4">
+            <div class="card-header">
+              <h4><i class="bi bi-truck me-2"></i>Shipping Information</h4>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label>Recipient</label>
+                  <p>{{ order.shippingAddress.fullName }}</p>
+                </div>
+                <div class="col-md-6">
+                  <label>Phone</label>
+                  <p>{{ order.shippingAddress.phone }}</p>
+                </div>
+                <div class="col-12">
+                  <label>Delivery Address</label>
+                  <p>{{ order.shippingAddress.address }}</p>
+                  <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.postalCode }}</p>
+                </div>
+                <div class="col-12">
+                  <div class="delivery-estimate">
+                    <i class="bi bi-calendar-check"></i>
+                    <div>
+                      <strong>Estimated Delivery</strong>
+                      <p>{{ getEstimatedDeliveryDate() }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <!-- Status Card -->
+          <div class="info-card mb-4">
+            <div class="card-header">
+              <h4><i class="bi bi-info-circle me-2"></i>Order Status</h4>
+            </div>
+            <div class="card-body">
+              <div class="status-timeline">
+                <div class="status-step active">
+                  <div class="status-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                  </div>
+                  <div class="status-info">
+                    <strong>Order Placed</strong>
+                    <p>{{ order.createdAt.toDate() | date:'short' }}</p>
+                  </div>
+                </div>
+                <div class="status-step" [class.active]="order.status !== 'pending'">
+                  <div class="status-icon">
+                    <i class="bi bi-arrow-repeat"></i>
+                  </div>
+                  <div class="status-info">
+                    <strong>Processing</strong>
+                    <p>We're preparing your order</p>
+                  </div>
+                </div>
+                <div class="status-step" [class.active]="order.status === 'shipped' || order.status === 'delivered'">
+                  <div class="status-icon">
+                    <i class="bi bi-truck"></i>
+                  </div>
+                  <div class="status-info">
+                    <strong>Shipped</strong>
+                    <p>On the way to you</p>
+                  </div>
+                </div>
+                <div class="status-step" [class.active]="order.status === 'delivered'">
+                  <div class="status-icon">
+                    <i class="bi bi-house-check"></i>
+                  </div>
+                  <div class="status-info">
+                    <strong>Delivered</strong>
+                    <p>Enjoy your purchase!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="btn btn-primary btn-lg w-100 mb-3" (click)="continueShopping()">
+              <i class="bi bi-bag me-2"></i>
+              Continue Shopping
+            </button>
+            <button class="btn btn-outline-secondary w-100" (click)="printOrder()">
+              <i class="bi bi-printer me-2"></i>
+              Print Order
+            </button>
+          </div>
+
+          <!-- Help Card -->
+          <div class="info-card mt-4">
+            <div class="card-body text-center">
+              <i class="bi bi-headset fs-1 text-muted mb-3"></i>
+              <h5>Need Help?</h5>
+              <p class="text-muted mb-3">Our customer support team is here to assist you</p>
+              <a href="mailto:support@example.com" class="btn btn-sm btn-outline-primary">
+                Contact Support
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirmation Email Notice -->
+      <div class="email-notice text-center mt-5">
+        <i class="bi bi-envelope-check"></i>
+        <p>A confirmation email has been sent to <strong>{{ order.userEmail }}</strong></p>
+      </div>
+    </div>
+  </div>
+</div>

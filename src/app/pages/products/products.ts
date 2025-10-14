@@ -256,7 +256,6 @@ export class Products implements OnInit {
   }
 
   toggleStockFilter(): void {
-    this.inStockOnly = !this.inStockOnly;
     this.applyFilters();
   }
 
