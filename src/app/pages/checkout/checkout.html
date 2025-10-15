@@ -90,22 +90,22 @@
           </div>
           <div class="card-body">
             <div class="payment-options">
-              <div class="payment-option">
+              <!-- <div class="payment-option">
                 <input disabled type="radio" id="credit-card" name="paymentMethod" value="credit-card"
-                  [(ngModel)]="paymentMethod" >
+                  [(ngModel)]="paymentMethod" disabled>
                 <label for="credit-card">
                   <i class="bi bi-credit-card"></i>
                   <span>Credit/Debit Card</span>
                 </label>
               </div>
               <div class="payment-option">
-                <input disabled type="radio" id="paypal" name="paymentMethod" value="paypal"
+                <input disabled type="radio" id="paypal" name="paymentMethod" value="paypal" disabled
                   [(ngModel)]="paymentMethod">
                 <label for="paypal">
                   <i class="bi bi-paypal"></i>
                   <span>PayPal</span>
                 </label>
-              </div>
+              </div> -->
               <div class="payment-option">
                 <input type="radio" id="cash" name="paymentMethod" value="cash-on-delivery" [(ngModel)]="paymentMethod" checked>
                 <label for="cash">
@@ -151,8 +151,7 @@
               <h5>Payment Method</h5>
               <p class="mb-0 text-capitalize">
                 <i class="bi" [ngClass]="{
-                  'bi-credit-card': paymentMethod === 'credit-card',
-                  'bi-paypal': paymentMethod === 'paypal',
+                  
                   'bi-cash': paymentMethod === 'cash-on-delivery'
                 }"></i>
                 {{ paymentMethod === 'cash-on-delivery' ? 'Cash on Delivery' : paymentMethod }}

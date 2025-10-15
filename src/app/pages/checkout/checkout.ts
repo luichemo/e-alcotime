@@ -36,7 +36,7 @@ export class Checkout implements OnInit, OnDestroy {
   };
 
   // Payment Info
-  paymentMethod: string = 'credit-card';
+  paymentMethod: string = 'cash-on-delivery';
   
   loading: boolean = false;
   errorMessage: string = '';

@@ -1,26 +1,26 @@
 // FILE: src/app/models/user.model.ts
 
+import { Timestamp } from 'firebase/firestore';
+
 export interface Address {
-  fullName?: string;  // ✅ Add this
+  fullName?: string;
   street: string;
   city: string;
   state: string;
   zipCode: string;
   country: string;
-  phone?: string;  // ✅ Add this
+  phone?: string;
 }
-
-// FILE: src/app/models/user.model.ts
 
 export interface User {
   uid: string;
   email: string;
   displayName?: string;
   phoneNumber?: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | Timestamp | any; // ✅ Allow multiple types
   isOver18?: boolean;
   photoURL?: string;
-  role: 'user' | 'admin' | 'customer';  // ✅ Add 'customer' as an option
+  role: 'customer' | 'admin';
   addresses?: Address[];
-  createdAt: Date;
+  createdAt: Date | Timestamp | any; // ✅ Allow multiple types
 }

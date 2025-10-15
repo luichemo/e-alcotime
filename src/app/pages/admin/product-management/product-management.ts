@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../models/product.model';
 import { ProductService } from '../../../services/product';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-management',
@@ -14,10 +15,10 @@ import { ProductService } from '../../../services/product';
   styleUrls: ['./product-management.css']
 })
 export class ProductManagement implements OnInit {
-products: Product[] = [];
+  products: Product[] = [];
   showAddModal = false;
   editingProduct: Product | null = null;
-  
+
   // Form fields
   formData = {
     name: '',
@@ -38,7 +39,7 @@ products: Product[] = [];
   errorMessage = '';
   successMessage = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
 
@@ -120,16 +121,16 @@ products: Product[] = [];
 
     saveOperation.then(() => {
       this.loading = false;
-      this.successMessage = this.editingProduct 
-        ? 'Product updated successfully!' 
+      this.successMessage = this.editingProduct
+        ? 'Product updated successfully!'
         : 'Product added successfully!';
-      
+
       // Close modal immediately
       this.closeModal();
-      
+
       // Reload products
       this.loadProducts();
-      
+
       // Clear success message after 3 seconds
       setTimeout(() => {
         this.successMessage = '';
@@ -142,24 +143,39 @@ products: Product[] = [];
 
   deleteProduct(product: Product): void {
     if (!product.id) return;
-    
-    if (confirm(`Are you sure you want to delete "${product.name}"?`)) {
-      this.productService.deleteProduct(product.id).then(() => {
-        this.successMessage = 'Product deleted successfully!';
-        this.loadProducts();
-        
-        setTimeout(() => {
-          this.successMessage = '';
-        }, 3000);
-      }).catch((error: any) => {
-        this.errorMessage = error.message || 'Failed to delete product';
-      });
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Product has been deleted.",
+          icon: "success"
+        });
+        this.productService.deleteProduct(product.id).then(() => {
+          this.successMessage = 'Product deleted successfully!';
+          this.loadProducts();
+
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+        }).catch((error: any) => {
+          this.errorMessage = error.message || 'Failed to delete product';
+        });
+      }
+    });
+
   }
 
   toggleAvailability(product: Product): void {
     if (!product.id) return;
-    
+
     this.productService.updateProduct(product.id, {
       isAvailable: !product.isAvailable
     }).then(() => {

@@ -1,5 +1,3 @@
-// FILE: src/app/pages/order-history/order-history.component.ts
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -7,6 +5,7 @@ import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { Order } from '../../models/order.model';
 import { OrderService } from '../../services/order';
 import { AuthService } from '../../services/auth';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-order-history',
@@ -17,7 +16,7 @@ import { AuthService } from '../../services/auth';
 })
 export class OrderHistory implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  
+
   orders: Order[] = [];
   selectedOrder: Order | null = null;
   loading: boolean = true;
@@ -26,7 +25,7 @@ export class OrderHistory implements OnInit, OnDestroy {
   constructor(
     private orderService: OrderService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -41,10 +40,10 @@ export class OrderHistory implements OnInit, OnDestroy {
 
   async loadUserOrders(): Promise<void> {
     this.loading = true;
-    
+
     try {
       const user = await firstValueFrom(this.authService.currentUser$);
-      
+
       if (!user) {
         this.error = 'Please log in to view your orders';
         this.loading = false;
@@ -110,26 +109,27 @@ export class OrderHistory implements OnInit, OnDestroy {
   }
 
   async cancelOrder(orderId: string): Promise<void> {
-    if (!confirm('Are you sure you want to cancel this order?')) {
-      return;
-    }
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, cancel it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your order has been cancelled.",
+            icon: "success"
+          });
+          setTimeout(() => {
+    }, 500);
+       this.orderService.updateOrderStatus(orderId, 'cancelled');
 
-    try {
-      await this.orderService.updateOrderStatus(orderId, 'cancelled');
-      
-      // Update local order
-      const order = this.orders.find(o => o.id === orderId);
-      if (order) {
-        order.status = 'cancelled';
-      }
-      
-      // Update selected order if it's the one being cancelled
-      if (this.selectedOrder?.id === orderId) {
-        this.selectedOrder.status = 'cancelled';
-      }
-    } catch (error) {
-      console.error('Error cancelling order:', error);
-      alert('Failed to cancel order. Please contact support.');
-    }
+         this.loadUserOrders();
+        }
+      });
   }
 }
