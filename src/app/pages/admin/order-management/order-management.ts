@@ -35,7 +35,7 @@ export class OrderManagement implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => {
-    }, 500);
+    }, 1000);
     this.loadOrders();
   }
 
@@ -118,13 +118,15 @@ export class OrderManagement implements OnInit, OnDestroy {
       const order = this.orders.find(o => o.id === orderId);
       if (order) {
         order.status = newStatus;
+        this.closeOrderDetails();
       }
 
       // Update selected order if it's the one being updated
       if (this.selectedOrder?.id === orderId) {
         this.selectedOrder.status = newStatus;
+        this.closeOrderDetails();
       }
-
+  
       this.applyFilters();
     } catch (error) {
       console.error('Error updating order status:', error);

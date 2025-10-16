@@ -1,3 +1,5 @@
+// FILE: src/app/components/navbar/navbar.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
@@ -19,6 +21,7 @@ export class NavbarComponent implements OnInit {
   cartItemCount: number = 0;
   isMenuOpen: boolean = false;
   currentRoute: string = '';
+  isAdmin: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -40,6 +43,16 @@ export class NavbarComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       this.currentRoute = event.url;
+    });
+
+    // Check if user is admin
+    this.currentUser$.subscribe(async (user) => {
+      if (user) {
+        const userData = await this.authService.getUserData(user.uid).toPromise();
+        this.isAdmin = userData?.role === 'admin';
+      } else {
+        this.isAdmin = false;
+      }
     });
   }
 

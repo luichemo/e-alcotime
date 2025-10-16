@@ -39,7 +39,7 @@ export class Profile implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => {
-    }, 500);
+    }, 1000);
     this.loadUserProfile();
   }
 
@@ -141,6 +141,11 @@ export class Profile implements OnInit, OnDestroy {
   async saveProfile(): Promise<void> {
     if (!this.user) return;
 
+    if (!this.editData.displayName.trim()) {
+      this.error = 'Full name cannot be empty.';
+      return;
+    }
+
     this.saving = true;
     this.error = '';
     this.successMessage = '';
@@ -155,7 +160,7 @@ export class Profile implements OnInit, OnDestroy {
         updateData.dateOfBirth = new Date(this.editData.dateOfBirth);
       }
       setTimeout(() => {
-      }, 500);
+      }, 2000);
       await this.authService.updateUserProfile(this.user.uid, updateData);
 
       // Update local user object

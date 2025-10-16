@@ -38,12 +38,16 @@ export class ProductDetail implements OnInit {
       }
     });
   }
+  
   toggleDescription(): void {
-  this.isDescriptionExpanded = !this.isDescriptionExpanded;
-}
+    this.isDescriptionExpanded = !this.isDescriptionExpanded;
+  }
 
   loadProduct(id: string): void {
     this.loading = true;
+    // Reset quantity when loading a new product
+    this.quantity = 1;
+    
     this.productService.getProductById(id).subscribe({
       next: (product) => {
         if (product) {
@@ -82,15 +86,16 @@ export class ProductDetail implements OnInit {
   }
 
   decreaseQuantity(): void {
-      this.quantity--;
+    this.quantity--;
   }
+  
   clearCart(): void {
-  this.cartService.clearCart();
-}
+    this.cartService.clearCart();
+  }
 
-isCartNotEmpty(): boolean {
-  return this.cartService.getItemCount() > 0;
-}
+  isCartNotEmpty(): boolean {
+    return this.cartService.getItemCount() > 0;
+  }
 
   addToCart(): void {
     if (this.product) {
