@@ -1,6 +1,7 @@
 // FILE: src/app/pages/cart/cart.component.ts
 
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -47,9 +48,19 @@ export class CartComponent implements OnInit {
     }
   }
 
-  clearCart(): void {
-    if (confirm('Are you sure you want to clear your cart?')) {
+  async clearCart(): Promise<void> {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will remove all items from your cart.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, clear it!',
+      cancelButtonText: 'Cancel'
+    });
+
+    if (result.isConfirmed) {
       this.cartService.clearCart();
+      Swal.fire('Cleared!', 'Your cart has been emptied.', 'success');
     }
   }
 
