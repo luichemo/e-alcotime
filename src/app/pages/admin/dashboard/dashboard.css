@@ -318,7 +318,14 @@
   border-color: #c0a27c;
   border-right-color: transparent;
 }
-
+.btn-outline-primary{
+  color:aliceblue;
+  background-color:#c0a27c;
+  border: none;
+}
+.btn-outline-primary:hover{
+  background-color:#a18448;
+}
 /* Responsive */
 @media (max-width: 991px) {
   .stat-card {

@@ -1,8 +1,8 @@
 // FILE: src/app/services/order.service.ts
 
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, query, where, orderBy, doc, updateDoc, CollectionReference } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, collection, addDoc, collectionData, query, where, orderBy, doc, updateDoc, getDoc, CollectionReference, DocumentReference } from '@angular/fire/firestore';
+import { Observable, from, map } from 'rxjs';
 import { Order, OrderItem } from '../models/order.model';
 import { Cart } from '../models/cart.model';
 import { Address } from '../models/user.model';
@@ -42,11 +42,12 @@ export class OrderService {
       items: orderItems,
       total: cart.total,
       status: 'pending',
+      paymentMethod: paymentMethod,
       shippingAddress: {
         fullName: shippingAddress.fullName || '',
-        address: `${shippingAddress.street}, ${shippingAddress.state}`,  // ✅ Combine street and state
+        address: `${shippingAddress.street}, ${shippingAddress.state}`,
         city: shippingAddress.city,
-        postalCode: shippingAddress.zipCode,  // ✅ Map zipCode to postalCode
+        postalCode: shippingAddress.zipCode,
         phone: shippingAddress.phone || ''
       },
       createdAt: Timestamp.now(),
@@ -55,6 +56,23 @@ export class OrderService {
 
     const docRef = await addDoc(this.ordersCollection, orderData);
     return docRef.id;
+  }
+
+  // Get a single order by ID (for customers to view their own orders)
+  getOrderById(orderId: string): Observable<Order | null> {
+    const orderRef = doc(this.firestore, 'orders', orderId);
+    
+    return from(getDoc(orderRef)).pipe(
+      map(docSnap => {
+        if (docSnap.exists()) {
+          return {
+            id: docSnap.id,
+            ...docSnap.data()
+          } as Order;
+        }
+        return null;
+      })
+    );
   }
 
   // Get all orders (Admin)

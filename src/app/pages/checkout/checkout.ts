@@ -49,7 +49,7 @@ export class Checkout implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Subscribe to cart
     this.cartService.cart$
       .pipe(takeUntil(this.destroy$))
@@ -60,14 +60,22 @@ export class Checkout implements OnInit, OnDestroy {
         }
       });
 
-    // Subscribe to current user
-    this.authService.currentUser$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(user => {
-        if (user) {
-          this.userEmail = user.email || '';
+    // Load user data and pre-fill shipping info
+    try {
+      const user = await firstValueFrom(this.authService.currentUser$);
+      if (user) {
+        this.userEmail = user.email || '';
+        
+        // Get user profile data
+        const userData = await firstValueFrom(this.authService.getUserData(user.uid));
+        if (userData) {
+          this.shippingAddress.fullName = userData.displayName || '';
+          this.shippingAddress.phone = userData.phoneNumber || '';
         }
-      });
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
   }
 
   ngOnDestroy(): void {
@@ -104,55 +112,52 @@ export class Checkout implements OnInit, OnDestroy {
     return true;
   }
 
-// FILE: src/app/pages/checkout/checkout.component.ts
-// Update the placeOrder() method:
-
-async placeOrder(): Promise<void> {
-  if (!this.cart || this.cart.items.length === 0) {
-    this.errorMessage = 'Your cart is empty';
-    return;
-  }
-
-  if (!this.validateShipping()) {
-    this.currentStep = 1;
-    return;
-  }
-
-  this.loading = true;
-  this.errorMessage = '';
-
-  try {
-    const user = await firstValueFrom(this.authService.currentUser$);
-    
-    if (!user) {
-      this.loading = false;
-      this.router.navigate(['/login'], { queryParams: { returnUrl: '/checkout' } });
+  async placeOrder(): Promise<void> {
+    if (!this.cart || this.cart.items.length === 0) {
+      this.errorMessage = 'Your cart is empty';
       return;
     }
 
-    // Create the order
-    const orderId = await this.orderService.createOrder(
-      user.uid,
-      this.userEmail,
-      this.cart,
-      this.shippingAddress,
-      this.paymentMethod
-    );
+    if (!this.validateShipping()) {
+      this.currentStep = 1;
+      return;
+    }
 
-    // Clear cart after successful order
-    this.cartService.clearCart();
+    this.loading = true;
+    this.errorMessage = '';
 
-    this.loading = false;
+    try {
+      const user = await firstValueFrom(this.authService.currentUser$);
+      
+      if (!user) {
+        this.loading = false;
+        this.router.navigate(['/login'], { queryParams: { returnUrl: '/checkout' } });
+        return;
+      }
 
-    // ✅ Redirect to order confirmation page instead of alert
-    this.router.navigate(['/order-confirmation', orderId]);
+      // Create the order
+      const orderId = await this.orderService.createOrder(
+        user.uid,
+        this.userEmail,
+        this.cart,
+        this.shippingAddress,
+        this.paymentMethod
+      );
 
-  } catch (error: any) {
-    this.loading = false;
-    this.errorMessage = error.message || 'Failed to place order. Please try again.';
-    console.error('Order error:', error);
+      // Clear cart after successful order
+      this.cartService.clearCart();
+
+      this.loading = false;
+
+      // Redirect to order confirmation page
+      this.router.navigate(['/order-confirmation', orderId]);
+
+    } catch (error: any) {
+      this.loading = false;
+      this.errorMessage = error.message || 'Failed to place order. Please try again.';
+      console.error('Order error:', error);
+    }
   }
-}
 
   getShippingFee(): number {
     return 0.00; // Free shipping

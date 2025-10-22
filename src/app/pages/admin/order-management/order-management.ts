@@ -1,12 +1,13 @@
-
 // FILE: src/app/pages/admin/orders/orders.component.ts
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
+import Swal from 'sweetalert2';
 import { Order } from '../../../models/order.model';
 import { OrderService } from '../../../services/order';
+import { Email } from '../../../services/email';
 
 @Component({
   selector: 'app-admin-orders',
@@ -31,7 +32,10 @@ export class OrderManagement implements OnInit, OnDestroy {
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private orderService: OrderService) { }
+  constructor(
+    private orderService: OrderService,
+    private emailService: Email
+  ) { }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -107,30 +111,88 @@ export class OrderManagement implements OnInit, OnDestroy {
   }
 
   closeOrderDetails(): void {
+    setTimeout(() => {
+    }, 500);
     this.selectedOrder = null;
   }
 
   async updateOrderStatus(orderId: string, newStatus: Order['status']): Promise<void> {
+    const order = this.orders.find(o => o.id === orderId);
+    if (!order) return;
+
+    // SweetAlert confirmation
+    const result = await Swal.fire({
+      title: 'Change Order Status?',
+      text: `Change status to "${newStatus}" for order #${order.id?.slice(0, 8)}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, change it',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
+      // Update order status in database
       await this.orderService.updateOrderStatus(orderId, newStatus);
 
-      // Update local order
-      const order = this.orders.find(o => o.id === orderId);
-      if (order) {
-        order.status = newStatus;
-        this.closeOrderDetails();
-      }
-
-      // Update selected order if it's the one being updated
+      // Update local state
+      order.status = newStatus;
       if (this.selectedOrder?.id === orderId) {
         this.selectedOrder.status = newStatus;
         this.closeOrderDetails();
       }
-  
+      
       this.applyFilters();
+
+      // Send email notification based on status
+      if (newStatus === 'processing') {
+        try {
+          await this.emailService.sendProcessingEmail(
+            order.userEmail,
+            order.shippingAddress.fullName,
+            order.id?.slice(0, 8) || '',
+            order.total
+          );
+        } catch (emailError) {
+          console.error('Failed to send processing email:', emailError);
+          // Continue even if email fails
+        }
+      } else if (newStatus === 'delivered') {
+        try {
+          await this.emailService.sendDeliveredEmail(
+            order.userEmail,
+            order.shippingAddress.fullName,
+            order.id?.slice(0, 8) || '',
+            order.total
+          );
+        } catch (emailError) {
+          console.error('Failed to send delivered email:', emailError);
+          // Continue even if email fails
+        }
+      }
+
+      // SweetAlert success
+      await Swal.fire({
+        title: 'Status Updated!',
+        text: `Order #${order.id?.slice(0, 8)} is now "${newStatus}".`,
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
     } catch (error) {
       console.error('Error updating order status:', error);
-      alert('Failed to update order status. Please try again.');
+
+      // SweetAlert error
+      await Swal.fire({
+        title: 'Update Failed',
+        text: 'Something went wrong. Please try again later.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   }
 
@@ -160,7 +222,6 @@ export class OrderManagement implements OnInit, OnDestroy {
     return order.items.reduce((sum, item) => sum + item.quantity, 0);
   }
 
-  // Stats for dashboard cards
   getOrderStats() {
     return {
       total: this.orders.length,
@@ -179,7 +240,6 @@ export class OrderManagement implements OnInit, OnDestroy {
   }
 
   exportOrders(): void {
-    // Simple CSV export
     const headers = ['Order ID', 'Customer', 'Email', 'Items', 'Total', 'Status', 'Date'];
     const rows = this.filteredOrders.map(order => [
       order.id?.slice(0, 8) || '',

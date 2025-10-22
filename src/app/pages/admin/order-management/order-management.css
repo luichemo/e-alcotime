@@ -498,7 +498,14 @@
   transition: all 0.3s ease;
   cursor: pointer;
 }
-
+.btn-outline-primary{
+  color:aliceblue;
+  background-color:#c0a27c;
+  border: none;
+}
+.btn-outline-primary:hover{
+  background-color:#a18448;
+}
 .btn-status:disabled {
   opacity: 0.5;
   cursor: not-allowed;

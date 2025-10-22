@@ -47,6 +47,8 @@ export class NavbarComponent implements OnInit {
 
     // Check if user is admin
     this.currentUser$.subscribe(async (user) => {
+      setTimeout(() => {
+    }, 2000);
       if (user) {
         const userData = await this.authService.getUserData(user.uid).toPromise();
         this.isAdmin = userData?.role === 'admin';

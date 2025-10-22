@@ -17,6 +17,7 @@ export interface Order {
   userEmail: string;
   items: OrderItem[];
   total: number;
+  paymentMethod:any
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   shippingAddress: {
     fullName: string;

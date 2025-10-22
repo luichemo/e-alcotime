@@ -40,12 +40,14 @@
                 <div class="col-md-6">
                   <label for="fullName" class="form-label">Full Name *</label>
                   <input type="text" class="form-control" id="fullName" [(ngModel)]="shippingAddress.fullName"
-                    name="fullName" required>
+                    name="fullName" readonly>
+                  <small class="text-muted">From your profile</small>
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label">Phone Number *</label>
                   <input type="tel" class="form-control" id="phone" [(ngModel)]="shippingAddress.phone" name="phone"
-                    required>
+                    readonly>
+                  <small class="text-muted">From your profile</small>
                 </div>
                 <div class="col-12">
                   <label for="street" class="form-label">Street Address *</label>
@@ -90,22 +92,6 @@
           </div>
           <div class="card-body">
             <div class="payment-options">
-              <!-- <div class="payment-option">
-                <input disabled type="radio" id="credit-card" name="paymentMethod" value="credit-card"
-                  [(ngModel)]="paymentMethod" disabled>
-                <label for="credit-card">
-                  <i class="bi bi-credit-card"></i>
-                  <span>Credit/Debit Card</span>
-                </label>
-              </div>
-              <div class="payment-option">
-                <input disabled type="radio" id="paypal" name="paymentMethod" value="paypal" disabled
-                  [(ngModel)]="paymentMethod">
-                <label for="paypal">
-                  <i class="bi bi-paypal"></i>
-                  <span>PayPal</span>
-                </label>
-              </div> -->
               <div class="payment-option">
                 <input type="radio" id="cash" name="paymentMethod" value="cash-on-delivery" [(ngModel)]="paymentMethod" checked>
                 <label for="cash">
@@ -150,11 +136,8 @@
             <div class="review-section mb-4">
               <h5>Payment Method</h5>
               <p class="mb-0 text-capitalize">
-                <i class="bi" [ngClass]="{
-                  
-                  'bi-cash': paymentMethod === 'cash-on-delivery'
-                }"></i>
-                {{ paymentMethod === 'cash-on-delivery' ? 'Cash on Delivery' : paymentMethod }}
+                <i class="bi bi-cash"></i>
+                Cash on Delivery
               </p>
               <button type="button" class="btn btn-sm btn-link p-0 mt-2" (click)="currentStep = 2">
                 Change Payment Method

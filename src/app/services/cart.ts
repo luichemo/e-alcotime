@@ -97,7 +97,7 @@ export class CartService {
     );
 
     // Calculate tax (10% for example)
-    cart.tax = cart.subtotal * 0.10;
+    cart.tax = cart.subtotal * 0;
 
     // Calculate total
     cart.total = cart.subtotal + cart.tax;

@@ -36,8 +36,7 @@ export class OrderConfirmation implements OnInit, OnDestroy {
       this.loading = false;
       return;
     }
-    setTimeout(() => {
-    }, 500);
+    
     this.loadOrderDetails();
   }
 
@@ -47,11 +46,11 @@ export class OrderConfirmation implements OnInit, OnDestroy {
   }
 
   loadOrderDetails(): void {
-    this.orderService.getAllOrders()
+    this.orderService.getOrderById(this.orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (orders) => {
-          this.order = orders.find(o => o.id === this.orderId) || null;
+        next: (order) => {
+          this.order = order;
           
           if (!this.order) {
             this.error = 'Order not found';

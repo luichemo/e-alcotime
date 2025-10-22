@@ -300,35 +300,35 @@
           <button 
             class="btn btn-status btn-pending"
             (click)="updateOrderStatus(selectedOrder.id!, 'pending')"
-            [disabled]="selectedOrder.status === 'pending'">
+            >
             <i class="bi bi-clock"></i>
             Pending
           </button>
           <button 
             class="btn btn-status btn-processing"
             (click)="updateOrderStatus(selectedOrder.id!, 'processing')"
-            [disabled]="selectedOrder.status === 'processing'">
+            >
             <i class="bi bi-arrow-repeat"></i>
             Processing
           </button>
           <button 
             class="btn btn-status btn-shipped"
             (click)="updateOrderStatus(selectedOrder.id!, 'shipped')"
-            [disabled]="selectedOrder.status === 'shipped'">
+            >
             <i class="bi bi-truck"></i>
             Shipped
           </button>
           <button 
             class="btn btn-status btn-delivered"
             (click)="updateOrderStatus(selectedOrder.id!, 'delivered')"
-            [disabled]="selectedOrder.status === 'delivered'">
+            >
             <i class="bi bi-check-circle"></i>
             Delivered
           </button>
           <button 
             class="btn btn-status btn-cancelled"
             (click)="updateOrderStatus(selectedOrder.id!, 'cancelled')"
-            [disabled]="selectedOrder.status === 'cancelled'">
+            >
             <i class="bi bi-x-circle"></i>
             Cancel
           </button>
