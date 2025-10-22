@@ -5,6 +5,7 @@ import { authGuard } from './guards/auth-guard';
 import { Privacy } from './pages/privacy/privacy';
 import { Terms } from './pages/terms/terms';
 import { ForgotPassword } from './pages/forgot-password/forgot-password';
+import { NotFoundComponent } from './pages/not-found/not-found';
 
 export const routes: Routes = [
   {
@@ -93,7 +94,11 @@ export const routes: Routes = [
     component: Privacy
   },
   {
+  path: '404',
+  component: NotFoundComponent
+},
+  {
     path: '**',
-    redirectTo: '/home'
+    redirectTo: '/404'
   }
 ];

@@ -1,0 +1,63 @@
+
+<div class="not-found-page">
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="error-code">
+        <span class="four">4</span>
+        <span class="zero">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="8" 
+                    stroke-dasharray="502" stroke-dashoffset="502" class="circle-animation"/>
+            <circle cx="100" cy="100" r="60" fill="currentColor" opacity="0.2"/>
+          </svg>
+        </span>
+        <span class="four">4</span>
+      </div>
+
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-message">
+        Oops! The page you're looking for seems to have wandered off. 
+        It might have been moved, deleted, or perhaps it never existed.
+      </p>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary" (click)="goHome()">
+          <i class="bi bi-house-door me-2"></i>
+          Go Home
+        </button>
+        <button class="btn btn-secondary" (click)="goBack()">
+          <i class="bi bi-arrow-left me-2"></i>
+          Go Back
+        </button>
+      </div>
+
+      <div class="helpful-links">
+        <p class="links-title">You might want to check:</p>
+        <div class="links-grid">
+          <a routerLink="/" class="link-item">
+            <i class="bi bi-house-door"></i>
+            <span>Home</span>
+          </a>
+          <a routerLink="/products" class="link-item">
+            <i class="bi bi-shop"></i>
+            <span>Products</span>
+          </a>
+          <a routerLink="/about" class="link-item">
+            <i class="bi bi-info-circle"></i>
+            <span>About</span>
+          </a>
+          <a routerLink="/contact" class="link-item">
+            <i class="bi bi-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="floating-elements">
+        <div class="floating-leaf leaf-1">🍂</div>
+        <div class="floating-leaf leaf-2">🍃</div>
+        <div class="floating-leaf leaf-3">🍂</div>
+      </div>
+    </div>
+  </div>
+</div>
