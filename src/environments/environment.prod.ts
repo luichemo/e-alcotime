@@ -1,7 +1,5 @@
-import { initializeApp } from "firebase/app";
-
 export const environment = {
-  production: false,
+  production: true,
   firebaseConfig: {
     apiKey: "AIzaSyDNU3qcKmJ79WMxrTPThsxFOVjxFwn2HSQ",
     authDomain: "alcohol-store-alcotime.firebaseapp.com",
