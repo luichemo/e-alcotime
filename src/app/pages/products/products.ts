@@ -27,7 +27,6 @@ export class Products implements OnInit {
   sortBy: string = 'name';
   loading: boolean = true;
 
-  // Advanced Filters
   showOnSale: boolean = false;
   selectedBrands: string[] = [];
   selectedPriceRange: string = 'all';
@@ -37,7 +36,6 @@ export class Products implements OnInit {
   selectedCountries: string[] = [];
   inStockOnly: boolean = false;
 
-  // Available options
   availableBrands: string[] = [];
   availableCountries: string[] = [];
   availableVolumes: number[] = [];
@@ -60,7 +58,6 @@ export class Products implements OnInit {
     { value: 'other', label: 'Other', icon: 'bi-three-dots' }
   ];
 
-  // Filter panel state
   showFilters: boolean = true;
 
   constructor(
@@ -100,30 +97,24 @@ export class Products implements OnInit {
   }
 
   extractFilterOptions(): void {
-    // Extract unique brands
     this.availableBrands = [...new Set(this.products.map(p => p.brand))].sort();
     
-    // Extract unique countries
     this.availableCountries = [...new Set(this.products.map(p => p.country))].sort();
     
-    // Extract unique volumes
     this.availableVolumes = [...new Set(this.products.map(p => p.volume))].sort((a, b) => a - b);
   }
 
   applyFilters(): void {
     let filtered = [...this.products];
 
-    // Filter by category
     if (this.selectedCategory !== 'all') {
       filtered = filtered.filter(p => p.category === this.selectedCategory);
     }
 
-    // Filter by On Sale (Priority Filter)
     if (this.showOnSale) {
       filtered = filtered.filter(p => p.discountPrice && p.discountPrice < p.price);
     }
 
-    // Filter by search term
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(p =>
@@ -134,12 +125,10 @@ export class Products implements OnInit {
       );
     }
 
-    // Filter by brands
     if (this.selectedBrands.length > 0) {
       filtered = filtered.filter(p => this.selectedBrands.includes(p.brand));
     }
 
-    // Filter by price range
     if (this.selectedPriceRange !== 'all') {
       const range = this.priceRanges.find(r => 
         `${r.min}-${r.max}` === this.selectedPriceRange
@@ -152,28 +141,23 @@ export class Products implements OnInit {
       }
     }
 
-    // Filter by alcohol content
     filtered = filtered.filter(p => 
       p.alcoholContent >= this.minAlcoholContent && 
       p.alcoholContent <= this.maxAlcoholContent
     );
 
-    // Filter by volumes
     if (this.selectedVolumes.length > 0) {
       filtered = filtered.filter(p => this.selectedVolumes.includes(p.volume));
     }
 
-    // Filter by countries
     if (this.selectedCountries.length > 0) {
       filtered = filtered.filter(p => this.selectedCountries.includes(p.country));
     }
 
-    // Filter by stock availability
     if (this.inStockOnly) {
       filtered = filtered.filter(p => p.stock > 0);
     }
 
-    // Sort products
     filtered = this.sortProducts(filtered);
 
     this.filteredProducts = filtered;
@@ -198,7 +182,6 @@ export class Products implements OnInit {
     });
   }
 
-  // Toggle filters
   onCategoryChange(category: string): void {
     this.selectedCategory = category;
     this.applyFilters();

@@ -1,5 +1,3 @@
-// FILE: src/app/models/user.model.ts
-
 import { Timestamp } from 'firebase/firestore';
 
 export interface Address {
@@ -17,10 +15,10 @@ export interface User {
   email: string;
   displayName?: string;
   phoneNumber?: string;
-  dateOfBirth?: Date | Timestamp | any; // ✅ Allow multiple types
+  dateOfBirth?: Date | Timestamp | any;
   isOver18?: boolean;
   photoURL?: string;
   role: 'customer' | 'admin';
   addresses?: Address[];
-  createdAt: Date | Timestamp | any; // ✅ Allow multiple types
+  createdAt: Date | Timestamp | any; 
 }

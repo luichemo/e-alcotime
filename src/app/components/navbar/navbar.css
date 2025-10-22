@@ -109,7 +109,6 @@
   width: 70%;
 }
 
-/* Cart Icon */
 .navbar-nav .nav-link i.bi-cart3 {
   transition: all 0.3s ease;
   font-size: 1.25rem;
@@ -120,7 +119,6 @@
   color: #d7bc96;
 }
 
-/* Cart Badge */
 .badge {
   font-size: 0.65rem;
   padding: 0.3em 0.55em;
@@ -131,7 +129,6 @@
   border: 2px solid #292a23;
 }
 
-/* Dropdown */
 .navbar-nav .dropdown-toggle {
   display: flex;
   align-items: center;
@@ -188,7 +185,6 @@
   margin: 0.5rem 0;
 }
 
-/* Buttons */
 .navbar .btn-outline-light {
   border: 2px solid rgba(192, 162, 124, 0.6);
   color: #c0a27c;
@@ -208,7 +204,6 @@
   box-shadow: 0 5px 15px rgba(192, 162, 124, 0.4);
 }
 
-/* Mobile Toggle Button */
 .navbar-toggler {
   border: 2px solid rgba(192, 162, 124, 0.5);
   padding: 0.5rem 0.75rem;
@@ -235,7 +230,6 @@
   transform: rotate(90deg);
 }
 
-/* User Info in Dropdown */
 .navbar-nav .nav-link i.bi-person-circle {
   font-size: 1.25rem;
   transition: all 0.3s ease;
@@ -246,7 +240,6 @@
   transform: scale(1.1);
 }
 
-/* Responsive Design */
 @media (max-width: 991.98px) {
   .navbar-collapse {
     background: linear-gradient(135deg, #292a23 0%, #544731 100%);
@@ -292,7 +285,6 @@
   }
 }
 
-/* Animations */
 @keyframes pulse {
   0%, 100% {
     transform: scale(1);

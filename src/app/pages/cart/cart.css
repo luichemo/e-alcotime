@@ -1,6 +1,3 @@
-/* FILE: src/app/pages/cart/cart.component.css */
-
-/* Cart Hero */
 .cart-hero {
   position: relative;
   min-height: 35vh;
@@ -55,7 +52,6 @@
   font-size: 1rem;
 }
 
-/* Empty Cart */
 .empty-cart {
   background: white;
   border-radius: 15px;
@@ -89,7 +85,6 @@
   box-shadow: 0 8px 20px rgba(192, 162, 124, 0.4);
 }
 
-/* Cart Header */
 .cart-header h4 {
   color: #544731;
   font-weight: 700;
@@ -101,7 +96,6 @@
   font-size: 0.85rem;
 }
 
-/* Cart Items */
 .cart-items {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,3 @@
-/* Hero Section - Premium Earthy Theme with Animations */
 /* Color Palette:
    #ad8d66 - Light brown
    #a18448 - Medium brown
@@ -24,7 +23,6 @@
   animation: fadeInUp 1s ease-out 0.6s both;
 }
 
-/* Animated Background Pattern */
 .hero-section::before {
   content: '';
   position: absolute;
@@ -38,7 +36,6 @@
   animation: pulse 8s ease-in-out infinite;
 }
 
-/* Floating Particles Effect */
 .hero-section::after {
   content: '';
   position: absolute;
@@ -219,7 +216,6 @@
   transform: scale(1.1);
 }
 
-/* Product Cards - Enhanced Design */
 .product-card {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 1px solid rgba(163, 142, 112, 0.15);
@@ -292,7 +288,6 @@
   box-shadow: 0 5px 15px rgba(192, 162, 124, 0.5);
 }
 
-/* CTA Section */
 .bg-dark {
   background: linear-gradient(135deg, #292a23 0%, #544731 100%) !important;
   position: relative;
@@ -316,12 +311,10 @@
   z-index: 1;
 }
 
-/* Light Background Section */
 .bg-light {
   background: linear-gradient(135deg, #faf8f5 0%, #f5f3ef 100%) !important;
 }
 
-/* Animations */
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -403,7 +396,6 @@
   }
 }
 
-/* Responsive Adjustments */
 @media only screen and (max-width: 575px) {
   .hero-logo {
     margin: auto;
@@ -437,7 +429,6 @@
   }
 }
 
-/* Loading State Enhancement */
 .spinner-border {
   width: 3rem;
   height: 3rem;
@@ -456,7 +447,6 @@
   }
 }
 
-/* Section Spacing */
 section {
   scroll-margin-top: 80px;
 }
@@ -466,7 +456,6 @@ section {
   padding-bottom: 4rem !important;
 }
 
-/* Text Enhancements */
 .text-muted {
   color: #937652 !important;
   font-weight: 400;
@@ -499,17 +488,14 @@ h2::after {
   left: 50%;
 }
 
-/* Icon Colors */
 .bi-shield-check {
   color: #d7bc96;
 }
 
-/* Empty State */
 .bi-inbox {
   color: #a38e70 !important;
 }
 
-/* Age Restriction Text */
 .hero-section .text-white {
   color: #ebdec7 !important;
 }

@@ -1,6 +1,4 @@
-<!-- FILE: src/app/pages/cart/cart.component.html -->
 
-<!-- Hero Section -->
 <section class="cart-hero">
   <div class="hero-overlay"></div>
   <div class="container">
@@ -11,10 +9,8 @@
   </div>
 </section>
 
-<!-- Cart Content -->
 <section class="cart-content py-5">
   <div class="container">
-    <!-- Empty Cart -->
     <div *ngIf="!cartData || cartData.items.length === 0" class="empty-cart text-center py-5">
       <i class="bi bi-cart-x empty-icon"></i>
       <h3 class="mt-4 mb-3">Your Cart is Empty</h3>
@@ -25,9 +21,7 @@
       </a>
     </div>
 
-    <!-- Cart Items -->
     <div *ngIf="cartData && cartData.items.length > 0" class="row g-4">
-      <!-- Items List -->
       <div class="col-lg-8">
         <div class="cart-header d-flex justify-content-between align-items-center mb-3">
           <h4 class="mb-0">Cart Items ({{ cartData.items.length }})</h4>
@@ -89,7 +83,6 @@
         </div>
       </div>
 
-      <!-- Order Summary -->
       <div class="col-lg-4">
         <div class="order-summary">
           <h4 class="summary-title">Order Summary</h4>
@@ -126,7 +119,6 @@
             Continue Shopping
           </a>
 
-          <!-- Trust Badges -->
           <div class="trust-badges mt-4">
             <div class="badge-item">
               <i class="bi bi-shield-check"></i>

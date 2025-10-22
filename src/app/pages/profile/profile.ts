@@ -1,5 +1,3 @@
-// FILE: src/app/pages/profile/profile.component.ts
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +23,6 @@ export class Profile implements OnInit, OnDestroy {
   error: string = '';
   successMessage: string = '';
 
-  // Edit form data
   editData = {
     displayName: '',
     phoneNumber: '',
@@ -62,15 +59,9 @@ export class Profile implements OnInit, OnDestroy {
       this.authService.getUserData(firebaseUser.uid)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          // FILE: src/app/pages/profile/profile.component.ts
-          // Update the loadUserProfile method around line 73:
-
-          // FILE: src/app/pages/profile/profile.component.ts
-          // Update the loadUserProfile method:
 
           next: (userData) => {
             this.user = userData;
-            // Convert Firestore Timestamps to Date
             if (this.user?.dateOfBirth && typeof this.user.dateOfBirth.toDate === 'function') {
               this.user.dateOfBirth = this.user.dateOfBirth.toDate();
             }
@@ -79,14 +70,12 @@ export class Profile implements OnInit, OnDestroy {
             }
             this.loading = false;
 
-            // Initialize edit data with proper date handling
             if (this.user) {
               let dateString = '';
               if (this.user.dateOfBirth) {
                 try {
                   let date: Date;
 
-                  // Check if it's a Firestore Timestamp
                   if (this.user.dateOfBirth && typeof this.user.dateOfBirth === 'object' && 'toDate' in this.user.dateOfBirth) {
                     date = (this.user.dateOfBirth as any).toDate();
                   } else if (this.user.dateOfBirth instanceof Date) {
@@ -127,7 +116,6 @@ export class Profile implements OnInit, OnDestroy {
     this.error = '';
     this.successMessage = '';
 
-    // Reset edit data when canceling
     if (!this.editMode && this.user) {
       this.editData = {
         displayName: this.user.displayName || '',
@@ -163,14 +151,12 @@ export class Profile implements OnInit, OnDestroy {
       }, 2000);
       await this.authService.updateUserProfile(this.user.uid, updateData);
 
-      // Update local user object
       this.user = { ...this.user, ...updateData };
 
       this.successMessage = 'Profile updated successfully!';
       this.editMode = false;
       this.saving = false;
 
-      // Clear success message after 3 seconds
       this.successMessage = '';
 
     } catch (error: any) {

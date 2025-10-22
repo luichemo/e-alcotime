@@ -1,8 +1,6 @@
-<!-- Filters Section -->
 <section class="filters-section py-4 bg-light">
   <div class="container">
     <div class="row g-3 align-items-center">
-      <!-- Search -->
       <div class="col-lg-4">
         <div class="search-wrapper">
           <i class="bi bi-search search-icon"></i>
@@ -15,7 +13,6 @@
         </div>
       </div>
 
-      <!-- Sort -->
       <div class="col-lg-3">
         <select class="form-select custom-select" [(ngModel)]="sortBy" (ngModelChange)="onSortChange()">
           <option value="name">Sort by Name</option>
@@ -26,7 +23,6 @@
         </select>
       </div>
 
-      <!-- Toggle Filters Button (Mobile) -->
       <div class="col-lg-2">
         <button class="btn btn-outline-primary w-100" (click)="toggleFiltersPanel()">
           <i class="bi bi-funnel me-2"></i>
@@ -37,7 +33,6 @@
         </button>
       </div>
 
-      <!-- Results Count -->
       <div class="col-lg-3 text-end">
         <span class="results-count">
           <i class="bi bi-box-seam me-2"></i>
@@ -48,14 +43,11 @@
   </div>
 </section>
 
-<!-- Main Content -->
 <section class="py-5">
   <div class="container">
     <div class="row">
-      <!-- Sidebar Filters -->
       <div class="col-lg-3 mb-4" [class.d-none]="!showFilters" [class.d-lg-block]="true">
         <div class="filters-sidebar">
-          <!-- Clear Filters -->
           <div class="filter-header">
             <h5 class="sidebar-title">Filters</h5>
             <button 
@@ -67,7 +59,6 @@
             </button>
           </div>
 
-          <!-- ON SALE Filter (Priority) -->
           <div class="filter-section sale-filter">
             <button 
               class="sale-filter-btn"
@@ -79,7 +70,6 @@
             </button>
           </div>
 
-          <!-- Categories -->
           <div class="filter-section">
             <h6 class="filter-title">
               <i class="bi bi-grid me-2"></i>
@@ -98,7 +88,6 @@
             </div>
           </div>
 
-          <!-- Price Range -->
           <div class="filter-section">
             <h6 class="filter-title">
               <i class="bi bi-currency-dollar me-2"></i>
@@ -117,7 +106,6 @@
             </select>
           </div>
 
-          <!-- Brands -->
           <div class="filter-section" *ngIf="availableBrands.length > 0">
             <h6 class="filter-title">
               <i class="bi bi-tag me-2"></i>
@@ -137,7 +125,6 @@
             </div>
           </div>
 
-          <!-- Alcohol Content -->
           <div class="filter-section">
             <h6 class="filter-title">
               <i class="bi bi-droplet-half me-2"></i>
@@ -173,7 +160,6 @@
             </div>
           </div>
 
-          <!-- Volume -->
           <div class="filter-section" *ngIf="availableVolumes.length > 0">
             <h6 class="filter-title">
               <i class="bi bi-cup me-2"></i>
@@ -190,7 +176,6 @@
             </div>
           </div>
 
-          <!-- Country -->
           <div class="filter-section" *ngIf="availableCountries.length > 0">
             <h6 class="filter-title">
               <i class="bi bi-geo-alt me-2"></i>
@@ -210,7 +195,6 @@
             </div>
           </div>
 
-          <!-- Stock Availability -->
           <div class="filter-section">
             <div class="filter-checkbox stock-filter">
               <input 
@@ -227,9 +211,7 @@
         </div>
       </div>
 
-      <!-- Products Grid -->
       <div class="col-lg-9">
-        <!-- Active Filters Tags -->
         <div class="active-filters mb-4" *ngIf="getActiveFiltersCount() > 0">
           <h6 class="active-filters-title">Active Filters:</h6>
           <div class="filter-tags">
@@ -268,7 +250,6 @@
           </div>
         </div>
 
-        <!-- Loading State -->
         <div *ngIf="loading" class="text-center py-5">
           <div class="spinner-border text-warning" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -276,7 +257,6 @@
           <p class="mt-3 text-muted">Loading products...</p>
         </div>
 
-        <!-- Products Grid -->
         <div *ngIf="!loading && filteredProducts.length > 0" class="row g-4">
           <div *ngFor="let product of filteredProducts" class="col-md-6 col-lg-4">
             <div class="card h-100 product-card">
@@ -343,7 +323,6 @@
           </div>
         </div>
 
-        <!-- Empty State -->
         <div *ngIf="!loading && filteredProducts.length === 0" class="empty-state text-center py-5">
           <i class="bi bi-inbox empty-icon"></i>
           <h3 class="mt-4 mb-3">No Products Found</h3>

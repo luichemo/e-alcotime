@@ -1,4 +1,3 @@
-// FILE: src/app/app.routes.ts
 
 import { Routes } from '@angular/router';
 import { adminGuard } from './guards/admin-guard';
@@ -85,7 +84,6 @@ export const routes: Routes = [
       }
     ]
   },
-  // Legal Pages - Accessible without age verification
   {
     path: 'terms',
     component: Terms

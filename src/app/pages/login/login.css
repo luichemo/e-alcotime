@@ -1,4 +1,3 @@
-/* Login Page - Premium Earthy Design */
 /* Color Palette:
    #ad8d66 - Light brown
    #a18448 - Medium brown
@@ -21,7 +20,6 @@
   padding: 2rem 0;
 }
 
-/* Animated Background Pattern */
 .login-page::before {
   content: '';
   position: absolute;
@@ -36,7 +34,6 @@
   pointer-events: none;
 }
 
-/* Floating Particles */
 .login-page::after {
   content: '';
   position: absolute;
@@ -58,7 +55,6 @@
   z-index: 2;
 }
 
-/* Card Styling */
 .login-page .card {
   border: none;
   border-radius: 20px;
@@ -88,7 +84,6 @@
   padding: 3rem 2.5rem !important;
 }
 
-/* Heading */
 .login-page h2 {
   color: #544731;
   font-weight: 700;
@@ -110,7 +105,6 @@
   border-radius: 2px;
 }
 
-/* Form Labels */
 .login-page .form-label {
   color: #544731;
   font-weight: 600;
@@ -119,7 +113,6 @@
   letter-spacing: 0.3px;
 }
 
-/* Form Inputs */
 .login-page .form-control {
   border: 2px solid rgba(163, 142, 112, 0.2);
   border-radius: 12px;
@@ -147,7 +140,6 @@
   background: #fff;
 }
 
-/* Primary Button */
 .login-page .btn-primary {
   background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%);
   border: none;
@@ -197,7 +189,6 @@
   background: linear-gradient(135deg, #a38e70 0%, #937652 100%);
 }
 
-/* Spinner */
 .login-page .spinner-border {
   width: 1rem;
   height: 1rem;
@@ -206,7 +197,6 @@
   border-right-color: transparent;
 }
 
-/* Alert */
 .login-page .alert-danger {
   background: linear-gradient(135deg, rgba(161, 132, 72, 0.12) 0%, rgba(147, 118, 82, 0.08) 100%);
   border: 1px solid rgba(161, 132, 72, 0.3);
@@ -222,7 +212,6 @@
   color: #a18448;
 }
 
-/* Register Link */
 .login-page .text-center p {
   color: #937652;
   font-size: 0.95rem;
@@ -257,7 +246,6 @@
   width: 100%;
 }
 
-/* Age Verification Badge */
 .login-page .text-muted {
   color: rgba(235, 222, 199, 0.9) !important;
   background: rgba(192, 162, 124, 0.15);
@@ -273,7 +261,6 @@
   color: #d7bc96;
 }
 
-/* Animations */
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -337,7 +324,6 @@
   }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .login-page {
     padding: 1.5rem 0;
@@ -371,19 +357,16 @@
   }
 }
 
-/* Focus Visible for Accessibility */
 .login-page .btn-primary:focus-visible,
 .login-page .form-control:focus-visible {
   outline: 2px solid #c0a27c;
   outline-offset: 2px;
 }
 
-/* Form Group Spacing */
 .login-page .mb-3 {
   margin-bottom: 1.5rem !important;
 }
 
-/* Smooth Transitions */
 * {
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }

@@ -1,5 +1,3 @@
-// FILE: src/app/pages/footer/footer.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -24,7 +22,6 @@ export class footerComponent implements OnInit {
     private productService: ProductService,
     private authService: AuthService
   ) {
-    // Check authentication by mapping currentUser$ to boolean
     this.isAuthenticated$ = this.authService.currentUser$.pipe(
       map(user => !!user)
     );

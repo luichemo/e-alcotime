@@ -1,4 +1,3 @@
-// FILE: src/app/services/product.service.ts
 
 import { Injectable } from '@angular/core';
 import {
@@ -30,7 +29,6 @@ export class ProductService {
     this.productsCollection = collection(this.firestore, 'products');
   }
 
-  // Get all products
   getAllProducts(): Observable<Product[]> {
     return from(getDocs(this.productsCollection)).pipe(
       map(snapshot => {
@@ -42,7 +40,6 @@ export class ProductService {
     );
   }
 
-  // Get products by category
   getProductsByCategory(category: string): Observable<Product[]> {
     const q = query(
       this.productsCollection,
@@ -60,7 +57,6 @@ export class ProductService {
     );
   }
 
-  // Get available products
   getAvailableProducts(): Observable<Product[]> {
     const q = query(
       this.productsCollection,
@@ -78,7 +74,6 @@ export class ProductService {
     );
   }
 
-  // Get featured products (latest or on sale)
   getFeaturedProducts(limitCount: number = 8): Observable<Product[]> {
     const q = query(
       this.productsCollection,
@@ -97,7 +92,6 @@ export class ProductService {
     );
   }
 
-  // Get single product by ID
   getProductById(id: string): Observable<Product | null> {
     const docRef = doc(this.firestore, 'products', id);
     return from(getDoc(docRef)).pipe(
@@ -113,7 +107,6 @@ export class ProductService {
     );
   }
 
-  // Search products by name
   searchProducts(searchTerm: string): Observable<Product[]> {
     return this.getAllProducts().pipe(
       map(products => 
@@ -126,7 +119,6 @@ export class ProductService {
     );
   }
 
-  // Add new product (Admin only)
   async addProduct(product: Omit<Product, 'id'>): Promise<string> {
     try {
       const docRef = await addDoc(this.productsCollection, {
@@ -141,7 +133,6 @@ export class ProductService {
     }
   }
 
-  // Update product (Admin only)
   async updateProduct(id: string, product: Partial<Product>): Promise<void> {
     try {
       const docRef = doc(this.firestore, 'products', id);
@@ -155,7 +146,6 @@ export class ProductService {
     }
   }
 
-  // Delete product (Admin only)
   async deleteProduct(id: string): Promise<void> {
     try {
       const docRef = doc(this.firestore, 'products', id);
@@ -166,7 +156,6 @@ export class ProductService {
     }
   }
 
-  // Update stock
   async updateStock(id: string, quantity: number): Promise<void> {
     try {
       const docRef = doc(this.firestore, 'products', id);

@@ -1,4 +1,3 @@
-/* Footer Styles - Premium Earthy Theme */
 /* Color Palette:
    #ad8d66 - Light brown
    #a18448 - Medium brown
@@ -35,7 +34,6 @@
   z-index: 1;
 }
 
-/* Footer CTA Section */
 .footer-cta {
   border-bottom: 1px solid rgba(235, 222, 199, 0.15);
 }
@@ -71,7 +69,6 @@
   background: linear-gradient(135deg, #d7bc96 0%, #c0a27c 100%);
 }
 
-/* Footer Content */
 .footer-content h5 {
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -96,7 +93,6 @@
   transition: color 0.3s ease;
 }
 
-/* Footer Links */
 .footer-links li {
   margin-bottom: 0.75rem;
 }
@@ -128,7 +124,6 @@
   width: 100%;
 }
 
-/* Footer Contact */
 .footer-contact li {
   display: flex;
   align-items: start;
@@ -147,7 +142,6 @@
   color: #d7bc96 !important;
 }
 
-/* Social Links */
 .social-links a {
   display: inline-flex;
   align-items: center;
@@ -168,7 +162,6 @@
   box-shadow: 0 5px 15px rgba(192, 162, 124, 0.5);
 }
 
-/* Footer Bottom */
 .footer-bottom {
   border-top: 1px solid rgba(163, 142, 112, 0.2) !important;
 }
@@ -186,12 +179,10 @@
   color: #c0a27c !important;
 }
 
-/* Text Warning Class Override */
 .text-warning {
   color: #c0a27c !important;
 }
 
-/* Responsive Design */
 @media only screen and (max-width: 768px) {
   .footer-content h5 {
     margin-top: 1.5rem;
@@ -214,7 +205,6 @@
   }
 }
 
-/* Animation Keyframes */
 @keyframes moveBackground {
   0% {
     transform: translate(0, 0);
@@ -224,7 +214,6 @@
   }
 }
 
-/* Additional Color Classes for Footer */
 .footer .text-white {
   color: #ebdec7 !important;
 }
@@ -233,24 +222,20 @@
   color: #ebdec7 !important;
 }
 
-/* Border Color Override */
 .footer .border-secondary {
   border-color: rgba(163, 142, 112, 0.2) !important;
 }
 
-/* Ensure proper contrast for all text */
 .footer p,
 .footer span,
 .footer li {
   color: rgba(235, 222, 199, 0.75);
 }
 
-/* Link hover states */
 .footer a:not(.btn):hover {
   color: #d7bc96 !important;
 }
 
-/* Icon color consistency */
 .footer i.text-warning,
 .footer .bi.text-warning {
   color: #c0a27c !important;

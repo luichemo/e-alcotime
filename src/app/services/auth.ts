@@ -30,7 +30,6 @@ export class AuthService {
     this.currentUser$ = user(this.auth);
   }
 
-  // Register new user with age verification
   async register(
     email: string, 
     password: string, 
@@ -39,21 +38,18 @@ export class AuthService {
     phoneNumber?: string
   ): Promise<void> {
     try {
-      // Check if user is over 18
       const isOver18 = this.calculateAge(dateOfBirth) >= 18;
       
       if (!isOver18) {
         throw new Error('You must be at least 18 years old to register');
       }
 
-      // Create Firebase Auth user
       const credential = await createUserWithEmailAndPassword(
         this.auth, 
         email, 
         password
       );
 
-      // Create user document in Firestore
       const userDoc: User = {
         uid: credential.user.uid,
         email: email,
@@ -83,7 +79,6 @@ export class AuthService {
     throw error;
   }
 }
-  // Login
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
@@ -93,7 +88,6 @@ export class AuthService {
     }
   }
 
-  // Logout
   async logout(): Promise<void> {
     try {
       await signOut(this.auth);
@@ -103,7 +97,6 @@ export class AuthService {
     }
   }
 
-  // Get user data from Firestore
   getUserData(uid: string): Observable<User | null> {
     const userDocRef = doc(this.firestore, 'users', uid);
     return from(getDoc(userDocRef)).pipe(
@@ -117,7 +110,6 @@ export class AuthService {
     );
   }
 
-  // Get current user with full data
   getCurrentUserData(): Observable<User | null> {
     return this.currentUser$.pipe(
       switchMap((firebaseUser: FirebaseUser | null) => {
@@ -130,7 +122,6 @@ export class AuthService {
     );
   }
 
-  // Check if user is admin
   async isAdmin(): Promise<boolean> {
     const firebaseUser = this.auth.currentUser;
     if (!firebaseUser) return false;
@@ -147,7 +138,6 @@ export class AuthService {
     return false;
   }
 
-  // Calculate age from date of birth
   private calculateAge(dateOfBirth: Date): number {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
@@ -161,7 +151,6 @@ export class AuthService {
     return age;
   }
 
-  // Update user profile
   async updateUserProfile(uid: string, data: Partial<User>): Promise<void> {
     try {
       const userDocRef = doc(this.firestore, 'users', uid);

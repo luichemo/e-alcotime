@@ -1,5 +1,3 @@
-// FILE: src/app/pages/register/register.component.ts
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +33,6 @@ export class RegisterComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Validation
     if (!this.displayName || !this.email || !this.password || !this.dateOfBirth) {
       this.errorMessage = 'Please fill in all required fields';
       return;
@@ -56,7 +53,6 @@ export class RegisterComponent {
       return;
     }
 
-    // Check age
     const birthDate = new Date(this.dateOfBirth);
     const age = this.calculateAge(birthDate);
     

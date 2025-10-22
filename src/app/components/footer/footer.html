@@ -1,19 +1,15 @@
-<!-- Footer Section -->
 <footer class="footer bg-dark text-white">
   <div class="container">
-    <!-- CTA Section for Non-Authenticated Users -->
     <div *ngIf="(isAuthenticated$ | async) === false" class="footer-cta text-center py-5">
       <h2 class="mb-3">Join AlcoTime Today</h2>
       <p class="lead mb-4">Sign up to access exclusive deals and premium selections</p>
       <a routerLink="/register" class="btn btn-warning btn-lg px-5">Create Account</a>
     </div>
 
-    <!-- Main Footer Content -->
     <div class="footer-content" 
          [class.pt-5]="(isAuthenticated$ | async)" 
          [class.pt-4]="(isAuthenticated$ | async) === false">
       <div class="row g-4">
-        <!-- About Section -->
         <div class="col-lg-4 col-md-6">
           <h5 class="text-warning mb-3">About AlcoTime</h5>
           <p class="text-light-gray">
@@ -36,7 +32,6 @@
           </div>
         </div>
 
-        <!-- Quick Links -->
         <div class="col-lg-2 col-md-6">
           <h5 class="text-warning mb-3">Quick Links</h5>
           <ul class="list-unstyled footer-links">
@@ -48,7 +43,6 @@
           </ul>
         </div>
 
-        <!-- Customer Service -->
         <div class="col-lg-3 col-md-6">
           <h5 class="text-warning mb-3">Customer Service</h5>
           <ul class="list-unstyled footer-links">
@@ -61,7 +55,6 @@
           </ul>
         </div>
 
-        <!-- Contact Info -->
         <div class="col-lg-3 col-md-6">
           <h5 class="text-warning mb-3">Contact Info</h5>
           <ul class="list-unstyled footer-contact">
@@ -86,7 +79,6 @@
       </div>
     </div>
 
-    <!-- Footer Bottom -->
     <div class="footer-bottom py-4 mt-4 border-top border-secondary">
       <div class="row align-items-center">
         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">

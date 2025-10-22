@@ -1,5 +1,3 @@
-// FILE: src/app/pages/login/login.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,7 +25,6 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get return URL from route parameters or default to home
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 

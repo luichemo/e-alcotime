@@ -1,5 +1,3 @@
-// FILE: src/app/services/email.service.ts
-
 import { Injectable } from '@angular/core';
 import emailjs from '@emailjs/browser';
 
@@ -7,20 +5,16 @@ import emailjs from '@emailjs/browser';
   providedIn: 'root'
 })
 export class Email {
-  // Replace these with your EmailJS credentials
-  private serviceId = 'service_xaqclyg'; // e.g., 'service_abc123'
-  private processingTemplateId = 'template_blyiido'; // Template for processing status
-  private deliveredTemplateId = 'template_1j8vprn'; // Template for delivered status
-  private publicKey = 'IMhb5vqmYYTRkuaid'; // Your EmailJS public key
+  private serviceId = 'service_xaqclyg'; 
+  private processingTemplateId = 'template_blyiido'; 
+  private deliveredTemplateId = 'template_1j8vprn'; 
+  private publicKey = 'IMhb5vqmYYTRkuaid'; 
 
   constructor() {
-    // Initialize EmailJS
     emailjs.init(this.publicKey);
   }
 
-  /**
-   * Send email when order status changes to "processing"
-   */
+
   async sendProcessingEmail(
     customerEmail: string,
     customerName: string,
@@ -49,9 +43,6 @@ export class Email {
     }
   }
 
-  /**
-   * Send email when order status changes to "delivered"
-   */
   async sendDeliveredEmail(
     customerEmail: string,
     customerName: string,

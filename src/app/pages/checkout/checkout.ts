@@ -1,5 +1,3 @@
-// FILE: src/app/pages/checkout/checkout.component.ts
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +22,6 @@ export class Checkout implements OnInit, OnDestroy {
   cart: Cart | null = null;
   currentStep: number = 1;
   
-  // Shipping Info
   shippingAddress: Address = {
     fullName: '',
     street: '',
@@ -35,7 +32,6 @@ export class Checkout implements OnInit, OnDestroy {
     phone: ''
   };
 
-  // Payment Info
   paymentMethod: string = 'cash-on-delivery';
   
   loading: boolean = false;
@@ -50,7 +46,6 @@ export class Checkout implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    // Subscribe to cart
     this.cartService.cart$
       .pipe(takeUntil(this.destroy$))
       .subscribe(cart => {
@@ -60,13 +55,11 @@ export class Checkout implements OnInit, OnDestroy {
         }
       });
 
-    // Load user data and pre-fill shipping info
     try {
       const user = await firstValueFrom(this.authService.currentUser$);
       if (user) {
         this.userEmail = user.email || '';
         
-        // Get user profile data
         const userData = await firstValueFrom(this.authService.getUserData(user.uid));
         if (userData) {
           this.shippingAddress.fullName = userData.displayName || '';
@@ -135,7 +128,6 @@ export class Checkout implements OnInit, OnDestroy {
         return;
       }
 
-      // Create the order
       const orderId = await this.orderService.createOrder(
         user.uid,
         this.userEmail,
@@ -144,12 +136,10 @@ export class Checkout implements OnInit, OnDestroy {
         this.paymentMethod
       );
 
-      // Clear cart after successful order
       this.cartService.clearCart();
 
       this.loading = false;
 
-      // Redirect to order confirmation page
       this.router.navigate(['/order-confirmation', orderId]);
 
     } catch (error: any) {
@@ -160,7 +150,7 @@ export class Checkout implements OnInit, OnDestroy {
   }
 
   getShippingFee(): number {
-    return 0.00; // Free shipping
+    return 0.00; 
   }
 
   getFinalTotal(): number {

@@ -1,4 +1,3 @@
-// FILE: src/app/services/cart.service.ts
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -14,12 +13,10 @@ export class CartService {
 
   constructor() {}
 
-  // Get current cart value
   getCurrentCart(): Cart {
     return this.cartSubject.value;
   }
 
-  // Add item to cart
   addToCart(product: Product, quantity: number = 1): void {
     const currentCart = this.getCurrentCart();
     const existingItemIndex = currentCart.items.findIndex(
@@ -27,17 +24,14 @@ export class CartService {
     );
 
     if (existingItemIndex > -1) {
-      // Item exists, update quantity
       currentCart.items[existingItemIndex].quantity += quantity;
     } else {
-      // New item, add to cart
       currentCart.items.push({ product, quantity });
     }
 
     this.updateCart(currentCart);
   }
 
-  // Remove item from cart
   removeFromCart(productId: string): void {
     const currentCart = this.getCurrentCart();
     currentCart.items = currentCart.items.filter(
@@ -46,7 +40,6 @@ export class CartService {
     this.updateCart(currentCart);
   }
 
-  // Update item quantity
   updateQuantity(productId: string, quantity: number): void {
     if (quantity <= 0) {
       this.removeFromCart(productId);
@@ -64,7 +57,6 @@ export class CartService {
     }
   }
 
-  // Clear cart
   clearCart(): void {
     const emptyCart: Cart = {
       userId: this.getCurrentCart().userId,
@@ -77,7 +69,6 @@ export class CartService {
     this.updateCart(emptyCart);
   }
 
-  // Get cart item count
   getItemCount(): number {
     return this.getCurrentCart().items.reduce(
       (count, item) => count + item.quantity, 
@@ -85,9 +76,7 @@ export class CartService {
     );
   }
 
-  // Calculate totals
   private calculateTotals(cart: Cart): Cart {
-    // Calculate subtotal
     cart.subtotal = cart.items.reduce(
       (total, item) => {
         const price = item.product.discountPrice || item.product.price;
@@ -96,16 +85,13 @@ export class CartService {
       0
     );
 
-    // Calculate tax (10% for example)
     cart.tax = cart.subtotal * 0;
 
-    // Calculate total
     cart.total = cart.subtotal + cart.tax;
 
     return cart;
   }
 
-  // Update cart and save to storage
   private updateCart(cart: Cart): void {
     cart.updatedAt = new Date();
     const updatedCart = this.calculateTotals(cart);
@@ -113,7 +99,6 @@ export class CartService {
     this.saveCartToStorage(updatedCart);
   }
 
-// Save cart to localStorage
   private saveCartToStorage(cart: Cart): void {
     try {
       console.log('Saving cart to localStorage:', cart);
@@ -124,7 +109,6 @@ export class CartService {
     }
   }
 
-  // Get cart from storage
   private getCartFromStorage(): Cart {
     try {
       console.log('Loading cart from localStorage...');
@@ -132,7 +116,6 @@ export class CartService {
       
       if (savedCart) {
         const cart = JSON.parse(savedCart);
-        // Convert date strings back to Date objects
         cart.updatedAt = new Date(cart.updatedAt);
         cart.items.forEach((item: any) => {
           if (item.product.createdAt) {
@@ -166,21 +149,18 @@ export class CartService {
       };
     }
   }
-  // Set user ID for cart
   setUserId(userId: string): void {
     const currentCart = this.getCurrentCart();
     currentCart.userId = userId;
     this.updateCart(currentCart);
   }
 
-  // Check if product is in cart
   isInCart(productId: string): boolean {
     return this.getCurrentCart().items.some(
       item => item.product.id === productId
     );
   }
 
-  // Get quantity of specific product in cart
   getProductQuantity(productId: string): number {
     const item = this.getCurrentCart().items.find(
       item => item.product.id === productId

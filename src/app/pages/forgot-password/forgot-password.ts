@@ -33,7 +33,6 @@ export class ForgotPassword {
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.email)) {
       this.errorMessage = 'Please enter a valid email address';
@@ -47,7 +46,6 @@ export class ForgotPassword {
       this.successMessage = 'Password reset email sent! Check your inbox.';
       this.email = '';
       
-      // Redirect to login after 3 seconds
       setTimeout(() => {
         this.router.navigate(['/login']);
       }, 3000);

@@ -1,4 +1,3 @@
-// FILE: src/app/services/order.service.ts
 
 import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, where, orderBy, doc, updateDoc, getDoc, CollectionReference, DocumentReference } from '@angular/fire/firestore';
@@ -18,7 +17,6 @@ export class OrderService {
     this.ordersCollection = collection(this.firestore, 'orders');
   }
 
-  // Create a new order from cart
   async createOrder(
     userId: string,
     userEmail: string,
@@ -26,7 +24,6 @@ export class OrderService {
     shippingAddress: Address,
     paymentMethod: string
   ): Promise<string> {
-    // Convert cart items to order items
     const orderItems: OrderItem[] = cart.items.map(item => ({
       productId: item.product.id || '',
       productName: item.product.name,
@@ -35,7 +32,6 @@ export class OrderService {
       imageUrl: item.product.imageUrl
     }));
 
-    // Create order object - Map Address fields to Order shippingAddress fields
     const orderData: Omit<Order, 'id'> = {
       userId,
       userEmail,
@@ -58,7 +54,6 @@ export class OrderService {
     return docRef.id;
   }
 
-  // Get a single order by ID (for customers to view their own orders)
   getOrderById(orderId: string): Observable<Order | null> {
     const orderRef = doc(this.firestore, 'orders', orderId);
     
@@ -75,13 +70,11 @@ export class OrderService {
     );
   }
 
-  // Get all orders (Admin)
   getAllOrders(): Observable<Order[]> {
     const q = query(this.ordersCollection, orderBy('createdAt', 'desc'));
     return collectionData(q, { idField: 'id' }) as Observable<Order[]>;
   }
 
-  // Get orders by user ID
   getUserOrders(userId: string): Observable<Order[]> {
     const q = query(
       this.ordersCollection,
@@ -91,7 +84,6 @@ export class OrderService {
     return collectionData(q, { idField: 'id' }) as Observable<Order[]>;
   }
 
-  // Update order status
   async updateOrderStatus(orderId: string, status: Order['status']): Promise<void> {
     const orderRef = doc(this.firestore, 'orders', orderId);
     return updateDoc(orderRef, {

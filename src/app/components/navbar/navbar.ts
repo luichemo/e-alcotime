@@ -1,5 +1,3 @@
-// FILE: src/app/components/navbar/navbar.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
@@ -32,12 +30,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Subscribe to cart changes
     this.cartService.cart$.subscribe(cart => {
       this.cartItemCount = cart.items.reduce((total, item) => total + item.quantity, 0);
     });
 
-    // Track current route
     this.currentRoute = this.router.url;
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -45,7 +41,6 @@ export class NavbarComponent implements OnInit {
       this.currentRoute = event.url;
     });
 
-    // Check if user is admin
     this.currentUser$.subscribe(async (user) => {
       setTimeout(() => {
     }, 2000);

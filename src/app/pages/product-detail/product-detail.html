@@ -1,16 +1,11 @@
-<!-- FILE: src/app/pages/product-detail/product-detail.component.html -->
-
-<!-- Loading State -->
 <div *ngIf="loading" class="loading-container">
   <div class="spinner-border text-warning" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
 
-<!-- Product Detail -->
 <div *ngIf="!loading && product" class="product-detail-page">
 
-  <!-- Breadcrumb -->
   <section class="breadcrumb-section py-3 bg-light">
     <div class="container">
       <nav aria-label="breadcrumb">
@@ -23,11 +18,9 @@
     </div>
   </section>
 
-  <!-- Main Product Section -->
   <section class="product-main py-5">
     <div class="container">
       <div class="row g-5">
-        <!-- Product Image -->
         <div class="col-lg-6">
           <div class="product-image-main">
             <div class="product-badge" *ngIf="product.discountPrice">
@@ -38,7 +31,6 @@
           </div>
         </div>
 
-        <!-- Product Info -->
         <div class="col-lg-6">
           <div class="product-info">
 
@@ -48,7 +40,6 @@
             </div>
 
 
-            <!-- Rating (placeholder) -->
             <div style="display: flex; justify-content: space-between; align-items: center;">
 
             <div class="product-rating mb-3">
@@ -62,7 +53,6 @@
             <span class="category-badge">{{ product.category }}</span>
             </div>
 
-            <!-- Price -->
             <div class="price-section mb-4" style="width: 100%;">
               <span *ngIf="product.discountPrice" class="old-price">₾{{ product.price }}</span>
               <h2 class="current-price">₾{{ product.discountPrice || product.price }}</h2>
@@ -112,7 +102,6 @@
             </div>
 
 
-            <!-- Product Specs -->
             <div class="product-specs mb-4">
               <div class="spec-item">
                 <i class="bi bi-droplet-half"></i>
@@ -146,19 +135,15 @@
               </div>
             </div>
 
-            <!-- Stock Warning -->
             <div *ngIf="product.stock < 10 && product.stock > 0" class="alert alert-warning">
               <i class="bi bi-exclamation-triangle me-2"></i>
               <strong>Hurry!</strong> Only {{ product.stock }} left in stock
             </div>
 
-            <!-- Out of Stock -->
             <div *ngIf="product.stock === 0" class="alert alert-danger">
               <i class="bi bi-x-circle me-2"></i>
               <strong>Out of Stock</strong> - This product is currently unavailable
             </div>
-
-
 
           </div>
         </div>
@@ -166,7 +151,6 @@
     </div>
   </section>
 
-  <!-- Related Products -->
   <section class="related-products py-5 bg-light" *ngIf="relatedProducts.length > 0">
     <div class="container">
       <h2 class="section-title text-center mb-5">You May Also Like</h2>

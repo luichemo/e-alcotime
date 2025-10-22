@@ -1,5 +1,3 @@
-// FILE: src/app/pages/product-detail/product-detail.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
@@ -45,7 +43,6 @@ export class ProductDetail implements OnInit {
 
   loadProduct(id: string): void {
     this.loading = true;
-    // Reset quantity when loading a new product
     this.quantity = 1;
     
     this.productService.getProductById(id).subscribe({

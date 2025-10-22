@@ -12,20 +12,17 @@ import { filter } from 'rxjs/operators';
 export class AgeVerification implements OnInit {
    showModal: boolean = false;
   
-  // Pages that don't require age verification
   private exemptPages = ['/terms', '/privacy'];
 
   constructor(private router: Router) {}
 
 ngOnInit() {
-  // Run only after router is stable (so redirects like / → /home don’t trigger false modal)
   this.router.events.pipe(
     filter(event => event instanceof NavigationEnd)
   ).subscribe(() => {
     this.checkAgeVerification();
   });
 
-  // Initial check (after small delay to let redirect finish)
   setTimeout(() => this.checkAgeVerification(), 300);
 }
 
@@ -58,15 +55,12 @@ checkAgeVerification() {
   }
 }
   confirmAge() {
-    // Save to sessionStorage - will be cleared when browser/tab closes
     sessionStorage.setItem('alcotime_age_verified', 'true');
     this.showModal = false;
-    // Re-enable body scroll
     document.body.style.overflow = 'auto';
   }
 
   denyAge() {
-    // Redirect to a safe website (you can change this URL)
     window.location.href = 'https://www.google.com';
   }
 }

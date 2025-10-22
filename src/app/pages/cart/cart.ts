@@ -1,5 +1,3 @@
-// FILE: src/app/pages/cart/cart.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';

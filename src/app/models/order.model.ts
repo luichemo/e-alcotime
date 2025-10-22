@@ -1,4 +1,3 @@
-// FILE: src/app/models/order.model.ts
 
 import { Timestamp } from 'firebase/firestore';
 
@@ -7,8 +6,7 @@ export interface OrderItem {
   productName: string;
   price: number;
   quantity: number;
-  imageUrl: string;  // ✅ Changed from 'productImage' to 'imageUrl'
-  // Remove 'subtotal' - we can calculate it when needed
+  imageUrl: string;  
 }
 
 export interface Order {
