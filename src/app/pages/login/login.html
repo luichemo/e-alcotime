@@ -7,7 +7,7 @@
         <div class="card shadow">
           <div class="card-body p-5">
             <h2 class="text-center mb-4">Welcome Back</h2>
-            
+
             <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
               <i class="bi bi-exclamation-triangle me-2"></i>
               {{ errorMessage }}
@@ -16,39 +16,31 @@
             <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input 
-                  type="email" 
-                  class="form-control" 
-                  id="email"
-                  [(ngModel)]="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  required>
+                <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email"
+                  placeholder="Enter your email" required>
               </div>
+
+              <!-- Update the login.component.html form section -->
 
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="password"
-                  [(ngModel)]="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  required>
+                <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password"
+                  placeholder="Enter your password" required>
+                <div class="text-end mt-2">
+                  <a routerLink="/forgot-password" class="text-decoration-none" style="font-size: 0.9rem; color:burlywood;">
+                    Forgot password?
+                  </a>
+                </div>
               </div>
 
-              <button 
-                type="submit" 
-                class="btn btn-primary w-100 mb-3"
-                [disabled]="loading || !loginForm.valid">
+              <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loading || !loginForm.valid">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
                 {{ loading ? 'Logging in...' : 'Login' }}
               </button>
 
               <div class="text-center">
                 <p class="mb-0">
-                  Don't have an account? 
+                  Don't have an account?
                   <a routerLink="/register" class="text-decoration-none">Register here</a>
                 </p>
               </div>

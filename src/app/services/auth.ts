@@ -1,5 +1,4 @@
-
-
+import { sendPasswordResetEmail } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
 import { 
   Auth, 
@@ -76,7 +75,14 @@ export class AuthService {
       throw error;
     }
   }
-
+  async resetPassword(email: string): Promise<void> {
+  try {
+    await sendPasswordResetEmail(this.auth, email);
+  } catch (error: any) {
+    console.error('Password reset error:', error);
+    throw error;
+  }
+}
   // Login
   async login(email: string, password: string): Promise<void> {
     try {

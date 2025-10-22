@@ -5,6 +5,7 @@ import { adminGuard } from './guards/admin-guard';
 import { authGuard } from './guards/auth-guard';
 import { Privacy } from './pages/privacy/privacy';
 import { Terms } from './pages/terms/terms';
+import { ForgotPassword } from './pages/forgot-password/forgot-password';
 
 export const routes: Routes = [
   {
@@ -34,23 +35,27 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-  path: 'order-confirmation/:id',
-  loadComponent: () => import('./pages/order-confirmation/order-confirmation').then(m => m.OrderConfirmation),
-  canActivate: [authGuard]
-},
-{
-  path: 'order-history',
-  loadComponent: () => import('./pages/order-history/order-history').then(m => m.OrderHistory),
-  canActivate: [authGuard]
-},
-{
-  path: 'profile',
-  loadComponent: () => import('./pages/profile/profile').then(m => m.Profile),
-  canActivate: [authGuard]
-},
+    path: 'order-confirmation/:id',
+    loadComponent: () => import('./pages/order-confirmation/order-confirmation').then(m => m.OrderConfirmation),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'order-history',
+    loadComponent: () => import('./pages/order-history/order-history').then(m => m.OrderHistory),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile').then(m => m.Profile),
+    canActivate: [authGuard]
+  },
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent)
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPassword
   },
   {
     path: 'register',
@@ -81,13 +86,13 @@ export const routes: Routes = [
     ]
   },
   // Legal Pages - Accessible without age verification
-  { 
-    path: 'terms', 
-    component: Terms 
+  {
+    path: 'terms',
+    component: Terms
   },
-  { 
-    path: 'privacy', 
-    component: Privacy 
+  {
+    path: 'privacy',
+    component: Privacy
   },
   {
     path: '**',
