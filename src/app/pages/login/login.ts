@@ -18,6 +18,11 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   errorMessage: string = '';
   returnUrl: string = '/';
+  showPassword: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   constructor(
     private authService: AuthService,

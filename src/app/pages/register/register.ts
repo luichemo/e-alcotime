@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import Litepicker from 'litepicker';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('dobPicker') dobPicker!: ElementRef;
+  private litepickerInstance: any;
+
   displayName: string = '';
   email: string = '';
   password: string = '';
@@ -25,11 +29,42 @@ export class RegisterComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private translateService: TranslateService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.litepickerInstance = new Litepicker({
+      element: this.dobPicker.nativeElement,
+      format: 'YYYY-MM-DD',
+      maxDate: this.getMaxDate(),
+      startDate: this.dateOfBirth || undefined,
+      setup: (picker: any) => {
+        picker.on('selected', (date: any) => {
+          this.dateOfBirth = date.format('YYYY-MM-DD');
+        });
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.litepickerInstance) {
+      this.litepickerInstance.destroy();
+    }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
 
   async onSubmit(): Promise<void> {
     this.errorMessage = '';

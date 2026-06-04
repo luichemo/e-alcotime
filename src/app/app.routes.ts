@@ -94,6 +94,14 @@ export const routes: Routes = [
     component: Privacy
   },
   {
+    path: 'about',
+    loadComponent: () => import('./pages/about/about').then(m => m.About)
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./pages/contact/contact').then(m => m.Contact)
+  },
+  {
   path: '404',
   component: NotFoundComponent
 },

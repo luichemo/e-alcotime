@@ -43,6 +43,32 @@ export class ProductDetail implements OnInit {
     this.isDescriptionExpanded = !this.isDescriptionExpanded;
   }
 
+  getRating(): number {
+    if (!this.product) return 0;
+    const val = this.product.alcoholContent || 0;
+    if (val <= 4) return 1.5;
+    if (val >= 40) return 5;
+    const calculated = 1.5 + ((val - 4) / 36) * 3.5;
+    return Math.round(calculated * 2) / 2;
+  }
+
+  getStarsArray(): string[] {
+    const rating = this.getRating();
+    const stars: string[] = [];
+    const fullStars = Math.floor(rating);
+    const hasHalf = rating % 1 >= 0.5;
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push('bi-star-fill');
+      } else if (i === fullStars + 1 && hasHalf) {
+        stars.push('bi-star-half');
+      } else {
+        stars.push('bi-star');
+      }
+    }
+    return stars;
+  }
+
   loadProduct(id: string): void {
     this.loading = true;
     this.quantity = 1;

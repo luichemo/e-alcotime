@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -21,6 +21,12 @@ export class NavbarComponent implements OnInit {
   isMenuOpen: boolean = false;
   currentRoute: string = '';
   isAdmin: boolean = false;
+  isScrolled: boolean = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 20;
+  }
 
   constructor(
     private authService: AuthService,
@@ -85,6 +91,7 @@ export class NavbarComponent implements OnInit {
     try {
       await this.authService.logout();
       this.closeMenu();
+      this.router.navigate(['/']);
     } catch (error) {
       console.error('Logout error:', error);
     }

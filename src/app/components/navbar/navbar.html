@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" [class.scrolled]="isScrolled">
   <div class="container">
     <a class="navbar-brand fw-bold" routerLink="/home">
       <img src="/rm-log.png" alt="AlcoTime Logo" class="hero-logo">
@@ -22,11 +22,17 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/products" routerLinkActive="active" (click)="closeMenu()">{{ 'NAVBAR.PRODUCTS' | translate }}</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active" (click)="closeMenu()">{{ 'NAVBAR.ABOUT' | translate }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">{{ 'NAVBAR.CONTACT' | translate }}</a>
+        </li>
       </ul>
 
       <ul class="navbar-nav ms-auto">
         <!-- Language Switcher -->
-        <li class="nav-item dropdown d-flex align-items-center me-lg-3 my-2 my-lg-0">
+        <li class="nav-item dropdown d-flex align-items-center me-lg-3  my-2 my-lg-0">
           <button 
             class="btn btn-sm btn-outline-warning dropdown-toggle py-1 px-2 fw-semibold d-flex align-items-center gap-1" 
             type="button" 
@@ -57,12 +63,14 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link position-relative" routerLink="/cart" (click)="closeMenu()">
-            <i class="bi bi-cart3 fs-5"></i>
-            <span 
-              *ngIf="cartItemCount > 0" 
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {{ cartItemCount }}
+          <a class="nav-link" routerLink="/cart" (click)="closeMenu()">
+            <span class="position-relative d-inline-block">
+              <i class="bi bi-cart3 fs-5"></i>
+              <span 
+                *ngIf="cartItemCount > 0" 
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ cartItemCount }}
+              </span>
             </span>
           </a>
         </li>
@@ -70,6 +78,7 @@
         <ng-container *ngIf="currentUser$ | async as user; else loginButtons">
           <li class="nav-item dropdown">
             <a 
+              style="padding: 12px !important; "
               class="nav-link dropdown-toggle" 
               href="#" 
               role="button" 
@@ -78,7 +87,7 @@
               <i class="bi bi-person-circle me-1"></i>
               {{ user.email }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
+            <ul class="dropdown-menu dropdown-menu-end" >
               <li>
                 <a class="dropdown-item" routerLink="/order-history" (click)="closeMenu()">
                   <i class="bi bi-clock-history me-2"></i>{{ 'NAVBAR.ORDER_HISTORY' | translate }}
@@ -107,10 +116,10 @@
 
         <ng-template #loginButtons>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/login" (click)="closeMenu()">{{ 'NAVBAR.LOGIN' | translate }}</a>
+            <a class="nav-link" style="margin-top: 0.2rem; margin-right: 0.5rem;" routerLink="/login" (click)="closeMenu()">{{ 'NAVBAR.LOGIN' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-outline-light btn-sm" routerLink="/register" (click)="closeMenu()">{{ 'NAVBAR.REGISTER' | translate }}</a>
+            <a class="btn btn-outline-light btn-sm" style="margin-top: 0.2rem;" routerLink="/register" (click)="closeMenu()">{{ 'NAVBAR.REGISTER' | translate }}</a>
           </li>
         </ng-template>
       </ul>

@@ -8,10 +8,12 @@
     "ORDER_HISTORY": "Order History",
     "LOGIN": "Login",
     "REGISTER": "Register",
-    "LOGOUT": "Logout"
+    "LOGOUT": "Logout",
+    "ABOUT": "About Us",
+    "CONTACT": "Contact Us"
   },
   "HOME": {
-    "WELCOME": "Welcome to AlcoTime",
+    "WELCOME": "Welcome to ALCOTIME",
     "SUBTITLE": "Premium Selection of Fine Wines, Spirits & Craft Beers",
     "BUY_NOW": "Buy Now",
     "JOIN_US": "Join Us",
@@ -314,10 +316,10 @@
     "VIEW_WITHOUT": "You can view our policies without age verification"
   },
   "FOOTER": {
-    "CTA_TITLE": "Join AlcoTime Today",
+    "CTA_TITLE": "Join ALCOTIME Today",
     "CTA_SUBTITLE": "Sign up to access exclusive deals and premium selections",
     "CREATE_ACCOUNT": "Create Account",
-    "ABOUT_TITLE": "About AlcoTime",
+    "ABOUT_TITLE": "About ALCOTIME",
     "ABOUT_DESC": "Your premium destination for fine wines, spirits, and craft beers. We bring you the finest selection from around the world.",
     "QUICK_LINKS": "Quick Links",
     "SHOP_ALL": "Shop All",

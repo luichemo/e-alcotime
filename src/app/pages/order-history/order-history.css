@@ -1,46 +1,67 @@
+/* ==========================================================================
+   Order History - Dark Luxury Theme
+   ========================================================================== */
 
 .order-history-container {
-  background: linear-gradient(135deg, #f8f5f0 0%, #ebe8e0 100%);
+  background-color: #141412;
   min-height: 100vh;
   padding: 2rem 0;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(84, 71, 49, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(192, 162, 124, 0.1) 0px, transparent 50%);
 }
 
 .page-header h2 {
-  color: #544731;
+  font-family: 'Playfair Display', serif;
+  color: #ffffff;
   font-weight: 800;
   margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #ffffff 30%, #ebdec7 70%, #c0a27c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .page-header .text-muted {
-  color: #937652 !important;
+  color: rgba(235, 222, 199, 0.55) !important;
 }
+
+/* ==========================================================================
+   Empty State
+   ========================================================================== */
 
 .empty-state {
   text-align: center;
   padding: 5rem 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(84, 71, 49, 0.08);
+  background: rgba(28, 28, 26, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(192, 162, 124, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 .empty-state i {
-  font-size: 5rem;
-  color: #c0a27c;
+  font-size: 4.5rem;
+  color: rgba(192, 162, 124, 0.35);
   margin-bottom: 1.5rem;
-  opacity: 0.5;
 }
 
 .empty-state h3 {
-  color: #544731;
+  font-family: 'Playfair Display', serif;
+  color: #ebdec7;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .empty-state p {
-  color: #937652;
+  color: rgba(235, 222, 199, 0.55);
   margin-bottom: 2rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
+
+/* ==========================================================================
+   Orders List
+   ========================================================================== */
 
 .orders-list {
   display: flex;
@@ -49,18 +70,23 @@
 }
 
 .order-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(84, 71, 49, 0.08);
-  border: 2px solid rgba(163, 142, 112, 0.15);
+  background: rgba(28, 28, 26, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(192, 162, 124, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .order-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(84, 71, 49, 0.12);
-  border-color: rgba(192, 162, 124, 0.3);
+  transform: translateY(-4px);
+  border-color: rgba(192, 162, 124, 0.35);
+  background: rgba(28, 28, 26, 0.85);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.45),
+    0 0 15px rgba(192, 162, 124, 0.08);
 }
 
 .order-header {
@@ -68,8 +94,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  background: linear-gradient(135deg, rgba(235, 222, 199, 0.3), rgba(215, 188, 150, 0.2));
-  border-bottom: 2px solid rgba(192, 162, 124, 0.2);
+  background: rgba(192, 162, 124, 0.06);
+  border-bottom: 1px solid rgba(192, 162, 124, 0.12);
 }
 
 .order-info h4 {
@@ -78,18 +104,19 @@
 }
 
 .order-info code {
-  background: rgba(192, 162, 124, 0.2);
-  color: #544731;
+  background: rgba(192, 162, 124, 0.12);
+  color: #c0a27c;
   padding: 0.3rem 0.7rem;
   border-radius: 6px;
   font-size: 0.95rem;
   font-weight: 700;
+  border: 1px solid rgba(192, 162, 124, 0.2);
 }
 
 .order-date {
   margin: 0;
-  color: #937652;
-  font-size: 0.9rem;
+  color: rgba(235, 222, 199, 0.5);
+  font-size: 0.88rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -99,41 +126,54 @@
   color: #c0a27c;
 }
 
+/* ==========================================================================
+   Status Badges
+   ========================================================================== */
+
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.5rem 1rem;
+  padding: 0.45rem 1rem;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   text-transform: capitalize;
 }
 
 .status-pending {
-  background: rgba(255, 193, 7, 0.15);
-  color: #856404;
+  background: rgba(255, 193, 7, 0.1);
+  color: rgba(255, 193, 7, 0.9);
+  border: 1px solid rgba(255, 193, 7, 0.2);
 }
 
 .status-processing {
-  background: rgba(23, 162, 184, 0.15);
-  color: #0c5460;
+  background: rgba(23, 162, 184, 0.1);
+  color: rgba(23, 162, 184, 0.9);
+  border: 1px solid rgba(23, 162, 184, 0.2);
 }
 
 .status-shipped {
-  background: rgba(0, 123, 255, 0.15);
-  color: #004085;
+  background: rgba(0, 123, 255, 0.1);
+  color: rgba(100, 170, 255, 0.9);
+  border: 1px solid rgba(0, 123, 255, 0.2);
 }
 
 .status-delivered {
-  background: rgba(40, 167, 69, 0.15);
-  color: #155724;
+  background: rgba(40, 167, 69, 0.1);
+  color: rgba(72, 199, 116, 0.9);
+  border: 1px solid rgba(40, 167, 69, 0.2);
 }
 
 .status-cancelled {
-  background: rgba(220, 53, 69, 0.15);
-  color: #721c24;
+  background: rgba(220, 53, 69, 0.1);
+  color: rgba(220, 53, 69, 0.9);
+  border: 1px solid rgba(220, 53, 69, 0.2);
 }
+
+/* ==========================================================================
+   Order Body
+   ========================================================================== */
 
 .order-body {
   padding: 1.5rem;
@@ -151,17 +191,23 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  background: rgba(235, 222, 199, 0.2);
-  border-radius: 8px;
-  border: 1px solid rgba(163, 142, 112, 0.15);
+  background: rgba(192, 162, 124, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(192, 162, 124, 0.12);
   flex: 0 0 calc(50% - 0.5rem);
+  transition: border-color 0.3s ease;
+}
+
+.order-item-preview:hover {
+  border-color: rgba(192, 162, 124, 0.25);
 }
 
 .order-item-preview img {
   width: 50px;
   height: 50px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(192, 162, 124, 0.15);
 }
 
 .order-item-preview .item-details {
@@ -170,20 +216,20 @@
 
 .order-item-preview strong {
   display: block;
-  color: #544731;
-  font-size: 0.9rem;
+  color: #ebdec7;
+  font-size: 0.88rem;
   margin-bottom: 0.25rem;
 }
 
 .order-item-preview p {
   margin: 0;
-  color: #937652;
-  font-size: 0.8rem;
+  color: rgba(235, 222, 199, 0.5);
+  font-size: 0.78rem;
 }
 
 .order-summary {
   padding-top: 1rem;
-  border-top: 2px solid rgba(192, 162, 124, 0.2);
+  border-top: 1px solid rgba(192, 162, 124, 0.12);
 }
 
 .summary-row {
@@ -191,28 +237,37 @@
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
-  color: #544731;
+  color: rgba(235, 222, 199, 0.7);
 }
 
 .order-total {
-  font-size: 1.3rem;
-  color: #28a745;
+  font-size: 1.25rem;
+  color: #c0a27c;
   font-weight: 700;
+  font-family: 'Outfit', sans-serif;
 }
+
+/* ==========================================================================
+   Order Footer
+   ========================================================================== */
 
 .order-footer {
   display: flex;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  background: rgba(248, 245, 240, 0.5);
-  border-top: 2px solid rgba(163, 142, 112, 0.1);
+  background: rgba(192, 162, 124, 0.03);
+  border-top: 1px solid rgba(192, 162, 124, 0.1);
   flex-wrap: wrap;
 }
 
 .order-footer .btn {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
 }
+
+/* ==========================================================================
+   Modal
+   ========================================================================== */
 
 .modal-backdrop {
   position: fixed;
@@ -220,7 +275,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(41, 42, 35, 0.7);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
   z-index: 1040;
   animation: fadeIn 0.3s ease;
 }
@@ -238,12 +294,26 @@
   width: 90%;
   max-width: 700px;
   max-height: 90vh;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(84, 71, 49, 0.3);
+  background: #1c1c1a;
+  border: 1px solid rgba(192, 162, 124, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(192, 162, 124, 0.08);
   z-index: 1050;
   overflow-y: auto;
   animation: slideUp 0.3s ease;
+}
+
+.order-details-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.order-details-modal::-webkit-scrollbar-track {
+  background: rgba(192, 162, 124, 0.05);
+}
+
+.order-details-modal::-webkit-scrollbar-thumb {
+  background: rgba(192, 162, 124, 0.3);
+  border-radius: 3px;
 }
 
 @keyframes slideUp {
@@ -262,13 +332,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 2px solid rgba(192, 162, 124, 0.2);
-  background: linear-gradient(135deg, rgba(235, 222, 199, 0.3), rgba(215, 188, 150, 0.2));
+  border-bottom: 1px solid rgba(192, 162, 124, 0.12);
+  background: rgba(192, 162, 124, 0.05);
 }
 
 .modal-header h4 {
   margin: 0;
-  color: #544731;
+  font-family: 'Playfair Display', serif;
+  color: #c0a27c;
   font-weight: 700;
 }
 
@@ -276,9 +347,9 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: rgba(192, 162, 124, 0.1);
-  border: none;
-  color: #544731;
+  background: rgba(192, 162, 124, 0.08);
+  border: 1px solid rgba(192, 162, 124, 0.2);
+  color: rgba(235, 222, 199, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -288,7 +359,8 @@
 
 .btn-close:hover {
   background: #c0a27c;
-  color: white;
+  color: #141412;
+  border-color: #c0a27c;
   transform: rotate(90deg);
 }
 
@@ -297,15 +369,16 @@
 }
 
 .info-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   padding: 1.25rem;
-  background: rgba(235, 222, 199, 0.15);
-  border-radius: 10px;
-  border: 1px solid rgba(163, 142, 112, 0.15);
+  background: rgba(192, 162, 124, 0.04);
+  border-radius: 12px;
+  border: 1px solid rgba(192, 162, 124, 0.1);
 }
 
 .info-section h5 {
-  color: #544731;
+  font-family: 'Playfair Display', serif;
+  color: #c0a27c;
   font-weight: 700;
   margin-bottom: 1rem;
   font-size: 1rem;
@@ -313,21 +386,34 @@
 
 .info-section label {
   font-weight: 600;
-  color: #937652;
-  font-size: 0.85rem;
+  color: rgba(192, 162, 124, 0.7);
+  font-size: 0.82rem;
   margin-bottom: 0.25rem;
   display: block;
 }
 
 .info-section p {
-  color: #544731;
+  color: #ebdec7;
   margin-bottom: 0.5rem;
 }
+
+.info-section code {
+  background: rgba(192, 162, 124, 0.12);
+  color: #c0a27c;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 700;
+  border: 1px solid rgba(192, 162, 124, 0.2);
+}
+
+/* ==========================================================================
+   Modal Order Items
+   ========================================================================== */
 
 .order-items-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .order-item {
@@ -335,9 +421,14 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid rgba(163, 142, 112, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+  border: 1px solid rgba(192, 162, 124, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+.order-item:hover {
+  border-color: rgba(192, 162, 124, 0.2);
 }
 
 .order-item img {
@@ -345,6 +436,7 @@
   height: 60px;
   object-fit: cover;
   border-radius: 8px;
+  border: 1px solid rgba(192, 162, 124, 0.15);
 }
 
 .order-item .item-details {
@@ -353,84 +445,120 @@
 
 .order-item .item-details strong {
   display: block;
-  color: #544731;
+  color: #ebdec7;
   margin-bottom: 0.25rem;
 }
 
 .order-item .item-details p {
-  color: #937652;
+  color: rgba(235, 222, 199, 0.5);
   font-size: 0.85rem;
   margin: 0;
 }
 
 .order-item .item-total {
   font-weight: 700;
-  color: #28a745;
-  font-size: 1.1rem;
+  color: #c0a27c;
+  font-size: 1.05rem;
+  font-family: 'Outfit', sans-serif;
 }
 
 .items-total {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  background: white;
-  border-radius: 8px;
+  background: rgba(192, 162, 124, 0.06);
+  border: 1px solid rgba(192, 162, 124, 0.15);
+  border-radius: 10px;
   margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #544731;
+  font-size: 1.15rem;
+  color: #c0a27c;
+  font-family: 'Outfit', sans-serif;
 }
 
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
 .btn-primary {
-  background: linear-gradient(135deg, #c0a27c, #ad8d66);
+  background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%);
   border: none;
-  color: #292a23;
+  color: #141412;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.3);
+  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.2);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #ad8d66, #9a7a58);
+  background: linear-gradient(135deg, #d7bc96 0%, #c0a27c 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(192, 162, 124, 0.4);
+  box-shadow: 0 8px 25px rgba(192, 162, 124, 0.3);
+  color: #141412;
 }
 
 .btn-outline-primary {
-  border: 2px solid #c0a27c;
-  color: #544731;
+  border: 1.5px solid rgba(192, 162, 124, 0.4);
+  color: #c0a27c;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-  background: #c0a27c;
-  color: #292a23;
+  background: rgba(192, 162, 124, 0.12);
+  border-color: #c0a27c;
+  color: #c0a27c;
 }
 
 .btn-outline-danger {
-  border: 2px solid #dc3545;
-  color: #dc3545;
+  border: 1.5px solid rgba(220, 53, 69, 0.4);
+  color: rgba(220, 53, 69, 0.85);
+  background: rgba(220, 53, 69, 0.04);
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .btn-outline-danger:hover {
-  background: #dc3545;
-  color: white;
+  background: rgba(220, 53, 69, 0.12);
+  border-color: rgba(220, 53, 69, 0.7);
+  color: rgba(220, 53, 69, 0.9);
 }
 
 .btn-outline-secondary {
-  border: 2px solid rgba(163, 142, 112, 0.3);
-  color: #544731;
+  border: 1.5px solid rgba(192, 162, 124, 0.2);
+  color: rgba(235, 222, 199, 0.6);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .btn-outline-secondary:hover {
-  background: rgba(192, 162, 124, 0.1);
-  border-color: #c0a27c;
+  background: rgba(192, 162, 124, 0.08);
+  border-color: rgba(192, 162, 124, 0.35);
+  color: #ebdec7;
 }
 
+/* ==========================================================================
+   Loading & Utilities
+   ========================================================================== */
+
 .spinner-border.text-warning {
-  width: 3rem;
-  height: 3rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-color: #c0a27c;
   border-right-color: transparent;
 }
+
+.text-muted {
+  color: rgba(235, 222, 199, 0.5) !important;
+}
+
+.text-success {
+  color: #c0a27c !important;
+}
+
+/* ==========================================================================
+   Responsiveness
+   ========================================================================== */
 
 @media (max-width: 768px) {
   .order-header {

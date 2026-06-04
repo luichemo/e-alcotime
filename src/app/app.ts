@@ -32,6 +32,14 @@ export class AppComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.isAdminRoute = event.url.startsWith('/admin');
+      
+      // Force scroll to top instantly
+      window.scrollTo(0, 0);
+      
+      // Fallback for asynchronous component/data loads
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 50);
     });
   }
 }

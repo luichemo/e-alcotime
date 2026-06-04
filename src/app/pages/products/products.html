@@ -1,4 +1,4 @@
-<section class="filters-section py-4 bg-light">
+<section class="filters-section py-4 ">
   <div class="container">
     <div class="row g-3 align-items-center">
       <div class="col-lg-4">
@@ -14,17 +14,29 @@
       </div>
 
       <div class="col-lg-3">
-        <select class="form-select custom-select" [(ngModel)]="sortBy" (ngModelChange)="onSortChange()">
-          <option value="name">{{ 'PRODUCTS.SORT_BY' | translate }}</option>
-          <option value="price-low">{{ 'PRODUCTS.SORT_PRICE_LOW' | translate }}</option>
-          <option value="price-high">{{ 'PRODUCTS.SORT_PRICE_HIGH' | translate }}</option>
-          <option value="alcohol-low">{{ 'PRODUCTS.SORT_ALCOHOL_LOW' | translate }}</option>
-          <option value="alcohol-high">{{ 'PRODUCTS.SORT_ALCOHOL_HIGH' | translate }}</option>
-        </select>
+        <div class="sort-dropdown" [class.open]="sortDropdownOpen">
+          <button class="sort-trigger" (click)="toggleSortDropdown()">
+            <i class="bi sort-trigger-icon" [ngClass]="getSortIcon()"></i>
+            <span class="sort-trigger-label">{{ getSortLabel() | translate }}</span>
+            <i class="bi bi-chevron-down sort-chevron"></i>
+          </button>
+          <div class="sort-panel" *ngIf="sortDropdownOpen">
+            <button
+              *ngFor="let opt of sortOptions"
+              class="sort-option"
+              [class.active]="sortBy === opt.value"
+              (click)="selectSort(opt.value)">
+              <i class="bi sort-opt-icon" [ngClass]="opt.icon"></i>
+              <span>{{ opt.label | translate }}</span>
+              <i class="bi bi-check2 sort-check" *ngIf="sortBy === opt.value"></i>
+            </button>
+          </div>
+        </div>
       </div>
 
+
       <div class="col-lg-2">
-        <button class="btn btn-outline-primary w-100" (click)="toggleFiltersPanel()">
+        <button class="btn btn-outline-primary w-100" (click)="toggleFiltersPanel()" disabled>
           <i class="bi bi-funnel me-2"></i>
           {{ 'PRODUCTS.FILTERS' | translate }}
           <span *ngIf="getActiveFiltersCount() > 0" class="badge bg-danger ms-2">
@@ -36,17 +48,25 @@
       <div class="col-lg-3 text-end">
         <span class="results-count">
           <i class="bi bi-box-seam me-2"></i>
-          {{ filteredProducts.length }} {{ (filteredProducts.length === 1 ? 'PRODUCTS.RESULTS' : 'PRODUCTS.RESULTS_PLURAL') | translate }}
+          <ng-container *ngIf="filteredProducts.length > 0">
+            {{ (currentPage - 1) * pageSize + 1 }}–{{ getPageEnd() }}
+            of {{ filteredProducts.length }} {{ (filteredProducts.length === 1 ? 'PRODUCTS.RESULTS' : 'PRODUCTS.RESULTS_PLURAL') | translate }}
+          </ng-container>
+          <ng-container *ngIf="filteredProducts.length === 0">
+            0 {{ 'PRODUCTS.RESULTS_PLURAL' | translate }}
+          </ng-container>
         </span>
       </div>
     </div>
   </div>
+  <!-- Backdrop to close sort dropdown on outside click -->
+  <div class="sort-backdrop" *ngIf="sortDropdownOpen" (click)="sortDropdownOpen = false"></div>
 </section>
 
-<section class="py-5">
+<section class="py-5" style="background-color: #141412; min-height: 100vh;">
   <div class="container">
     <div class="row">
-      <div class="col-lg-3 mb-4" [class.d-none]="!showFilters" [class.d-lg-block]="true">
+      <div class="col-lg-3 mb-4" *ngIf="showFilters">
         <div class="filters-sidebar">
           <div class="filter-header">
             <h5 class="sidebar-title">{{ 'PRODUCTS.FILTERS' | translate }}</h5>
@@ -264,8 +284,8 @@
         </div>
 
         <div *ngIf="!loading && filteredProducts.length > 0" class="row g-4">
-          <div *ngFor="let product of filteredProducts" class="col-md-6 col-lg-4">
-            <div class="card h-100 product-card">
+          <div *ngFor="let product of pagedProducts" class="col-md-6 col-lg-4">
+            <div class="card h-100 product-card" >
               <div class="product-image-wrapper">
                 <img [src]="product.imageUrl" class="card-img-top" [alt]="product.name">
                 <div class="product-badge" *ngIf="product.discountPrice">
@@ -305,7 +325,7 @@
                     <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary btn-sm">
                       <i class="bi bi-eye"></i>
                     </a>
-                    <button 
+                    <button
                       class="btn btn-primary btn-sm ms-2"
                       (click)="addToCart(product)"
                       [disabled]="product.stock === 0">
@@ -327,6 +347,44 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Pagination -->
+        <div *ngIf="!loading && totalPages > 1" class="pagination-wrapper mt-5">
+          <nav aria-label="Products pagination">
+            <ul class="pagination-list">
+              <!-- Prev -->
+              <li [class.disabled]="currentPage === 1">
+                <button class="page-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </li>
+
+              <!-- First page + ellipsis -->
+              <li *ngIf="pageNumbers[0] > 1">
+                <button class="page-btn" (click)="goToPage(1)">1</button>
+              </li>
+              <li *ngIf="pageNumbers[0] > 2" class="page-ellipsis"><span>…</span></li>
+
+              <!-- Page numbers -->
+              <li *ngFor="let p of pageNumbers">
+                <button class="page-btn" [class.active]="p === currentPage" (click)="goToPage(p)">{{ p }}</button>
+              </li>
+
+              <!-- Last page + ellipsis -->
+              <li *ngIf="pageNumbers[pageNumbers.length - 1] < totalPages - 1" class="page-ellipsis"><span>…</span></li>
+              <li *ngIf="pageNumbers[pageNumbers.length - 1] < totalPages">
+                <button class="page-btn" (click)="goToPage(totalPages)">{{ totalPages }}</button>
+              </li>
+
+              <!-- Next -->
+              <li [class.disabled]="currentPage === totalPages">
+                <button class="page-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
 
         <div *ngIf="!loading && filteredProducts.length === 0" class="empty-state text-center py-5">

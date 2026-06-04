@@ -164,7 +164,7 @@ export class Profile implements OnInit, OnDestroy {
   async logout(): Promise<void> {
     try {
       await this.authService.logout();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     } catch (error) {
       console.error('Logout error:', error);
     }

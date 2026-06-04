@@ -1,123 +1,187 @@
 <div class="register-page">
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-5">
-        <div class="card shadow">
-          <div class="card-body p-5">
-            <h2 class="text-center mb-4">{{ 'AUTH.CREATE_ACCOUNT' | translate }}</h2>
-            
-            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-              <i class="bi bi-exclamation-triangle me-2"></i>
-              {{ errorMessage }}
-            </div>
+  <!-- Interactive background blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
 
-            <div *ngIf="successMessage" class="alert alert-success" role="alert">
-              <i class="bi bi-check-circle me-2"></i>
-              {{ successMessage }}
-            </div>
+  <div class="register-container">
+    <div class="register-card">
+      <div class="register-header">
+        <h1 class="brand-title">ALCOTIME</h1>
+        <p class="brand-subtitle">{{ 'AUTH.CREATE_ACCOUNT' | translate }}</p>
+      </div>
 
-            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
-              <div class="mb-3">
-                <label for="displayName" class="form-label">{{ 'AUTH.FULL_NAME' | translate }}</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="displayName"
-                  [(ngModel)]="displayName"
-                  name="displayName"
-                  required>
-              </div>
+      <div *ngIf="errorMessage" class="alert alert-custom alert-danger animate-fade-in" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
 
-              <div class="mb-3">
-                <label for="email" class="form-label">{{ 'AUTH.EMAIL' | translate }} *</label>
-                <input 
-                  type="email" 
-                  class="form-control" 
-                  id="email"
-                  [(ngModel)]="email"
-                  name="email"
-                  required>
-              </div>
+      <div *ngIf="successMessage" class="alert alert-custom alert-success animate-fade-in" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span>{{ successMessage }}</span>
+      </div>
 
-              <div class="mb-3">
-                <label for="phoneNumber" class="form-label">{{ 'AUTH.PHONE_NUMBER' | translate }}</label>
-                <input 
-                  type="tel" 
-                  class="form-control" 
-                  id="phoneNumber"
-                  [(ngModel)]="phoneNumber"
-                  name="phoneNumber">
-              </div>
-
-              <div class="mb-3">
-                <label for="dateOfBirth" class="form-label">{{ 'AUTH.DOB' | translate }}</label>
-                <input 
-                  type="date" 
-                  class="form-control" 
-                  id="dateOfBirth"
-                  [(ngModel)]="dateOfBirth"
-                  name="dateOfBirth"
-                  [max]="getMaxDate()"
-                  required>
-                <small class="form-text text-muted">
-                  {{ 'AUTH.DOB_NOTICE' | translate }}
-                </small>
-              </div>
-
-              <div class="mb-3">
-                <label for="password" class="form-label">{{ 'AUTH.PASSWORD' | translate }} *</label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="password"
-                  [(ngModel)]="password"
-                  name="password"
-                  required>
-                <small class="form-text text-muted">
-                  {{ 'AUTH.PASSWORD_NOTICE' | translate }}
-                </small>
-              </div>
-
-              <div class="mb-3">
-                <label for="confirmPassword" class="form-label">{{ 'AUTH.CONFIRM_PASSWORD' | translate }}</label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="confirmPassword"
-                  [(ngModel)]="confirmPassword"
-                  name="confirmPassword"
-                  required>
-              </div>
-
-              <div class="mb-3 form-check">
-                <input 
-                  type="checkbox" 
-                  class="form-check-input" 
-                  id="agreeTerms"
-                  [(ngModel)]="agreeTerms"
-                  name="agreeTerms"
-                  required>
-                <label class="form-check-label" for="agreeTerms">
-                  {{ 'AUTH.AGREE_TERMS' | translate }}
-                </label>
-              </div>
-
-              <button 
-                type="submit" 
-                class="btn btn-primary w-100 mb-3"
-                [disabled]="loading || !registerForm.valid">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                {{ (loading ? 'AUTH.CREATING_ACCOUNT' : 'AUTH.REGISTER_BTN') | translate }}
-              </button>
-
-              <p class="text-center mb-0">
-                {{ 'AUTH.ALREADY_HAVE_ACCOUNT' | translate }}
-                <a routerLink="/login" class="text-decoration-none">{{ 'AUTH.LOGIN_HERE' | translate }}</a>
-              </p>
-            </form>
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="register-form">
+        <!-- Full Name -->
+        <div class="form-group grid-span-1">
+          <label for="displayName" class="form-label-custom">
+            <span>{{ 'AUTH.FULL_NAME' | translate }}</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-person input-icon"></i>
+            <input 
+              type="text" 
+              class="form-input" 
+              id="displayName"
+              [(ngModel)]="displayName"
+              name="displayName"
+              placeholder="e.g. John Doe"
+              required
+              autocomplete="name">
           </div>
         </div>
-      </div>
+
+        <!-- Email -->
+        <div class="form-group grid-span-1">
+          <label for="email" class="form-label-custom">
+            <span>{{ 'AUTH.EMAIL' | translate }} *</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-envelope input-icon"></i>
+            <input 
+              type="email" 
+              class="form-input" 
+              id="email"
+              [(ngModel)]="email"
+              name="email"
+              placeholder="example@mail.com"
+              required
+              autocomplete="email">
+          </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group grid-span-1">
+          <label for="phoneNumber" class="form-label-custom">
+            <span>{{ 'AUTH.PHONE_NUMBER' | translate }}</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-telephone input-icon"></i>
+            <input 
+              type="tel" 
+              class="form-input" 
+              id="phoneNumber"
+              [(ngModel)]="phoneNumber"
+              name="phoneNumber"
+              placeholder="+995 5xx xxx xxx"
+              autocomplete="tel">
+          </div>
+        </div>
+
+        <!-- Date of Birth (Flatpickr) -->
+        <div class="form-group grid-span-1">
+          <label for="dateOfBirth" class="form-label-custom">
+            <span>{{ 'AUTH.DOB' | translate }}</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-calendar3 input-icon"></i>
+            <input 
+              #dobPicker
+              type="text" 
+              class="form-input dob-picker-input" 
+              id="dateOfBirth"
+              [(ngModel)]="dateOfBirth"
+              name="dateOfBirth"
+              placeholder="Select birth date"
+              required
+              readonly>
+          </div>
+          <small class="form-text-custom">
+            {{ 'AUTH.DOB_NOTICE' | translate }}
+          </small>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group grid-span-1">
+          <label for="password" class="form-label-custom">
+            <span>{{ 'AUTH.PASSWORD' | translate }} *</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              class="form-input" 
+              id="password"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="••••••••"
+              required
+              autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" (click)="togglePasswordVisibility()" aria-label="Toggle password visibility">
+              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+            </button>
+          </div>
+          <small class="form-text-custom">
+            {{ 'AUTH.PASSWORD_NOTICE' | translate }}
+          </small>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group grid-span-1">
+          <label for="confirmPassword" class="form-label-custom">
+            <span>{{ 'AUTH.CONFIRM_PASSWORD' | translate }}</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock-fill input-icon"></i>
+            <input 
+              [type]="showConfirmPassword ? 'text' : 'password'" 
+              class="form-input" 
+              id="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              placeholder="••••••••"
+              required
+              autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" (click)="toggleConfirmPasswordVisibility()" aria-label="Toggle password visibility">
+              <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Agree Terms -->
+        <div class="form-check-custom grid-span-full">
+          <input 
+            type="checkbox" 
+            class="checkbox-input" 
+            id="agreeTerms"
+            [(ngModel)]="agreeTerms"
+            name="agreeTerms"
+            required>
+          <label class="checkbox-label" for="agreeTerms">
+            {{ 'AUTH.AGREE_TERMS' | translate }}
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn grid-span-full" [disabled]="loading || !registerForm.valid">
+          <div class="btn-content" *ngIf="!loading">
+            <span>{{ 'AUTH.REGISTER_BTN' | translate }}</span>
+            <i class="bi bi-arrow-right btn-arrow"></i>
+          </div>
+          <div class="spinner-container" *ngIf="loading">
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <span>{{ 'AUTH.CREATING_ACCOUNT' | translate }}</span>
+          </div>
+        </button>
+
+        <!-- Redirect to login link -->
+        <div class="form-footer grid-span-full">
+          <p class="login-prompt">
+            {{ 'AUTH.ALREADY_HAVE_ACCOUNT' | translate }}
+            <a routerLink="/login" class="login-link">{{ 'AUTH.LOGIN_HERE' | translate }}</a>
+          </p>
+        </div>
+      </form>
     </div>
   </div>
-</div>  
+</div>

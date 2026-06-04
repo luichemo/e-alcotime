@@ -28,6 +28,30 @@ export class Products implements OnInit {
   sortBy: string = 'name';
   loading: boolean = true;
 
+  // Pagination
+  currentPage: number = 1;
+  pageSize: number = 12;
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredProducts.length / this.pageSize);
+  }
+
+  get pagedProducts(): Product[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredProducts.slice(start, start + this.pageSize);
+  }
+
+  get pageNumbers(): number[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2;
+    const pages: number[] = [];
+    for (let i = Math.max(1, current - delta); i <= Math.min(total, current + delta); i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
   showOnSale: boolean = false;
   selectedBrands: string[] = [];
   selectedPriceRange: string = 'all';
@@ -60,6 +84,35 @@ export class Products implements OnInit {
   ];
 
   showFilters: boolean = true;
+
+  // Custom sort dropdown
+  sortDropdownOpen: boolean = false;
+
+  sortOptions = [
+    { value: 'name',         label: 'PRODUCTS.SORT_BY',         icon: 'bi-sort-alpha-down' },
+    { value: 'price-low',    label: 'PRODUCTS.SORT_PRICE_LOW',   icon: 'bi-sort-numeric-down' },
+    { value: 'price-high',   label: 'PRODUCTS.SORT_PRICE_HIGH',  icon: 'bi-sort-numeric-up' },
+    { value: 'alcohol-low',  label: 'PRODUCTS.SORT_ALCOHOL_LOW', icon: 'bi-droplet' },
+    { value: 'alcohol-high', label: 'PRODUCTS.SORT_ALCOHOL_HIGH',icon: 'bi-droplet-fill' }
+  ];
+
+  getSortLabel(): string {
+    return this.sortOptions.find(o => o.value === this.sortBy)?.label ?? 'PRODUCTS.SORT_BY';
+  }
+
+  getSortIcon(): string {
+    return this.sortOptions.find(o => o.value === this.sortBy)?.icon ?? 'bi-sort-alpha-down';
+  }
+
+  toggleSortDropdown(): void {
+    this.sortDropdownOpen = !this.sortDropdownOpen;
+  }
+
+  selectSort(value: string): void {
+    this.sortBy = value;
+    this.sortDropdownOpen = false;
+    this.onSortChange();
+  }
 
   constructor(
     private productService: ProductService,
@@ -162,6 +215,17 @@ export class Products implements OnInit {
     filtered = this.sortProducts(filtered);
 
     this.filteredProducts = filtered;
+    this.currentPage = 1; // reset to first page on every filter change
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  getPageEnd(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filteredProducts.length);
   }
 
   sortProducts(products: Product[]): Product[] {

@@ -1,56 +1,89 @@
 <div class="login-page">
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-md-5 col-lg-4">
-        <div class="card shadow">
-          <div class="card-body p-5">
-            <h2 class="text-center mb-4">{{ 'AUTH.WELCOME' | translate }}</h2>
+  <!-- Interactive background blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
 
-            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-              <i class="bi bi-exclamation-triangle me-2"></i>
-              {{ errorMessage }}
-            </div>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h1 class="brand-title">AlcoTime</h1>
+        <p class="brand-subtitle">{{ 'AUTH.WELCOME' | translate }}</p>
+      </div>
 
-            <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-              <div class="mb-3">
-                <label for="email" class="form-label">{{ 'AUTH.EMAIL' | translate }}</label>
-                <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email"
-                  [placeholder]="'AUTH.EMAIL' | translate" required>
-              </div>
+      <div *ngIf="errorMessage" class="alert alert-custom alert-danger animate-fade-in" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
 
-              <div class="mb-3">
-                <label for="password" class="form-label">{{ 'AUTH.PASSWORD' | translate }}</label>
-                <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password"
-                  [placeholder]="'AUTH.PASSWORD' | translate" required>
-                <div class="text-end mt-2">
-                  <a routerLink="/forgot-password" class="text-decoration-none" style="font-size: 0.9rem; color:burlywood;">
-                    {{ 'AUTH.FORGOT_PASSWORD' | translate }}
-                  </a>
-                </div>
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loading || !loginForm.valid">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                {{ (loading ? 'AUTH.LOGGING_IN' : 'AUTH.LOGIN_BTN') | translate }}
-              </button>
-
-              <div class="text-center">
-                <p class="mb-0">
-                  {{ 'AUTH.DONT_HAVE_ACCOUNT' | translate }}
-                  <a routerLink="/register" class="text-decoration-none">{{ 'AUTH.REGISTER_HERE' | translate }}</a>
-                </p>
-              </div>
-            </form>
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+        <div class="form-group">
+          <label for="email" class="form-label-custom">
+            <span>{{ 'AUTH.EMAIL' | translate }}</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="bi bi-envelope input-icon"></i>
+            <input 
+              type="email" 
+              class="form-input" 
+              id="email" 
+              [(ngModel)]="email" 
+              name="email"
+              [placeholder]="'AUTH.EMAIL' | translate" 
+              required
+              autocomplete="email">
           </div>
         </div>
 
-        <div class="text-center mt-4 text-muted" style="display: flex; justify-content: center; align-items: center;">
-          <small>
-            <i class="bi bi-shield-check me-1"></i>
-            {{ 'AUTH.AGE_NOTICE' | translate }}
-          </small>
+        <div class="form-group">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label for="password" class="form-label-custom">
+              <span>{{ 'AUTH.PASSWORD' | translate }}</span>
+            </label>
+            <a routerLink="/forgot-password" class="forgot-password-link">
+              {{ 'AUTH.FORGOT_PASSWORD' | translate }}
+            </a>
+          </div>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              class="form-input" 
+              id="password" 
+              [(ngModel)]="password" 
+              name="password"
+              [placeholder]="'AUTH.PASSWORD' | translate" 
+              required
+              autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" (click)="togglePasswordVisibility()" aria-label="Toggle password visibility">
+              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+            </button>
+          </div>
         </div>
-      </div>
+
+        <button type="submit" class="submit-btn" [disabled]="loading || !loginForm.valid">
+          <div class="btn-content" *ngIf="!loading">
+            <span>{{ 'AUTH.LOGIN_BTN' | translate }}</span>
+            <i class="bi bi-arrow-right btn-arrow"></i>
+          </div>
+          <div class="spinner-container" *ngIf="loading">
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            <span>{{ 'AUTH.LOGGING_IN' | translate }}</span>
+          </div>
+        </button>
+
+        <div class="form-footer">
+          <p class="signup-prompt">
+            {{ 'AUTH.DONT_HAVE_ACCOUNT' | translate }}
+            <a routerLink="/register" class="signup-link">{{ 'AUTH.REGISTER_HERE' | translate }}</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <div class="legal-badge animate-fade-in-up">
+      <i class="bi bi-shield-fill-check me-2"></i>
+      <span>{{ 'AUTH.AGE_NOTICE' | translate }}</span>
     </div>
   </div>
 </div>

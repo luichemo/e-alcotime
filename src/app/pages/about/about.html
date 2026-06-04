@@ -1,0 +1,208 @@
+<div class="about-page">
+  <div class="container py-5">
+    
+    <!-- Header Section -->
+    <div class="about-header text-center mb-5">
+      <h1 class="page-title">{{ 'FOOTER.ABOUT_US' | translate }}</h1>
+      <p class="brand-tagline">AlcoTime – Premium Online Spirits Store</p>
+    </div>
+
+    <!-- Content (English) -->
+    <div *ngIf="getCurrentLang() === 'en'" class="about-content">
+      <!-- Section 1: Intro -->
+      <section class="about-section mb-5">
+        <div class="row align-items-center g-4">
+          <div class="col-md-6">
+            <h2 class="section-heading">Our Heritage & Mission</h2>
+            <p class="lead-text">
+              Welcome to AlcoTime, Georgia’s premium online boutique for curated wines, fine spirits, and craft beers. 
+              Founded in Kutaisi, our goal is to bring the finest beverages from local vineyards and global distilleries 
+              straight to your doorstep with elegance, convenience, and absolute quality.
+            </p>
+            <p class="body-text">
+              We believe that choosing a drink is an art. Whether you are celebrating a grand occasion, hosting an intimate 
+              gathering, or simply relaxing after a long day, AlcoTime provides a seamless shopping experience. 
+              We carefully handpick every bottle in our catalog, ensuring that only authentic, high-quality beverages 
+              make it to your collection.
+            </p>
+          </div>
+          <div class="col-md-6">
+            <div class="about-image-wrapper">
+              <img src="/rm-log.png" alt="AlcoTime Premium Logo" class="about-logo img-fluid">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Values -->
+      <section class="about-section mb-5">
+        <h2 class="section-heading text-center mb-4">Our Core Values</h2>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-patch-check"></i>
+              <h3>Guaranteed Authenticity</h3>
+              <p>We source all our products directly from certified distributors and heritage wineries, guaranteeing 100% genuine quality.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-truck"></i>
+              <h3>Swift Delivery</h3>
+              <p>Our dedicated delivery team in Kutaisi and across the region ensures that your favorite beverages arrive quickly and safely.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-shield-check"></i>
+              <h3>Responsible Service</h3>
+              <p>We take age compliance seriously. We enforce a strict 18+ policy for all accounts and deliveries to advocate responsible drinking.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Call to Action -->
+      <section class="about-section text-center py-4 bg-glass-cta rounded-4 border-gold-subtle">
+        <h3 class="mb-3">Ready to explore our selection?</h3>
+        <p class="mb-4">Browse our curated collection of vintage wines, single malt whiskeys, craft beers, and champagne.</p>
+        <a routerLink="/products" class="btn btn-gold btn-lg px-5">Shop All Collection</a>
+      </section>
+    </div>
+
+    <!-- Content (Georgian) -->
+    <div *ngIf="getCurrentLang() === 'ka'" class="about-content">
+      <!-- Section 1: Intro -->
+      <section class="about-section mb-5">
+        <div class="row align-items-center g-4">
+          <div class="col-md-6">
+            <h2 class="section-heading">ჩვენი ისტორია და მისია</h2>
+            <p class="lead-text">
+              მოგესალმებათ AlcoTime – პრემიუმ კლასის ონლაინ ბუტიკი საქართველოში, სადაც წარმოდგენილია საუკეთესო ღვინოები, ალკოჰოლური სასმელები და ხელნაკეთი ლუდი. 
+              ქუთაისში დაარსებული ჩვენი კომპანიის მიზანია მოგიტანოთ საუკეთესო სასმელები ადგილობრივი ვენახებიდან და მსოფლიო ბრენდებიდან პირდაპირ თქვენს კართან.
+            </p>
+            <p class="body-text">
+              ჩვენ გვჯერა, რომ სასმელის შერჩევა ხელოვნებაა. მიუხედავად იმისა, თქვენ აღნიშნავთ დიდ დღესასწაულს, მასპინძლობთ მეგობრებს თუ უბრალოდ ისვენებთ მძიმე დღის შემდეგ, AlcoTime გთავაზობთ კომფორტულ და დაცულ ონლაინ შოპინგს. 
+              ჩვენ ყურადღებით ვარჩევთ თითოეულ ბოთლს ჩვენს კატალოგში, რათა დარწმუნდეთ ავთენტურობაში.
+            </p>
+          </div>
+          <div class="col-md-6">
+            <div class="about-image-wrapper">
+              <img src="/rm-log.png" alt="AlcoTime Premium Logo" class="about-logo img-fluid">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Values -->
+      <section class="about-section mb-5">
+        <h2 class="section-heading text-center mb-4">ჩვენი ღირებულებები</h2>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-patch-check"></i>
+              <h3>გარანტირებული ხარისხი</h3>
+              <p>ყველა ჩვენი პროდუქტი მიღებულია უშუალოდ სერტიფიცირებული დისტრიბუტორებისგან, რაც გარანტიას იძლევა 100%-იან ავთენტურობაზე.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-truck"></i>
+              <h3>სწრაფი მიწოდება</h3>
+              <p>ჩვენი საკურიერო ჯგუფი უზრუნველყოფს თქვენი საყვარელი სასმელების სწრაფ და უსაფრთხო მიწოდებას ქალაქ ქუთაისსა და რეგიონში.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-shield-check"></i>
+              <h3>პასუხისმგებლობა</h3>
+              <p>ჩვენ მკაცრად ვიცავთ ასაკობრივ შეზღუდვას. სერვისით სარგებლობა ნებადართულია მხოლოდ 18 წელზე უფროსი ასაკის პირთათვის.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Call to Action -->
+      <section class="about-section text-center py-4 bg-glass-cta rounded-4 border-gold-subtle">
+        <h3 class="mb-3">გსურთ იხილოთ ჩვენი კატალოგი?</h3>
+        <p class="mb-4">გაეცანით ჩვენს დახვეწილ კოლექციას, რომელიც მოიცავს დაძველებულ ღვინოებს, ვისკს, ლუდს და შამპანურს.</p>
+        <a routerLink="/products" class="btn btn-gold btn-lg px-5">პროდუქციის დათვალიერება</a>
+      </section>
+    </div>
+
+    <!-- Content (Russian) -->
+    <div *ngIf="getCurrentLang() === 'ru'" class="about-content">
+      <!-- Section 1: Intro -->
+      <section class="about-section mb-5">
+        <div class="row align-items-center g-4">
+          <div class="col-md-6">
+            <h2 class="section-heading">Наша история и миссия</h2>
+            <p class="lead-text">
+              Добро пожаловать в AlcoTime, онлайн-бутик премиального алкоголя в Грузии. 
+              Основанный в Кутаиси, наш магазин предлагает отборные вина, крепкие спиртные напитки и крафтовое пиво 
+              с доставкой прямо к вам домой.
+            </p>
+            <p class="body-text">
+              Мы верим, что выбор хорошего напитка – это искусство. Будь то крупное торжество, встреча с друзьями 
+              или вечер отдыха, AlcoTime сделает процесс покупки легким и приятным. Мы лично проверяем подлинность 
+              каждого продукта, чтобы в ваш бокал попадал только сертифицированный качественный алкоголь.
+            </p>
+          </div>
+          <div class="col-md-6">
+            <div class="about-image-wrapper">
+              <img src="/rm-log.png" alt="AlcoTime Premium Logo" class="about-logo img-fluid">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Values -->
+      <section class="about-section mb-5">
+        <h2 class="section-heading text-center mb-4">Наши ценности</h2>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-patch-check"></i>
+              <h3>Гарантия качества</h3>
+              <p>Мы поставляем продукцию только от официальных дистрибьюторов, гарантируя 100% подлинность каждой бутылки.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-truck"></i>
+              <h3>Быстрая доставка</h3>
+              <p>Наша курьерская служба обеспечивает оперативную и бережную доставку напитков по Кутаиси и области.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="value-card">
+              <i class="bi bi-shield-check"></i>
+              <h3>Ответственность</h3>
+              <p>Мы строго соблюдаем законодательство. Наш сервис доступен только для лиц старше 18 лет.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Call to Action -->
+      <section class="about-section text-center py-4 bg-glass-cta rounded-4 border-gold-subtle">
+        <h3 class="mb-3">Готовы ознакомиться с коллекцией?</h3>
+        <p class="mb-4">Изучите наш ассортимент марочных вин, односолодового виски, крафтового пива и шампанского.</p>
+        <a routerLink="/products" class="btn btn-gold btn-lg px-5">Перейти к покупкам</a>
+      </section>
+    </div>
+
+    <!-- Back Home Navigation -->
+    <div class="page-footer mt-5 pt-4 border-top border-secondary">
+      <div class="row">
+        <div class="col-12 text-center">
+          <a routerLink="/home" class="btn btn-secondary-outline">
+            <i class="bi bi-house me-2"></i>
+            {{ 'NOT_FOUND.GO_HOME' | translate }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

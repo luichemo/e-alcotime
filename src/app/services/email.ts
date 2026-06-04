@@ -8,6 +8,7 @@ export class Email {
   private serviceId = 'service_xaqclyg'; 
   private processingTemplateId = 'template_blyiido'; 
   private deliveredTemplateId = 'template_1j8vprn'; 
+  private contactTemplateId = 'template_vy0l68d'; 
   private publicKey = 'IMhb5vqmYYTRkuaid'; 
 
   constructor() {
@@ -33,7 +34,8 @@ export class Email {
       await emailjs.send(
         this.serviceId,
         this.processingTemplateId,
-        templateParams
+        templateParams,
+        this.publicKey
       );
 
       console.log('Processing email sent successfully');
@@ -61,12 +63,42 @@ export class Email {
       await emailjs.send(
         this.serviceId,
         this.deliveredTemplateId,
-        templateParams
+        templateParams,
+        this.publicKey
       );
 
       console.log('Delivered email sent successfully');
     } catch (error) {
       console.error('Error sending delivered email:', error);
+      throw error;
+    }
+  }
+
+  async sendContactInquiry(
+    name: string,
+    email: string,
+    subject: string,
+    message: string
+  ): Promise<void> {
+    try {
+      const templateParams = {
+        from_name: name,
+        from_email: email,
+        subject: subject,
+        message: message,
+        to_email: 'alcotimeinfo@gmail.com'
+      };
+
+      await emailjs.send(
+        this.serviceId,
+        this.contactTemplateId,
+        templateParams,
+        this.publicKey
+      );
+
+      console.log('Contact inquiry email sent successfully');
+    } catch (error) {
+      console.error('Error sending contact inquiry email:', error);
       throw error;
     }
   }

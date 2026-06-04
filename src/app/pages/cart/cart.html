@@ -32,12 +32,17 @@
 
         <div class="cart-items">
           <div *ngFor="let item of cartData.items" class="cart-item">
-            <div class="item-image">
-              <img [src]="item.product.imageUrl" [alt]="item.product.name">
-            </div>
+            <a [routerLink]="['/product', item.product.id]" class="item-image-link">
+              <div class="item-image">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name">
+                <div class="item-image-overlay"><i class="bi bi-eye"></i></div>
+              </div>
+            </a>
 
             <div class="item-details">
-              <h5 class="item-name">{{ item.product.name }}</h5>
+              <a [routerLink]="['/product', item.product.id]" class="item-name-link">
+                <h5 class="item-name">{{ item.product.name }}</h5>
+              </a>
               <p class="item-brand text-muted mb-1">{{ item.product.brand }}</p>
               <div class="item-specs">
                 <span><i class="bi bi-droplet-half"></i> {{ item.product.alcoholContent }}%</span>
@@ -108,10 +113,10 @@
             <strong>₾{{ cartData.total.toFixed(2) }}</strong>
           </div>
 
-          <a routerLink="/checkout" class="btn btn-checkout w-100 mt-3">
+          <!-- <a routerLink="/checkout" class="btn btn-checkout w-100 mt-3">
             <i class="bi bi-lock-fill me-2"></i>
             {{ 'CART.PROCEED' | translate }}
-          </a>
+          </a> -->
 
           <a routerLink="/products" class="btn btn-continue w-100 mt-2">
             <i class="bi bi-arrow-left me-2"></i>

@@ -1,207 +1,377 @@
 <!-- FILE: src/app/pages/admin/product-management/product-management.component.html -->
 
 <div class="product-management">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>{{ 'PRODUCT_MGMT.TITLE' | translate }}</h2>
-    <button class="btn btn-primary" (click)="openAddModal()">
-      <i class="bi bi-plus-circle me-2"></i>
+  <div class="pm-header">
+    <div>
+      <h2>{{ 'PRODUCT_MGMT.TITLE' | translate }}</h2>
+      <p class="pm-subtitle">Manage your product catalog</p>
+    </div>
+    <button class="pm-add-btn" (click)="openAddModal()" style="color:aliceblue">
+      <i class="bi bi-plus-lg"></i>
       {{ 'PRODUCT_MGMT.ADD_NEW' | translate }}
     </button>
   </div>
 
-  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+  <div *ngIf="successMessage" class="pm-alert pm-alert-success">
+    <i class="bi bi-check-circle-fill"></i>
     {{ successMessage }}
   </div>
-
-  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+  <div *ngIf="errorMessage && !showAddModal" class="pm-alert pm-alert-error">
+    <i class="bi bi-exclamation-triangle-fill"></i>
     {{ errorMessage }}
   </div>
 
-  <!-- Products Table -->
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>{{ 'PRODUCT_MGMT.TABLE_IMAGE' | translate }}</th>
-              <th>{{ 'PRODUCT_MGMT.TABLE_NAME' | translate }}</th>
-              <th>{{ 'PRODUCT_MGMT.TABLE_CATEGORY' | translate }}</th>
-              <th>{{ 'PRODUCT_MGMT.TABLE_PRICE' | translate }}</th>
-              <th>{{ 'PRODUCT_MGMT.TABLE_STOCK' | translate }}</th>
-              <th>{{ 'PRODUCT_MGMT.TABLE_STATUS' | translate }}</th>
-              <th>{{ 'PRODUCT_MGMT.TABLE_ACTIONS' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let product of products">
-              <td>
-                <img [src]="product.imageUrl" [alt]="product.name" 
-                     style="width: 50px; height: 50px; object-fit: cover;">
-              </td>
-              <td>
-                <strong>{{ product.name }}</strong><br>
-                <small class="text-muted">{{ product.brand }}</small>
-              </td>
-              <td>
-                <span class="badge bg-secondary">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
-              </td>
-              <td>
-                <span *ngIf="product.discountPrice" class="text-decoration-line-through text-muted small">
-                  ₾{{ product.price }}
-                </span>
-                <strong>₾{{ product.discountPrice || product.price }}</strong>
-              </td>
-              <td>
-                <span [class.text-danger]="product.stock < 10">
-                  {{ product.stock }} {{ 'PRODUCT_MGMT.UNITS' | translate }}
-                </span>
-              </td>
-              <td>
-                <span class="badge" [class.bg-success]="product.isAvailable" 
-                      [class.bg-danger]="!product.isAvailable">
-                  {{ (product.isAvailable ? 'PRODUCT_MGMT.AVAILABLE' : 'PRODUCT_MGMT.UNAVAILABLE') | translate }}
-                </span>
-              </td>
-              <td>
-                <div class="btn-group btn-group-sm">
-                  <button class="btn btn-outline-primary" (click)="openEditModal(product)" [title]="'PRODUCT_MGMT.EDIT' | translate">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  <button class="btn btn-outline-warning" (click)="toggleAvailability(product)" 
-                          [title]="(product.isAvailable ? 'PRODUCT_MGMT.DISABLE' : 'PRODUCT_MGMT.ENABLE') | translate">
-                    <i class="bi" [class.bi-eye-slash]="product.isAvailable" 
-                       [class.bi-eye]="!product.isAvailable"></i>
-                  </button>
-                  <button class="btn btn-outline-danger" (click)="deleteProduct(product)" [title]="'PRODUCT_MGMT.DELETE' | translate">
-                    <i class="bi bi-trash"></i>
-                  </button>
+  <!-- Search Section -->
+  <div class="pm-search-section mb-4">
+    <div class="pm-search-box">
+      <i class="bi bi-search"></i>
+      <input 
+        type="text" 
+        class="form-control" 
+        [placeholder]="'PRODUCTS.SEARCH_PLACEHOLDER' | translate"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()">
+    </div>
+  </div>
+
+  <!-- Table card -->
+  <div class="pm-table-card">
+
+    <!-- Table info bar -->
+    <div class="pm-table-info" *ngIf="filteredProducts.length > 0">
+      <span>
+        <i class="bi bi-box-seam me-2"></i>
+        Showing {{ (currentPage - 1) * pageSize + 1 }}–{{ getPageEnd() }} of {{ filteredProducts.length }} products
+      </span>
+      <span class="pm-page-size-label">{{ pageSize }} per page</span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover pm-table">
+        <thead>
+          <tr>
+            <th>{{ 'PRODUCT_MGMT.TABLE_IMAGE' | translate }}</th>
+            <th>{{ 'PRODUCT_MGMT.TABLE_NAME' | translate }}</th>
+            <th>{{ 'PRODUCT_MGMT.TABLE_CATEGORY' | translate }}</th>
+            <th>{{ 'PRODUCT_MGMT.TABLE_PRICE' | translate }}</th>
+            <th>{{ 'PRODUCT_MGMT.TABLE_STOCK' | translate }}</th>
+            <th>{{ 'PRODUCT_MGMT.TABLE_STATUS' | translate }}</th>
+            <th>{{ 'PRODUCT_MGMT.TABLE_ACTIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of pagedProducts">
+            <td>
+              <img [src]="product.imageUrl" [alt]="product.name"
+                   style="width: 50px; height: 50px; object-fit: cover;">
+            </td>
+            <td>
+              <strong>{{ product.name }}</strong><br>
+              <small class="text-muted">{{ product.brand }}</small>
+            </td>
+            <td>
+              <span class="badge bg-secondary">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
+            </td>
+            <td >
+              <span *ngIf="product.discountPrice" class="text-decoration-line-through text-muted small">
+                ₾{{ product.price }}
+              </span>
+              <strong>₾{{ product.discountPrice || product.price }}</strong>
+            </td>
+            <td>
+              <span [class.text-danger]="product.stock < 10">
+                {{ product.stock }} {{ 'PRODUCT_MGMT.UNITS' | translate }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [class.bg-success]="product.isAvailable"
+                    [class.bg-danger]="product.isAvailable">
+                {{ (product.isAvailable ? 'PRODUCT_MGMT.AVAILABLE' : 'PRODUCT_MGMT.UNAVAILABLE') | translate }}
+              </span>
+            </td>
+            <td>
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-primary" (click)="openEditModal(product)" [title]="'PRODUCT_MGMT.EDIT' | translate">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-warning" (click)="toggleAvailability(product)"
+                        [title]="(product.isAvailable ? 'PRODUCT_MGMT.DISABLE' : 'PRODUCT_MGMT.ENABLE') | translate">
+                  <i class="bi" [class.bi-eye-slash]="product.isAvailable"
+                     [class.bi-eye]="!product.isAvailable"></i>
+                </button>
+                <button class="btn btn-outline-danger" (click)="deleteProduct(product)" [title]="'PRODUCT_MGMT.DELETE' | translate">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredProducts.length === 0">
+            <td colspan="7" class="text-center text-muted py-4">
+              <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+              {{ 'PRODUCT_MGMT.NO_PRODUCTS' | translate }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pm-pagination" *ngIf="totalPages > 1">
+      <button class="pm-page-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <ng-container *ngIf="pageNumbers[0] > 1">
+        <button class="pm-page-btn" (click)="goToPage(1)">1</button>
+        <span class="pm-page-ellipsis" *ngIf="pageNumbers[0] > 2">…</span>
+      </ng-container>
+
+      <button
+        *ngFor="let p of pageNumbers"
+        class="pm-page-btn"
+        [class.active]="p === currentPage"
+        (click)="goToPage(p)">{{ p }}</button>
+
+      <ng-container *ngIf="pageNumbers[pageNumbers.length - 1] < totalPages">
+        <span class="pm-page-ellipsis" *ngIf="pageNumbers[pageNumbers.length - 1] < totalPages - 1">…</span>
+        <button class="pm-page-btn" (click)="goToPage(totalPages)">{{ totalPages }}</button>
+      </ng-container>
+
+      <button class="pm-page-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ====================================================
+       Add / Edit Product Modal — Redesigned
+       ==================================================== -->
+  <div class="pm-modal-overlay" [class.visible]="showAddModal" (click)="closeModal()"></div>
+
+  <div class="pm-modal" [class.visible]="showAddModal">
+    <div class="pm-modal-inner" (click)="$event.stopPropagation()">
+
+      <!-- Header -->
+      <div class="pm-modal-header">
+        <div class="pm-modal-header-left">
+          <div class="pm-modal-icon">
+            <i class="bi" [class.bi-plus-lg]="!editingProduct" [class.bi-pencil-square]="editingProduct"></i>
+          </div>
+          <div>
+            <h4 class="pm-modal-title">
+              {{ (editingProduct ? 'PRODUCT_MGMT.EDIT_PRODUCT' : 'PRODUCT_MGMT.ADD_NEW') | translate }}
+            </h4>
+            <p class="pm-modal-subtitle">Fill in the details below</p>
+          </div>
+        </div>
+        <button class="pm-modal-close" (click)="closeModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="pm-modal-body">
+        <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+
+          <!-- Two-column layout: form left, preview right -->
+          <div class="pm-form-layout">
+            <div class="pm-form-fields">
+
+              <!-- Section: Identity -->
+              <div class="pm-form-section">
+                <div class="pm-section-label">
+                  <i class="bi bi-tag-fill"></i> Product Identity
                 </div>
-              </td>
-            </tr>
-            <tr *ngIf="products.length === 0">
-              <td colspan="7" class="text-center text-muted py-4">
-                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                {{ 'PRODUCT_MGMT.NO_PRODUCTS' | translate }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_NAME' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.name" name="name" required
+                             placeholder="e.g. Château Margaux 2015">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_BRAND' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.brand" name="brand" required
+                             placeholder="e.g. Moët & Chandon">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_DESC' | translate }}</label>
+                      <textarea [(ngModel)]="formData.description" name="description" required
+                                rows="3" placeholder="Describe the product aroma, taste, and pairing suggestions…"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section: Pricing -->
+              <div class="pm-form-section">
+                <div class="pm-section-label">
+                  <i class="bi bi-currency-dollar"></i> Pricing &amp; Category
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_CAT' | translate }}</label>
+                      <select [(ngModel)]="formData.category" name="category" required>
+                        <option value="wine">{{ 'CATEGORIES.WINE' | translate }}</option>
+                        <option value="beer">{{ 'CATEGORIES.BEER' | translate }}</option>
+                        <option value="spirits">{{ 'CATEGORIES.SPIRITS' | translate }}</option>
+                        <option value="champagne">{{ 'CATEGORIES.CHAMPAGNE' | translate }}</option>
+                        <option value="other">{{ 'CATEGORIES.OTHER' | translate }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_PRICE' | translate }}</label>
+                      <div class="pm-input-prefix">
+                        <span>₾</span>
+                        <input type="number" [(ngModel)]="formData.price" name="price"
+                               min="0" step="0.01" required placeholder="0.00">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_DISCOUNT' | translate }}</label>
+                      <div class="pm-input-prefix sale">
+                        <span>₾</span>
+                        <input type="number" [(ngModel)]="formData.discountPrice" name="discountPrice"
+                               min="0" step="0.01" placeholder="Optional">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section: Details -->
+              <div class="pm-form-section">
+                <div class="pm-section-label">
+                  <i class="bi bi-info-circle-fill"></i> Product Details
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_ALCOHOL' | translate }}</label>
+                      <div class="pm-input-suffix">
+                        <input type="number" [(ngModel)]="formData.alcoholContent" name="alcoholContent"
+                               min="0" max="100" step="0.1" required placeholder="0.0">
+                        <span>%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_VOLUME' | translate }}</label>
+                      <div class="pm-input-suffix">
+                        <input type="number" [(ngModel)]="formData.volume" name="volume"
+                               min="0" required placeholder="750">
+                        <span>ml</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_STOCK' | translate }}</label>
+                      <div class="pm-input-suffix">
+                        <input type="number" [(ngModel)]="formData.stock" name="stock"
+                               min="0" required placeholder="0">
+                        <span>units</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_COUNTRY' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.country" name="country" required
+                             placeholder="e.g. France">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section: Media & availability -->
+              <div class="pm-form-section">
+                <div class="pm-section-label">
+                  <i class="bi bi-image-fill"></i> Media &amp; Availability
+                </div>
+                <div class="pm-field">
+                  <label>{{ 'PRODUCT_MGMT.FORM_IMAGE' | translate }}</label>
+                  <input type="url" [(ngModel)]="formData.imageUrl" name="imageUrl" required
+                         placeholder="https://example.com/image.jpg">
+                  <small>{{ 'PRODUCT_MGMT.IMAGE_NOTE' | translate }}</small>
+                </div>
+                <div class="pm-toggle-row mt-3">
+                  <label class="pm-toggle">
+                    <input type="checkbox" [(ngModel)]="formData.isAvailable" name="isAvailable">
+                    <span class="pm-toggle-slider"></span>
+                  </label>
+                  <span class="pm-toggle-label">{{ 'PRODUCT_MGMT.AVAILABLE_SALE' | translate }}</span>
+                </div>
+              </div>
+
+              <div *ngIf="errorMessage" class="pm-alert pm-alert-error mt-2">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                {{ errorMessage }}
+              </div>
+
+            </div>
+
+            <!-- Live preview pane -->
+            <div class="pm-preview-pane">
+              <div class="pm-preview-sticky">
+                <p class="pm-preview-title">Live Preview</p>
+                <div class="pm-preview-card">
+                  <div class="pm-preview-img-wrap">
+                    <img *ngIf="formData.imageUrl" [src]="formData.imageUrl" [alt]="formData.name"
+                         class="pm-preview-img">
+                    <div *ngIf="!formData.imageUrl" class="pm-preview-img-placeholder">
+                      <i class="bi bi-image"></i>
+                    </div>
+                    <div class="pm-preview-badge" *ngIf="formData.discountPrice">SALE</div>
+                  </div>
+                  <div class="pm-preview-body">
+                    <span class="pm-preview-category">{{ formData.category || 'Category' }}</span>
+                    <h6 class="pm-preview-name">{{ formData.name || 'Product Name' }}</h6>
+                    <p class="pm-preview-brand">{{ formData.brand || 'Brand' }}</p>
+                    <div class="pm-preview-meta">
+                      <span><i class="bi bi-droplet-half"></i> {{ formData.alcoholContent || 0 }}%</span>
+                      <span><i class="bi bi-cup"></i> {{ formData.volume || 0 }}ml</span>
+                      <span><i class="bi bi-geo-alt"></i> {{ formData.country || '—' }}</span>
+                    </div>
+                    <div class="pm-preview-price">
+                      <span class="pm-preview-old" *ngIf="formData.discountPrice">₾{{ formData.price }}</span>
+                      <span class="pm-preview-current">₾{{ formData.discountPrice || formData.price || '0.00' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
       </div>
+
+      <!-- Footer -->
+      <div class="pm-modal-footer">
+        <button class="pm-btn-cancel" (click)="closeModal()">
+          <i class="bi bi-x-lg me-2"></i>{{ 'PRODUCT_MGMT.CANCEL' | translate }}
+        </button>
+        <button class="pm-btn-submit" (click)="onSubmit()"
+                [disabled]="loading || !productForm.valid">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          <i *ngIf="!loading" class="bi" [class.bi-plus-lg]="!editingProduct"
+             [class.bi-check-lg]="editingProduct"></i>
+          <span class="ms-2">{{ (editingProduct ? 'PRODUCT_MGMT.UPDATE' : 'PRODUCT_MGMT.ADD') | translate }}</span>
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <!-- Add/Edit Product Modal -->
-  <div class="modal" [class.show]="showAddModal" [style.display]="showAddModal ? 'block' : 'none'">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            {{ (editingProduct ? 'PRODUCT_MGMT.EDIT_PRODUCT' : 'PRODUCT_MGMT.ADD_NEW') | translate }}
-          </h5>
-          <button type="button" class="btn-close" (click)="closeModal()"></button>
-        </div>
-        <div class="modal-body">
-          <form (ngSubmit)="onSubmit()" #productForm="ngForm">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_NAME' | translate }}</label>
-                <input type="text" class="form-control" [(ngModel)]="formData.name" 
-                       name="name" required>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_BRAND' | translate }}</label>
-                <input type="text" class="form-control" [(ngModel)]="formData.brand" 
-                       name="brand" required>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">{{ 'PRODUCT_MGMT.FORM_DESC' | translate }}</label>
-              <textarea class="form-control" rows="3" [(ngModel)]="formData.description" 
-                        name="description" required></textarea>
-            </div>
-
-            <div class="row">
-              <div class="col-md-4 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_CAT' | translate }}</label>
-                <select class="form-select" [(ngModel)]="formData.category" name="category" required>
-                  <option value="wine">{{ 'CATEGORIES.WINE' | translate }}</option>
-                  <option value="beer">{{ 'CATEGORIES.BEER' | translate }}</option>
-                  <option value="spirits">{{ 'CATEGORIES.SPIRITS' | translate }}</option>
-                  <option value="champagne">{{ 'CATEGORIES.CHAMPAGNE' | translate }}</option>
-                  <option value="other">{{ 'CATEGORIES.OTHER' | translate }}</option>
-                </select>
-              </div>
-              <div class="col-md-4 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_PRICE' | translate }}</label>
-                <input type="number" class="form-control" [(ngModel)]="formData.price" 
-                       name="price" min="0" step="0.01" required>
-              </div>
-              <div class="col-md-4 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_DISCOUNT' | translate }}</label>
-                <input type="number" class="form-control" [(ngModel)]="formData.discountPrice" 
-                       name="discountPrice" min="0" step="0.01">
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-4 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_ALCOHOL' | translate }}</label>
-                <input type="number" class="form-control" [(ngModel)]="formData.alcoholContent" 
-                       name="alcoholContent" min="0" max="100" step="0.1" required>
-              </div>
-              <div class="col-md-4 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_VOLUME' | translate }}</label>
-                <input type="number" class="form-control" [(ngModel)]="formData.volume" 
-                       name="volume" min="0" required>
-              </div>
-              <div class="col-md-4 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_STOCK' | translate }}</label>
-                <input type="number" class="form-control" [(ngModel)]="formData.stock" 
-                       name="stock" min="0" required>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_COUNTRY' | translate }}</label>
-                <input type="text" class="form-control" [(ngModel)]="formData.country" 
-                       name="country" required>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_IMAGE' | translate }}</label>
-                <input type="url" class="form-control" [(ngModel)]="formData.imageUrl" 
-                       name="imageUrl" required>
-                <small class="form-text text-muted">
-                  {{ 'PRODUCT_MGMT.IMAGE_NOTE' | translate }}
-                </small>
-              </div>
-            </div>
-
-            <div class="form-check mb-3">
-              <input class="form-check-input" type="checkbox" [(ngModel)]="formData.isAvailable" 
-                     name="isAvailable" id="isAvailable">
-              <label class="form-check-label" for="isAvailable">
-                {{ 'PRODUCT_MGMT.AVAILABLE_SALE' | translate }}
-              </label>
-            </div>
-
-            <div *ngIf="errorMessage" class="alert alert-danger">
-              {{ errorMessage }}
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ 'PRODUCT_MGMT.CANCEL' | translate }}</button>
-          <button type="button" class="btn btn-primary" (click)="onSubmit()" 
-                  [disabled]="loading || !productForm.valid">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-            {{ (editingProduct ? 'PRODUCT_MGMT.UPDATE' : 'PRODUCT_MGMT.ADD') | translate }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-backdrop fade" [class.show]="showAddModal" *ngIf="showAddModal"></div>
 </div>

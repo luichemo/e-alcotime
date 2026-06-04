@@ -40,6 +40,53 @@ export class ProductManagement implements OnInit {
   errorMessage = '';
   successMessage = '';
 
+  searchTerm = '';
+
+  get filteredProducts(): Product[] {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (!term) return this.products;
+    return this.products.filter(p => 
+      (p.name && p.name.toLowerCase().includes(term)) ||
+      (p.brand && p.brand.toLowerCase().includes(term)) ||
+      (p.category && p.category.toLowerCase().includes(term)) ||
+      (p.country && p.country.toLowerCase().includes(term))
+    );
+  }
+
+  onSearchChange(): void {
+    this.currentPage = 1;
+  }
+
+  // Pagination
+  currentPage = 1;
+  pageSize = 8;
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredProducts.length / this.pageSize);
+  }
+
+  get pagedProducts(): Product[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredProducts.slice(start, start + this.pageSize);
+  }
+
+  get pageNumbers(): number[] {
+    const pages: number[] = [];
+    for (let i = Math.max(1, this.currentPage - 2); i <= Math.min(this.totalPages, this.currentPage + 2); i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  getPageEnd(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filteredProducts.length);
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+  }
+
   constructor(
     private productService: ProductService,
     private translateService: TranslateService
@@ -55,6 +102,7 @@ export class ProductManagement implements OnInit {
       this.productService.getAllProducts().subscribe({
         next: (products) => {
           this.products = products;
+          this.currentPage = 1;
           resolve();
         },
         error: (error) => {

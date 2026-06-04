@@ -29,6 +29,10 @@
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "litepicker",
+              "sweetalert2"
             ]
           },
           "configurations": {
@@ -42,7 +46,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1MB",
+                  "maximumWarning": "2MB",
                   "maximumError": "5MB"
                 },
                 {

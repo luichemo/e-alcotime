@@ -41,12 +41,8 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div class="product-rating mb-3">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-half"></i>
-                <span class="ms-2">(4.5 / 5)</span>
+                <i *ngFor="let starClass of getStarsArray()" class="bi {{ starClass }}"></i>
+                <span class="ms-2">({{ getRating() }} / 5)</span>
               </div>
               <span class="category-badge">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
             </div>
@@ -59,7 +55,7 @@
               </span>
             </div>
             
-            <div class="purchase-section" *ngIf="product.stock > 0">
+            <div class="purchase-section" *ngIf="product.stock > 0" style="display:none;">
               <div class="quantity-selector">
                 <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 0">
                   <i class="bi bi-dash"></i>
