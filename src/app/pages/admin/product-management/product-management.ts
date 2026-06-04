@@ -5,12 +5,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../models/product.model';
 import { ProductService } from '../../../services/product';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './product-management.html',
   styleUrls: ['./product-management.css']
 })
@@ -39,7 +40,10 @@ export class ProductManagement implements OnInit {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
 
@@ -55,7 +59,7 @@ export class ProductManagement implements OnInit {
         },
         error: (error) => {
           console.error('Error loading products:', error);
-          this.errorMessage = 'Failed to load products';
+          this.errorMessage = this.translateService.instant('PRODUCT_MGMT.ERROR_LOAD_FAILED');
           reject(error);
         }
       });
@@ -122,8 +126,8 @@ export class ProductManagement implements OnInit {
     saveOperation.then(() => {
       this.loading = false;
       this.successMessage = this.editingProduct
-        ? 'Product updated successfully!'
-        : 'Product added successfully!';
+        ? this.translateService.instant('PRODUCT_MGMT.SUCCESS_UPDATE')
+        : this.translateService.instant('PRODUCT_MGMT.SUCCESS_ADD');
 
       // Close modal immediately
       this.closeModal();
@@ -137,36 +141,37 @@ export class ProductManagement implements OnInit {
       }, 3000);
     }).catch((error: any) => {
       this.loading = false;
-      this.errorMessage = error.message || 'Failed to save product';
+      this.errorMessage = error.message || this.translateService.instant('PRODUCT_MGMT.ERROR_SAVE_FAILED');
     });
   }
 
   deleteProduct(product: Product): void {
     if (!product.id) return;
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: this.translateService.instant('PRODUCT_MGMT.DELETE_CONFIRM_TITLE'),
+      text: this.translateService.instant('PRODUCT_MGMT.DELETE_CONFIRM_TEXT'),
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: this.translateService.instant('PRODUCT_MGMT.DELETE_CONFIRM_YES'),
+      cancelButtonText: this.translateService.instant('PRODUCT_MGMT.DELETE_CONFIRM_CANCEL')
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Deleted!",
-          text: "Product has been deleted.",
+          title: this.translateService.instant('PRODUCT_MGMT.DELETE_SUCCESS_TITLE'),
+          text: this.translateService.instant('PRODUCT_MGMT.DELETE_SUCCESS_TEXT'),
           icon: "success"
         });
         this.productService.deleteProduct(product.id).then(() => {
-          this.successMessage = 'Product deleted successfully!';
+          this.successMessage = this.translateService.instant('PRODUCT_MGMT.SUCCESS_DELETE');
           this.loadProducts();
 
           setTimeout(() => {
             this.successMessage = '';
           }, 3000);
         }).catch((error: any) => {
-          this.errorMessage = error.message || 'Failed to delete product';
+          this.errorMessage = error.message || this.translateService.instant('PRODUCT_MGMT.ERROR_DELETE_FAILED');
         });
       }
     });
@@ -181,7 +186,7 @@ export class ProductManagement implements OnInit {
     }).then(() => {
       this.loadProducts();
     }).catch((error: any) => {
-      this.errorMessage = error.message || 'Failed to update product';
+      this.errorMessage = error.message || this.translateService.instant('PRODUCT_MGMT.ERROR_UPDATE_FAILED');
     });
   }
 }

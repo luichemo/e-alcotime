@@ -6,15 +6,15 @@
     <div class="spinner-border text-warning" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <p class="mt-3 text-muted">Loading dashboard...</p>
+    <p class="mt-3 text-muted">{{ 'ADMIN_PANEL.LOADING' | translate }}</p>
   </div>
 
   <!-- Dashboard Content -->
   <div *ngIf="!loading">
     <!-- Header -->
     <div class="dashboard-header mb-4">
-      <h2>Dashboard Overview</h2>
-      <p class="text-muted">Welcome back! Here's what's happening with your store.</p>
+      <h2>{{ 'ADMIN_PANEL.OVERVIEW' | translate }}</h2>
+      <p class="text-muted">{{ 'ADMIN_PANEL.OVERVIEW_SUB' | translate }}</p>
     </div>
 
     <!-- Stats Cards -->
@@ -27,7 +27,7 @@
           </div>
           <div class="stat-details">
             <h3>{{ totalProducts }}</h3>
-            <p>Total Products</p>
+            <p>{{ 'ADMIN_PANEL.TOTAL_PRODUCTS' | translate }}</p>
           </div>
           <a routerLink="/admin/products" class="stat-link">
             <i class="bi bi-arrow-right"></i>
@@ -43,7 +43,7 @@
           </div>
           <div class="stat-details">
             <h3>{{ totalOrders }}</h3>
-            <p>Total Orders</p>
+            <p>{{ 'ADMIN_PANEL.TOTAL_ORDERS' | translate }}</p>
           </div>
           <a routerLink="/admin/orders" class="stat-link">
             <i class="bi bi-arrow-right"></i>
@@ -59,7 +59,7 @@
           </div>
           <div class="stat-details">
             <h3>{{ pendingOrders }}</h3>
-            <p>Pending Orders</p>
+            <p>{{ 'ADMIN_PANEL.PENDING_ORDERS' | translate }}</p>
           </div>
           <a routerLink="/admin/orders" class="stat-link">
             <i class="bi bi-arrow-right"></i>
@@ -75,7 +75,7 @@
           </div>
           <div class="stat-details">
             <h3>₾{{ totalRevenue | number:'1.2-2' }}</h3>
-            <p>Total Revenue</p>
+            <p>{{ 'ADMIN_PANEL.TOTAL_REVENUE' | translate }}</p>
           </div>
         </div>
       </div>
@@ -88,26 +88,26 @@
           <div class="card-header">
             <h5>
               <i class="bi bi-receipt me-2"></i>
-              Recent Orders
+              {{ 'ADMIN_PANEL.RECENT_ORDERS' | translate }}
             </h5>
-            <a routerLink="/admin/orders" class="btn btn-sm btn-outline-primary">View All</a>
+            <a routerLink="/admin/orders" class="btn btn-sm btn-outline-primary">{{ 'ADMIN_PANEL.VIEW_ALL' | translate }}</a>
           </div>
           <div class="card-body">
             <div *ngIf="recentOrders.length === 0" class="text-center py-4 text-muted">
               <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-              No orders yet
+              {{ 'ADMIN_PANEL.NO_ORDERS' | translate }}
             </div>
 
             <div *ngIf="recentOrders.length > 0" class="table-responsive">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Items</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Date</th>
+                    <th>{{ 'ADMIN_PANEL.ORDER_ID' | translate }}</th>
+                    <th>{{ 'ADMIN_PANEL.CUSTOMER' | translate }}</th>
+                    <th>{{ 'ADMIN_PANEL.ITEMS' | translate }}</th>
+                    <th>{{ 'ADMIN_PANEL.TOTAL' | translate }}</th>
+                    <th>{{ 'ADMIN_PANEL.STATUS' | translate }}</th>
+                    <th>{{ 'ADMIN_PANEL.DATE' | translate }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -116,12 +116,12 @@
                       <code>#{{ order.id?.slice(0, 8) }}</code>
                     </td>
                     <td>{{ order.userEmail }}</td>
-                    <td>{{ order.items.length }} items</td>
+                    <td>{{ order.items.length }} {{ 'CHECKOUT.ITEMS' | translate }}</td>
                     <td><strong>₾{{ order.total | number:'1.2-2' }}</strong></td>
                     <td>
                       <span class="status-badge" [ngClass]="getStatusClass(order.status)">
                         <i class="bi" [ngClass]="getStatusIcon(order.status)"></i>
-                        {{ order.status }}
+                        {{ 'ORDER_MGMT.' + order.status.toUpperCase() | translate }}
                       </span>
                     </td>
                     <td>{{ order.createdAt.toDate() | date:'short' }}</td>
@@ -139,13 +139,13 @@
           <div class="card-header">
             <h5>
               <i class="bi bi-exclamation-triangle me-2"></i>
-              Low Stock Alert
+              {{ 'ADMIN_PANEL.LOW_STOCK' | translate }}
             </h5>
           </div>
           <div class="card-body">
             <div *ngIf="lowStockProducts.length === 0" class="text-center py-4 text-muted">
               <i class="bi bi-check-circle fs-1 d-block mb-2"></i>
-              All products well stocked
+              {{ 'ADMIN_PANEL.ALL_STOCKED' | translate }}
             </div>
 
             <div *ngIf="lowStockProducts.length > 0" class="low-stock-list">
@@ -155,7 +155,7 @@
                   <strong>{{ product.name }}</strong>
                   <span class="stock-badge" [class.critical]="product.stock < 5">
                     <i class="bi bi-box"></i>
-                    {{ product.stock }} left
+                    {{ product.stock }} {{ 'ADMIN_PANEL.LEFT' | translate }}
                   </span>
                 </div>
               </div>
@@ -168,23 +168,27 @@
           <div class="card-header">
             <h5>
               <i class="bi bi-lightning me-2"></i>
-              Quick Actions
+              {{ 'ADMIN_PANEL.QUICK_ACTIONS' | translate }}
             </h5>
           </div>
           <div class="card-body">
             <div class="quick-actions">
               <a routerLink="/admin/products" class="quick-action-btn">
                 <i class="bi bi-plus-circle"></i>
-                <span>Add Product</span>
+                <span>{{ 'ADMIN_PANEL.ADD_PRODUCT' | translate }}</span>
               </a>
               <a routerLink="/admin/orders" class="quick-action-btn">
                 <i class="bi bi-eye"></i>
-                <span>View Orders</span>
+                <span>{{ 'ADMIN_PANEL.VIEW_ORDERS' | translate }}</span>
               </a>
               <a routerLink="/admin/products" class="quick-action-btn">
                 <i class="bi bi-gear"></i>
-                <span>Manage Stock</span>
+                <span>{{ 'ADMIN_PANEL.MANAGE_STOCK' | translate }}</span>
               </a>
+              <button (click)="seedSampleProducts()" class="quick-action-btn w-100 border-0 text-start" [disabled]="seeding">
+                <i class="bi bi-database-fill-gear"></i>
+                <span>{{ (seeding ? 'ADMIN_PANEL.SEEDING' : 'ADMIN_PANEL.SEED_DATA') | translate }}</span>
+              </button>
             </div>
           </div>
         </div>

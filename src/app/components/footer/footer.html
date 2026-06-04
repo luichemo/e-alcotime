@@ -1,9 +1,9 @@
 <footer class="footer bg-dark text-white">
   <div class="container">
     <div *ngIf="(isAuthenticated$ | async) === false" class="footer-cta text-center py-5">
-      <h2 class="mb-3">Join AlcoTime Today</h2>
-      <p class="lead mb-4">Sign up to access exclusive deals and premium selections</p>
-      <a routerLink="/register" class="btn btn-warning btn-lg px-5">Create Account</a>
+      <h2 class="mb-3">{{ 'FOOTER.CTA_TITLE' | translate }}</h2>
+      <p class="lead mb-4">{{ 'FOOTER.CTA_SUBTITLE' | translate }}</p>
+      <a routerLink="/register" class="btn btn-warning btn-lg px-5">{{ 'FOOTER.CREATE_ACCOUNT' | translate }}</a>
     </div>
 
     <div class="footer-content" 
@@ -11,10 +11,9 @@
          [class.pt-4]="(isAuthenticated$ | async) === false">
       <div class="row g-4">
         <div class="col-lg-4 col-md-6">
-          <h5 class="text-warning mb-3">About AlcoTime</h5>
+          <h5 class="text-warning mb-3">{{ 'FOOTER.ABOUT_TITLE' | translate }}</h5>
           <p class="text-light-gray">
-            Your premium destination for fine wines, spirits, and craft beers. 
-            We bring you the finest selection from around the world.
+            {{ 'FOOTER.ABOUT_DESC' | translate }}
           </p>
           <div class="social-links mt-3">
             <a href="#" class="text-white me-3" aria-label="Facebook">
@@ -33,30 +32,30 @@
         </div>
 
         <div class="col-lg-2 col-md-6">
-          <h5 class="text-warning mb-3">Quick Links</h5>
+          <h5 class="text-warning mb-3">{{ 'FOOTER.QUICK_LINKS' | translate }}</h5>
           <ul class="list-unstyled footer-links">
-            <li><a routerLink="/products" class="text-light-gray">Shop All</a></li>
-            <li><a routerLink="/products" [queryParams]="{category: 'wine'}" class="text-light-gray">Wine</a></li>
-            <li><a routerLink="/products" [queryParams]="{category: 'spirits'}" class="text-light-gray">Spirits</a></li>
-            <li><a routerLink="/products" [queryParams]="{category: 'beer'}" class="text-light-gray">Beer</a></li>
-            <li><a routerLink="/about" class="text-light-gray">About Us</a></li>
+            <li><a routerLink="/products" class="text-light-gray">{{ 'FOOTER.SHOP_ALL' | translate }}</a></li>
+            <li><a routerLink="/products" [queryParams]="{category: 'wine'}" class="text-light-gray">{{ 'FOOTER.WINE' | translate }}</a></li>
+            <li><a routerLink="/products" [queryParams]="{category: 'spirits'}" class="text-light-gray">{{ 'FOOTER.SPIRITS' | translate }}</a></li>
+            <li><a routerLink="/products" [queryParams]="{category: 'beer'}" class="text-light-gray">{{ 'FOOTER.BEER' | translate }}</a></li>
+            <li><a routerLink="/about" class="text-light-gray">{{ 'FOOTER.ABOUT_US' | translate }}</a></li>
           </ul>
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <h5 class="text-warning mb-3">Customer Service</h5>
+          <h5 class="text-warning mb-3">{{ 'FOOTER.CUSTOMER_SERVICE' | translate }}</h5>
           <ul class="list-unstyled footer-links">
-            <li><a routerLink="/contact" class="text-light-gray">Contact Us</a></li>
-            <li><a routerLink="/faq" class="text-light-gray">FAQ</a></li>
-            <li><a routerLink="/shipping" class="text-light-gray">Shipping Info</a></li>
-            <li><a routerLink="/returns" class="text-light-gray">Returns</a></li>
-            <li><a routerLink="/terms" class="text-light-gray">Terms & Conditions</a></li>
-            <li><a routerLink="/privacy" class="text-light-gray">Privacy Policy</a></li>
+            <li><a routerLink="/contact" class="text-light-gray">{{ 'FOOTER.CONTACT_US' | translate }}</a></li>
+            <li><a routerLink="/faq" class="text-light-gray">{{ 'FOOTER.FAQ' | translate }}</a></li>
+            <li><a routerLink="/shipping" class="text-light-gray">{{ 'FOOTER.SHIPPING_INFO' | translate }}</a></li>
+            <li><a routerLink="/returns" class="text-light-gray">{{ 'FOOTER.RETURNS' | translate }}</a></li>
+            <li><a routerLink="/terms" class="text-light-gray">{{ 'FOOTER.TERMS' | translate }}</a></li>
+            <li><a routerLink="/privacy" class="text-light-gray">{{ 'FOOTER.PRIVACY' | translate }}</a></li>
           </ul>
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <h5 class="text-warning mb-3">Contact Info</h5>
+          <h5 class="text-warning mb-3">{{ 'FOOTER.CONTACT_INFO' | translate }}</h5>
           <ul class="list-unstyled footer-contact">
             <li class="mb-2">
               <i class="bi bi-geo-alt-fill text-warning me-2"></i>
@@ -72,7 +71,7 @@
             </li>
             <li class="mb-2">
               <i class="bi bi-clock-fill text-warning me-2"></i>
-              <span class="text-light-gray">Mon-Sat: 9AM - 9PM</span>
+              <span class="text-light-gray">{{ 'FOOTER.HOURS' | translate }}</span>
             </li>
           </ul>
         </div>
@@ -83,13 +82,13 @@
       <div class="row align-items-center">
         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
           <p class="mb-0 text-light-gray">
-            &copy; {{ currentYear }} AlcoTime. All rights reserved.
+            &copy; {{ currentYear }} AlcoTime. {{ 'FOOTER.RIGHTS_RESERVED' | translate }}
           </p>
         </div>
         <div class="col-md-6 text-center text-md-end">
           <p class="mb-0 text-light-gray">
             <i class="bi bi-shield-check text-warning me-2"></i>
-            Drink Responsibly. Must be 18+ to purchase.
+            {{ 'FOOTER.RESPONSIBLE_DRINKING' | translate }}
           </p>
         </div>
       </div>

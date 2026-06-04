@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
@@ -26,7 +27,8 @@ export class RegisterComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   async onSubmit(): Promise<void> {
@@ -34,22 +36,22 @@ export class RegisterComponent {
     this.successMessage = '';
 
     if (!this.displayName || !this.email || !this.password || !this.dateOfBirth) {
-      this.errorMessage = 'Please fill in all required fields';
+      this.errorMessage = this.translateService.instant('AUTH.ERROR_REQUIRED_FIELDS');
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      this.errorMessage = 'Passwords do not match';
+      this.errorMessage = this.translateService.instant('AUTH.ERROR_PASSWORDS_MISMATCH');
       return;
     }
 
     if (this.password.length < 6) {
-      this.errorMessage = 'Password must be at least 6 characters';
+      this.errorMessage = this.translateService.instant('AUTH.ERROR_PASSWORD_LENGTH');
       return;
     }
 
     if (!this.agreeTerms) {
-      this.errorMessage = 'You must agree to the terms and conditions';
+      this.errorMessage = this.translateService.instant('AUTH.ERROR_AGREE_TERMS');
       return;
     }
 
@@ -57,7 +59,7 @@ export class RegisterComponent {
     const age = this.calculateAge(birthDate);
     
     if (age < 18) {
-      this.errorMessage = 'You must be at least 18 years old to register';
+      this.errorMessage = this.translateService.instant('AUTH.ERROR_UNDERAGE');
       return;
     }
 
@@ -72,7 +74,7 @@ export class RegisterComponent {
         this.phoneNumber || undefined
       );
 
-      this.successMessage = 'Registration successful! Redirecting...';
+      this.successMessage = this.translateService.instant('AUTH.SUCCESS_REGISTRATION');
       
       setTimeout(() => {
         this.router.navigate(['/home']);
@@ -82,13 +84,13 @@ export class RegisterComponent {
       this.loading = false;
       
       if (error.code === 'auth/email-already-in-use') {
-        this.errorMessage = 'This email is already registered';
+        this.errorMessage = this.translateService.instant('AUTH.ERROR_EMAIL_IN_USE');
       } else if (error.code === 'auth/invalid-email') {
-        this.errorMessage = 'Invalid email address';
+        this.errorMessage = this.translateService.instant('AUTH.ERROR_INVALID_EMAIL');
       } else if (error.code === 'auth/weak-password') {
-        this.errorMessage = 'Password is too weak';
+        this.errorMessage = this.translateService.instant('AUTH.ERROR_WEAK_PASSWORD');
       } else {
-        this.errorMessage = error.message || 'Registration failed. Please try again.';
+        this.errorMessage = error.message || this.translateService.instant('AUTH.ERROR_REGISTRATION_FAILED');
       }
     }
   }

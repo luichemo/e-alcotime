@@ -2,16 +2,16 @@
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="container text-center">
-      <img src="rm-log.png" alt="AlcoTime Logo" class="hero-logo mb-4" style="max-width: 300px;">
-      <h1 class="display-3 fw-bold text-white mb-3">Welcome to AlcoTime</h1>
-      <p class="lead text-white mb-4">Premium Selection of Fine Wines, Spirits & Craft Beers</p>
+      <img src="/rm-log.png" alt="AlcoTime Logo" class="hero-logo mb-4" style="max-width: 300px;">
+      <h1 class="display-3 fw-bold text-white mb-3">{{ 'HOME.WELCOME' | translate }}</h1>
+      <p class="lead text-white mb-4">{{ 'HOME.SUBTITLE' | translate }}</p>
       <div class="d-flex gap-3 justify-content-center">
-        <a routerLink="/products" class="btn btn-warning btn-lg px-5">Buy Now</a>
-        <a routerLink="/register" class="btn btn-outline-light btn-lg px-5">Join Us</a>
+        <a routerLink="/products" class="btn btn-warning btn-lg px-5">{{ 'HOME.BUY_NOW' | translate }}</a>
+        <a routerLink="/register" class="btn btn-outline-light btn-lg px-5">{{ 'HOME.JOIN_US' | translate }}</a>
       </div>
       <p class="text-white mt-3 sub-lead">
         <i class="bi bi-shield-check me-2"></i>
-        Must be 18+ to purchase
+        {{ 'HOME.LEGAL_AGE' | translate }}
       </p>
     </div>
   </div>
@@ -19,38 +19,38 @@
 
 <section class="py-5 bg-light">
   <div class="container">
-    <h2 class="text-center mb-5">Shop by Category</h2>
+    <h2 class="text-center mb-5">{{ 'HOME.CATEGORIES' | translate }}</h2>
     <div class="row g-4">
       <div class="col-md-3 col-sm-6">
         <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
           <i class="bi bi-droplet fs-1 text-warning mb-3"></i>
-          <h4>Wine</h4>
-          <p class="text-muted">Premium wines from around the world</p>
-          <a routerLink="/products" [queryParams]="{category: 'wine'}" class="btn btn-sm btn-outline-dark">Browse</a>
+          <h4>{{ 'CATEGORIES.WINE' | translate }}</h4>
+          <p class="text-muted">{{ 'CATEGORIES.WINE_DESC' | translate }}</p>
+          <a routerLink="/products" [queryParams]="{category: 'wine'}" class="btn btn-sm btn-outline-dark">{{ 'CATEGORIES.BROWSE' | translate }}</a>
         </div>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
           <i class="bi bi-thermometer-high fs-1 text-warning mb-3"></i>
-          <h4>Spirits</h4>
-          <p class="text-muted">Fine whiskey, vodka, rum & more</p>
-          <a routerLink="/products" [queryParams]="{category: 'spirits'}" class="btn btn-sm btn-outline-dark">Browse</a>
+          <h4>{{ 'CATEGORIES.SPIRITS' | translate }}</h4>
+          <p class="text-muted">{{ 'CATEGORIES.SPIRITS_DESC' | translate }}</p>
+          <a routerLink="/products" [queryParams]="{category: 'spirits'}" class="btn btn-sm btn-outline-dark">{{ 'CATEGORIES.BROWSE' | translate }}</a>
         </div>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
           <i class="bi bi-moisture fs-1 text-warning mb-3"></i>
-          <h4>Beer</h4>
-          <p class="text-muted">Craft beers and classics</p>
-          <a routerLink="/products" [queryParams]="{category: 'beer'}" class="btn btn-sm btn-outline-dark">Browse</a>
+          <h4>{{ 'CATEGORIES.BEER' | translate }}</h4>
+          <p class="text-muted">{{ 'CATEGORIES.BEER_DESC' | translate }}</p>
+          <a routerLink="/products" [queryParams]="{category: 'beer'}" class="btn btn-sm btn-outline-dark">{{ 'CATEGORIES.BROWSE' | translate }}</a>
         </div>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="category-card text-center p-4 rounded shadow-sm bg-white h-100">
           <i class="bi bi-stars fs-1 text-warning mb-3"></i>
-          <h4>Champagne</h4>
-          <p class="text-muted">Celebrate with elegance</p>
-          <a routerLink="/products" [queryParams]="{category: 'champagne'}" class="btn btn-sm btn-outline-dark">Browse</a>
+          <h4>{{ 'CATEGORIES.CHAMPAGNE' | translate }}</h4>
+          <p class="text-muted">{{ 'CATEGORIES.CHAMPAGNE_DESC' | translate }}</p>
+          <a routerLink="/products" [queryParams]="{category: 'champagne'}" class="btn btn-sm btn-outline-dark">{{ 'CATEGORIES.BROWSE' | translate }}</a>
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
 
 <section class="py-5">
   <div class="container">
-    <h2 class="text-center mb-5">Featured Products</h2>
+    <h2 class="text-center mb-5">{{ 'HOME.FEATURED' | translate }}</h2>
     
     <div *ngIf="featuredProducts$ | async as products; else loading">
       <div *ngIf="products.length > 0; else noProducts" class="row g-4">

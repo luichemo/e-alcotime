@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, query, where, orderBy, doc, updateDoc, getDoc, CollectionReference, DocumentReference } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
+import { collection, addDoc, query, where, orderBy, doc, updateDoc, getDoc, getDocs, CollectionReference, DocumentReference } from 'firebase/firestore';
 import { Observable, from, map } from 'rxjs';
 import { Order, OrderItem } from '../models/order.model';
 import { Cart } from '../models/cart.model';
@@ -72,16 +73,35 @@ export class OrderService {
 
   getAllOrders(): Observable<Order[]> {
     const q = query(this.ordersCollection, orderBy('createdAt', 'desc'));
-    return collectionData(q, { idField: 'id' }) as Observable<Order[]>;
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        return snapshot.docs.map(docSnap => ({
+          id: docSnap.id,
+          ...docSnap.data()
+        } as Order));
+      })
+    );
   }
 
   getUserOrders(userId: string): Observable<Order[]> {
     const q = query(
       this.ordersCollection,
-      where('userId', '==', userId),
-      orderBy('createdAt', 'desc')
+      where('userId', '==', userId)
     );
-    return collectionData(q, { idField: 'id' }) as Observable<Order[]>;
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        const orders = snapshot.docs.map(docSnap => ({
+          id: docSnap.id,
+          ...docSnap.data()
+        } as Order));
+        
+        return orders.sort((a, b) => {
+          const timeA = a.createdAt && typeof a.createdAt.toMillis === 'function' ? a.createdAt.toMillis() : 0;
+          const timeB = b.createdAt && typeof b.createdAt.toMillis === 'function' ? b.createdAt.toMillis() : 0;
+          return timeB - timeA;
+        });
+      })
+    );
   }
 
   async updateOrderStatus(orderId: string, status: Order['status']): Promise<void> {

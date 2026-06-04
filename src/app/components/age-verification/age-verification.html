@@ -9,42 +9,42 @@
         <h1 class="brand-name">AlcoTime</h1>
       </div>
 
-      <h2 class="modal-title">Age Verification Required</h2>
+      <h2 class="modal-title">{{ 'AGE_VERIFY.TITLE' | translate }}</h2>
 
       <div class="modal-message">
         <p class="main-text">
-          This website contains alcohol products and is intended for adults of legal drinking age.
+          {{ 'AGE_VERIFY.MAIN_TEXT' | translate }}
         </p>
         <p class="age-question">
-          Are you 18 years of age or older?
+          {{ 'AGE_VERIFY.QUESTION' | translate }}
         </p>
       </div>
 
       <div class="warning-box">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        <span>You must be at least 18 years old to enter this site.</span>
+        <span>{{ 'AGE_VERIFY.WARNING' | translate }}</span>
       </div>
 
       <div class="modal-actions">
         <button class="btn-confirm" (click)="confirmAge()">
           <i class="bi bi-check-circle me-2"></i>
-          Yes, I am 18+
+          {{ 'AGE_VERIFY.YES' | translate }}
         </button>
         <button class="btn-deny" (click)="denyAge()">
           <i class="bi bi-x-circle me-2"></i>
-          No, I am under 18
+          {{ 'AGE_VERIFY.NO' | translate }}
         </button>
       </div>
 
       <div class="legal-notice">
         <p>
-          By entering this site, you agree to our 
-          <a href="/terms" target="_blank" (click)="$event.stopPropagation()">Terms & Conditions</a> and 
-          <a href="/privacy" target="_blank" (click)="$event.stopPropagation()">Privacy Policy</a>
+          {{ 'AGE_VERIFY.LEGAL_NOTICE' | translate }}
+          <a href="/terms" target="_blank" (click)="$event.stopPropagation()">{{ 'AGE_VERIFY.TERMS' | translate }}</a> {{ 'AGE_VERIFY.AND' | translate }} 
+          <a href="/privacy" target="_blank" (click)="$event.stopPropagation()">{{ 'AGE_VERIFY.PRIVACY' | translate }}</a>
         </p>
         <small class="text-muted d-block mt-2">
           <i class="bi bi-info-circle me-1"></i>
-          You can view our policies without age verification
+          {{ 'AGE_VERIFY.VIEW_WITHOUT' | translate }}
         </small>
       </div>
     </div>

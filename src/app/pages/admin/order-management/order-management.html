@@ -6,7 +6,7 @@
     <div class="spinner-border text-warning" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <p class="mt-3 text-muted">Loading orders...</p>
+    <p class="mt-3 text-muted">{{ 'ORDER_HISTORY.LOADING' | translate }}</p>
   </div>
 
   <!-- Orders Content -->
@@ -14,12 +14,12 @@
     <!-- Header -->
     <div class="page-header mb-4">
       <div>
-        <h2>Orders Management</h2>
-        <p class="text-muted">Manage and track all customer orders</p>
+        <h2>{{ 'ORDER_MGMT.TITLE' | translate }}</h2>
+        <p class="text-muted">{{ 'ORDER_MGMT.SUBTITLE' | translate }}</p>
       </div>
       <button class="btn btn-outline-primary" (click)="exportOrders()">
         <i class="bi bi-download me-2"></i>
-        Export CSV
+        {{ 'ORDER_MGMT.EXPORT' | translate }}
       </button>
     </div>
 
@@ -32,7 +32,7 @@
           </div>
           <div class="stat-info">
             <h4>{{ getOrderStats().total }}</h4>
-            <p>Total Orders</p>
+            <p>{{ 'ADMIN_PANEL.TOTAL_ORDERS' | translate }}</p>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
           </div>
           <div class="stat-info">
             <h4>{{ getOrderStats().pending }}</h4>
-            <p>Pending</p>
+            <p>{{ 'ORDER_MGMT.PENDING' | translate }}</p>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
           </div>
           <div class="stat-info">
             <h4>{{ getOrderStats().processing }}</h4>
-            <p>Processing</p>
+            <p>{{ 'ORDER_MGMT.PROCESSING' | translate }}</p>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
           </div>
           <div class="stat-info">
             <h4>{{ getOrderStats().shipped }}</h4>
-            <p>Shipped</p>
+            <p>{{ 'ORDER_MGMT.SHIPPED' | translate }}</p>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@
           </div>
           <div class="stat-info">
             <h4>{{ getOrderStats().delivered }}</h4>
-            <p>Delivered</p>
+            <p>{{ 'ORDER_MGMT.DELIVERED' | translate }}</p>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@
           </div>
           <div class="stat-info">
             <h4>₾{{ getTotalRevenue() | number:'1.0-0' }}</h4>
-            <p>Revenue</p>
+            <p>{{ 'ORDER_MGMT.REVENUE' | translate }}</p>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
             <input 
               type="text" 
               class="form-control" 
-              placeholder="Search by order ID, email, or customer name..."
+              [placeholder]="'ORDER_MGMT.SEARCH_PLACEHOLDER' | translate"
               [(ngModel)]="searchTerm"
               (ngModelChange)="applyFilters()">
           </div>
@@ -112,17 +112,17 @@
             class="form-select" 
             [(ngModel)]="filterStatus"
             (ngModelChange)="applyFilters()">
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="processing">Processing</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
+            <option value="all">{{ 'ORDER_MGMT.ALL_STATUS' | translate }}</option>
+            <option value="pending">{{ 'ORDER_MGMT.PENDING' | translate }}</option>
+            <option value="processing">{{ 'ORDER_MGMT.PROCESSING' | translate }}</option>
+            <option value="shipped">{{ 'ORDER_MGMT.SHIPPED' | translate }}</option>
+            <option value="delivered">{{ 'ORDER_MGMT.DELIVERED' | translate }}</option>
+            <option value="cancelled">{{ 'ORDER_MGMT.CANCELLED' | translate }}</option>
           </select>
         </div>
         <div class="col-md-12 col-lg-5">
           <div class="results-info">
-            <span>Showing {{ filteredOrders.length }} orders</span>
+            <span>{{ 'ORDER_MGMT.SHOWING' | translate }} {{ filteredOrders.length }} {{ 'ORDER_MGMT.ORDERS_LOWER' | translate }}</span>
           </div>
         </div>
       </div>
@@ -132,20 +132,20 @@
     <div class="orders-card">
       <div *ngIf="filteredOrders.length === 0" class="text-center py-5 text-muted">
         <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-        <p>No orders found</p>
+        <p>{{ 'ORDER_MGMT.NO_ORDERS' | translate }}</p>
       </div>
 
       <div *ngIf="filteredOrders.length > 0" class="table-responsive">
         <table class="table orders-table">
           <thead>
             <tr>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Items</th>
-              <th>Total</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Actions</th>
+              <th>{{ 'ADMIN_PANEL.ORDER_ID' | translate }}</th>
+              <th>{{ 'ADMIN_PANEL.CUSTOMER' | translate }}</th>
+              <th>{{ 'ADMIN_PANEL.ITEMS' | translate }}</th>
+              <th>{{ 'ADMIN_PANEL.TOTAL' | translate }}</th>
+              <th>{{ 'ADMIN_PANEL.STATUS' | translate }}</th>
+              <th>{{ 'ADMIN_PANEL.DATE' | translate }}</th>
+              <th>{{ 'ADMIN_PANEL.ACTIONS' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -159,12 +159,12 @@
                   <small>{{ order.userEmail }}</small>
                 </div>
               </td>
-              <td>{{ getOrderItemsCount(order) }} items</td>
+              <td>{{ getOrderItemsCount(order) }} {{ 'CHECKOUT.ITEMS' | translate }}</td>
               <td><strong class="order-total">₾{{ order.total | number:'1.2-2' }}</strong></td>
               <td>
                 <span class="status-badge" [ngClass]="getStatusClass(order.status)">
                   <i class="bi" [ngClass]="getStatusIcon(order.status)"></i>
-                  {{ order.status }}
+                  {{ 'ORDER_MGMT.' + order.status.toUpperCase() | translate }}
                 </span>
               </td>
               <td>{{ order.createdAt.toDate() | date:'short' }}</td>
@@ -172,7 +172,7 @@
                 <button 
                   class="btn btn-sm btn-action"
                   (click)="viewOrderDetails(order)"
-                  title="View Details">
+                  [title]="'ORDER_HISTORY.VIEW_DETAILS' | translate">
                   <i class="bi bi-eye"></i>
                 </button>
               </td>
@@ -188,16 +188,16 @@
           (click)="prevPage()"
           [disabled]="currentPage === 1">
           <i class="bi bi-chevron-left"></i>
-          Previous
+          {{ 'ORDER_MGMT.PREVIOUS' | translate }}
         </button>
         <span class="page-info">
-          Page {{ currentPage }} of {{ totalPages }}
+          {{ 'ORDER_MGMT.PAGE_OF' | translate:{ current: currentPage, total: totalPages } }}
         </span>
         <button 
           class="btn btn-sm btn-outline-secondary"
           (click)="nextPage()"
           [disabled]="currentPage === totalPages">
-          Next
+          {{ 'ORDER_MGMT.NEXT' | translate }}
           <i class="bi bi-chevron-right"></i>
         </button>
       </div>
@@ -210,7 +210,7 @@
     <div class="modal-header">
       <h4>
         <i class="bi bi-receipt me-2"></i>
-        Order Details
+        {{ 'ORDER_MGMT.DETAILS_TITLE' | translate }}
       </h4>
       <button class="btn-close" (click)="closeOrderDetails()">
         <i class="bi bi-x-lg"></i>
@@ -220,27 +220,27 @@
     <div class="modal-body">
       <!-- Order Info -->
       <div class="info-section">
-        <h5>Order Information</h5>
+        <h5>{{ 'ORDER_MGMT.INFO_TITLE' | translate }}</h5>
         <div class="row g-3">
           <div class="col-md-6">
-            <label>Order ID</label>
+            <label>{{ 'ADMIN_PANEL.ORDER_ID' | translate }}</label>
             <p><code>#{{ selectedOrder.id?.slice(0, 8) }}</code></p>
           </div>
           <div class="col-md-6">
-            <label>Order Date</label>
+            <label>{{ 'ORDER_MGMT.ORDER_DATE' | translate }}</label>
             <p>{{ selectedOrder.createdAt.toDate() | date:'full' }}</p>
           </div>
           <div class="col-md-6">
-            <label>Status</label>
+            <label>{{ 'ADMIN_PANEL.STATUS' | translate }}</label>
             <p>
               <span class="status-badge" [ngClass]="getStatusClass(selectedOrder.status)">
                 <i class="bi" [ngClass]="getStatusIcon(selectedOrder.status)"></i>
-                {{ selectedOrder.status }}
+                {{ 'ORDER_MGMT.' + selectedOrder.status.toUpperCase() | translate }}
               </span>
             </p>
           </div>
           <div class="col-md-6">
-            <label>Total Amount</label>
+            <label>{{ 'ORDER_MGMT.TOTAL_AMOUNT' | translate }}</label>
             <p><strong class="text-success">₾{{ selectedOrder.total | number:'1.2-2' }}</strong></p>
           </div>
         </div>
@@ -248,18 +248,18 @@
 
       <!-- Customer Info -->
       <div class="info-section">
-        <h5>Customer Information</h5>
+        <h5>{{ 'ORDER_MGMT.CUST_INFO' | translate }}</h5>
         <div class="row g-3">
           <div class="col-md-6">
-            <label>Name</label>
+            <label>{{ 'ORDER_MGMT.NAME' | translate }}</label>
             <p>{{ selectedOrder.shippingAddress.fullName }}</p>
           </div>
           <div class="col-md-6">
-            <label>Email</label>
+            <label>{{ 'ORDER_MGMT.EMAIL' | translate }}</label>
             <p>{{ selectedOrder.userEmail }}</p>
           </div>
           <div class="col-md-6">
-            <label>Phone</label>
+            <label>{{ 'ORDER_MGMT.PHONE' | translate }}</label>
             <p>{{ selectedOrder.shippingAddress.phone }}</p>
           </div>
         </div>
@@ -267,20 +267,20 @@
 
       <!-- Shipping Address -->
       <div class="info-section">
-        <h5>Shipping Address</h5>
+        <h5>{{ 'ORDER_MGMT.SHIPPING_ADDR' | translate }}</h5>
         <p>{{ selectedOrder.shippingAddress.address }}</p>
         <p>{{ selectedOrder.shippingAddress.city }}, {{ selectedOrder.shippingAddress.postalCode }}</p>
       </div>
 
       <!-- Order Items -->
       <div class="info-section">
-        <h5>Order Items</h5>
+        <h5>{{ 'ORDER_MGMT.ORDER_ITEMS' | translate }}</h5>
         <div class="order-items-list">
           <div *ngFor="let item of selectedOrder.items" class="order-item">
             <img [src]="item.imageUrl" [alt]="item.productName">
             <div class="item-details">
               <strong>{{ item.productName }}</strong>
-              <p>Quantity: {{ item.quantity }} × ₾{{ item.price | number:'1.2-2' }}</p>
+              <p>{{ 'ORDER_MGMT.QTY' | translate }}: {{ item.quantity }} × ₾{{ item.price | number:'1.2-2' }}</p>
             </div>
             <div class="item-total">
               ₾{{ item.price * item.quantity | number:'1.2-2' }}
@@ -288,49 +288,49 @@
           </div>
         </div>
         <div class="items-total">
-          <strong>Total:</strong>
+          <strong>{{ 'ORDER_MGMT.ITEMS_TOTAL' | translate }}</strong>
           <strong>₾{{ selectedOrder.total | number:'1.2-2' }}</strong>
         </div>
       </div>
 
       <!-- Update Status -->
       <div class="info-section">
-        <h5>Update Order Status</h5>
+        <h5>{{ 'ORDER_MGMT.UPDATE_STATUS' | translate }}</h5>
         <div class="status-buttons">
           <button 
             class="btn btn-status btn-pending"
             (click)="updateOrderStatus(selectedOrder.id!, 'pending')"
             >
             <i class="bi bi-clock"></i>
-            Pending
+            {{ 'ORDER_MGMT.PENDING' | translate }}
           </button>
           <button 
             class="btn btn-status btn-processing"
             (click)="updateOrderStatus(selectedOrder.id!, 'processing')"
             >
             <i class="bi bi-arrow-repeat"></i>
-            Processing
+            {{ 'ORDER_MGMT.PROCESSING' | translate }}
           </button>
           <button 
             class="btn btn-status btn-shipped"
             (click)="updateOrderStatus(selectedOrder.id!, 'shipped')"
             >
             <i class="bi bi-truck"></i>
-            Shipped
+            {{ 'ORDER_MGMT.SHIPPED' | translate }}
           </button>
           <button 
             class="btn btn-status btn-delivered"
             (click)="updateOrderStatus(selectedOrder.id!, 'delivered')"
             >
             <i class="bi bi-check-circle"></i>
-            Delivered
+            {{ 'ORDER_MGMT.DELIVERED' | translate }}
           </button>
           <button 
             class="btn btn-status btn-cancelled"
             (click)="updateOrderStatus(selectedOrder.id!, 'cancelled')"
             >
             <i class="bi bi-x-circle"></i>
-            Cancel
+            {{ 'ORDER_MGMT.CANCELLED' | translate }}
           </button>
         </div>
       </div>

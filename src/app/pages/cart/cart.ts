@@ -5,18 +5,22 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Cart, CartItem } from '../../models/cart.model';
 import { CartService } from '../../services/cart';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslateModule],
   templateUrl: './cart.html',
   styleUrls: ['./cart.css']
 })
 export class CartComponent implements OnInit {
   cartData: Cart | null = null;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.cartService.cart$.subscribe(cart => {
@@ -41,24 +45,32 @@ export class CartComponent implements OnInit {
   }
 
   removeItem(productId: string): void {
-    if (confirm('Remove this item from cart?')) {
+    const msg = this.translateService.instant('CART.REMOVE_CONFIRM');
+    if (confirm(msg)) {
       this.cartService.removeFromCart(productId);
     }
   }
 
   async clearCart(): Promise<void> {
+    const title = this.translateService.instant('CART.CLEAR_CONFIRM_TITLE');
+    const text = this.translateService.instant('CART.CLEAR_CONFIRM_TEXT');
+    const confirmButtonText = this.translateService.instant('CART.CLEAR_CONFIRM_YES');
+    const cancelButtonText = this.translateService.instant('CART.CLEAR_CONFIRM_CANCEL');
+
     const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: 'This will remove all items from your cart.',
+      title,
+      text,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, clear it!',
-      cancelButtonText: 'Cancel'
+      confirmButtonText,
+      cancelButtonText
     });
 
     if (result.isConfirmed) {
       this.cartService.clearCart();
-      Swal.fire('Cleared!', 'Your cart has been emptied.', 'success');
+      const successTitle = this.translateService.instant('CART.CLEAR_SUCCESS_TITLE');
+      const successText = this.translateService.instant('CART.CLEAR_SUCCESS_TEXT');
+      Swal.fire(successTitle, successText, 'success');
     }
   }
 

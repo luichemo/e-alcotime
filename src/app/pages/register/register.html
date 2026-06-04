@@ -4,7 +4,7 @@
       <div class="col-md-6 col-lg-5">
         <div class="card shadow">
           <div class="card-body p-5">
-            <h2 class="text-center mb-4">Create Account</h2>
+            <h2 class="text-center mb-4">{{ 'AUTH.CREATE_ACCOUNT' | translate }}</h2>
             
             <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
               <i class="bi bi-exclamation-triangle me-2"></i>
@@ -18,7 +18,7 @@
 
             <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
               <div class="mb-3">
-                <label for="displayName" class="form-label">Full Name *</label>
+                <label for="displayName" class="form-label">{{ 'AUTH.FULL_NAME' | translate }}</label>
                 <input 
                   type="text" 
                   class="form-control" 
@@ -29,7 +29,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="email" class="form-label">Email *</label>
+                <label for="email" class="form-label">{{ 'AUTH.EMAIL' | translate }} *</label>
                 <input 
                   type="email" 
                   class="form-control" 
@@ -40,7 +40,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <label for="phoneNumber" class="form-label">{{ 'AUTH.PHONE_NUMBER' | translate }}</label>
                 <input 
                   type="tel" 
                   class="form-control" 
@@ -50,7 +50,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="dateOfBirth" class="form-label">Date of Birth *</label>
+                <label for="dateOfBirth" class="form-label">{{ 'AUTH.DOB' | translate }}</label>
                 <input 
                   type="date" 
                   class="form-control" 
@@ -60,12 +60,12 @@
                   [max]="getMaxDate()"
                   required>
                 <small class="form-text text-muted">
-                  You must be at least 18 years old
+                  {{ 'AUTH.DOB_NOTICE' | translate }}
                 </small>
               </div>
 
               <div class="mb-3">
-                <label for="password" class="form-label">Password *</label>
+                <label for="password" class="form-label">{{ 'AUTH.PASSWORD' | translate }} *</label>
                 <input 
                   type="password" 
                   class="form-control" 
@@ -74,12 +74,12 @@
                   name="password"
                   required>
                 <small class="form-text text-muted">
-                  Minimum 6 characters
+                  {{ 'AUTH.PASSWORD_NOTICE' | translate }}
                 </small>
               </div>
 
               <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password *</label>
+                <label for="confirmPassword" class="form-label">{{ 'AUTH.CONFIRM_PASSWORD' | translate }}</label>
                 <input 
                   type="password" 
                   class="form-control" 
@@ -98,7 +98,7 @@
                   name="agreeTerms"
                   required>
                 <label class="form-check-label" for="agreeTerms">
-                  I agree to the Terms and Conditions and confirm I am 18+ years old
+                  {{ 'AUTH.AGREE_TERMS' | translate }}
                 </label>
               </div>
 
@@ -107,12 +107,12 @@
                 class="btn btn-primary w-100 mb-3"
                 [disabled]="loading || !registerForm.valid">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                {{ loading ? 'Creating Account...' : 'Register' }}
+                {{ (loading ? 'AUTH.CREATING_ACCOUNT' : 'AUTH.REGISTER_BTN') | translate }}
               </button>
 
               <p class="text-center mb-0">
-                Already have an account? 
-                <a routerLink="/login" class="text-decoration-none">Login here</a>
+                {{ 'AUTH.ALREADY_HAVE_ACCOUNT' | translate }}
+                <a routerLink="/login" class="text-decoration-none">{{ 'AUTH.LOGIN_HERE' | translate }}</a>
               </p>
             </form>
           </div>

@@ -8,13 +8,13 @@ import {
   user,
   User as FirebaseUser
 } from '@angular/fire/auth';
+import { Firestore } from '@angular/fire/firestore';
 import { 
-  Firestore, 
   doc, 
   setDoc, 
   getDoc
-} from '@angular/fire/firestore';
-import { Observable, from, of, switchMap } from 'rxjs';
+} from 'firebase/firestore';
+import { Observable, from, of, switchMap, shareReplay } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -27,7 +27,11 @@ export class AuthService {
     private auth: Auth,
     private firestore: Firestore
   ) {
-    this.currentUser$ = user(this.auth);
+    this.currentUser$ = user(this.auth).pipe(shareReplay(1));
+  }
+
+  getCurrentUser(): FirebaseUser | null {
+    return this.auth.currentUser;
   }
 
   async register(

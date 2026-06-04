@@ -3,17 +3,17 @@
     <div class="checkout-steps mb-5">
       <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
         <div class="step-number">1</div>
-        <div class="step-label">Shipping</div>
+        <div class="step-label">{{ 'CHECKOUT.STEP_SHIPPING' | translate }}</div>
       </div>
       <div class="step-line" [class.active]="currentStep >= 2"></div>
       <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
         <div class="step-number">2</div>
-        <div class="step-label">Payment</div>
+        <div class="step-label">{{ 'CHECKOUT.STEP_PAYMENT' | translate }}</div>
       </div>
       <div class="step-line" [class.active]="currentStep >= 3"></div>
       <div class="step" [class.active]="currentStep >= 3">
         <div class="step-number">3</div>
-        <div class="step-label">Review</div>
+        <div class="step-label">{{ 'CHECKOUT.STEP_REVIEW' | translate }}</div>
       </div>
     </div>
 
@@ -26,52 +26,52 @@
       <div class="col-lg-8">
         <div *ngIf="currentStep === 1" class="checkout-card">
           <div class="card-header">
-            <h4><i class="bi bi-truck me-2"></i>Shipping Information</h4>
+            <h4><i class="bi bi-truck me-2"></i>{{ 'CHECKOUT.SHIPPING_TITLE' | translate }}</h4>
           </div>
           <div class="card-body">
             <form>
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label for="fullName" class="form-label">Full Name *</label>
+                  <label for="fullName" class="form-label">{{ 'CHECKOUT.FULL_NAME' | translate }}</label>
                   <input type="text" class="form-control" id="fullName" [(ngModel)]="shippingAddress.fullName"
                     name="fullName" readonly>
-                  <small class="text-muted">From your profile</small>
+                  <small class="text-muted">{{ 'CHECKOUT.FROM_PROFILE' | translate }}</small>
                 </div>
                 <div class="col-md-6">
-                  <label for="phone" class="form-label">Phone Number *</label>
+                  <label for="phone" class="form-label">{{ 'CHECKOUT.PHONE' | translate }}</label>
                   <input type="tel" class="form-control" id="phone" [(ngModel)]="shippingAddress.phone" name="phone"
                     readonly>
-                  <small class="text-muted">From your profile</small>
+                  <small class="text-muted">{{ 'CHECKOUT.FROM_PROFILE' | translate }}</small>
                 </div>
                 <div class="col-12">
-                  <label for="street" class="form-label">Street Address *</label>
+                  <label for="street" class="form-label">{{ 'CHECKOUT.STREET' | translate }}</label>
                   <input type="text" class="form-control" id="street" [(ngModel)]="shippingAddress.street" name="street"
                     required>
                 </div>
                 <div class="col-md-6">
-                  <label for="city" class="form-label">City *</label>
+                  <label for="city" class="form-label">{{ 'CHECKOUT.CITY' | translate }}</label>
                   <input type="text" class="form-control" id="city" [(ngModel)]="shippingAddress.city" name="city"
                     required>
                 </div>
                 <div class="col-md-6">
-                  <label for="state" class="form-label">State/Province *</label>
+                  <label for="state" class="form-label">{{ 'CHECKOUT.STATE' | translate }}</label>
                   <input type="text" class="form-control" id="state" [(ngModel)]="shippingAddress.state" name="state"
                     required>
                 </div>
                 <div class="col-md-6">
-                  <label for="zipCode" class="form-label">Zip/Postal Code *</label>
+                  <label for="zipCode" class="form-label">{{ 'CHECKOUT.ZIP' | translate }}</label>
                   <input type="text" class="form-control" id="zipCode" [(ngModel)]="shippingAddress.zipCode"
                     name="zipCode" required>
                 </div>
                 <div class="col-md-6">
-                  <label for="country" class="form-label">Country *</label>
+                  <label for="country" class="form-label">{{ 'CHECKOUT.COUNTRY' | translate }}</label>
                   <input type="text" class="form-control" id="country" [(ngModel)]="shippingAddress.country"
                     name="country" required>
                 </div>
               </div>
               <div class="d-flex justify-content-end mt-4">
                 <button type="button" class="btn btn-primary" (click)="nextStep()">
-                  Continue to Payment
+                  {{ 'CHECKOUT.CONTINUE_PAYMENT' | translate }}
                   <i class="bi bi-arrow-right ms-2"></i>
                 </button>
               </div>
@@ -81,7 +81,7 @@
 
         <div *ngIf="currentStep === 2" class="checkout-card">
           <div class="card-header">
-            <h4><i class="bi bi-credit-card me-2"></i>Payment Method</h4>
+            <h4><i class="bi bi-credit-card me-2"></i>{{ 'CHECKOUT.PAYMENT_TITLE' | translate }}</h4>
           </div>
           <div class="card-body">
             <div class="payment-options">
@@ -89,17 +89,77 @@
                 <input type="radio" id="cash" name="paymentMethod" value="cash-on-delivery" [(ngModel)]="paymentMethod" checked>
                 <label for="cash">
                   <i class="bi bi-cash"></i>
-                  <span>Cash on Delivery</span>
+                  <span>{{ 'CHECKOUT.CASH_ON_DELIVERY' | translate }}</span>
                 </label>
+              </div>
+              <div class="payment-option">
+                <input type="radio" id="card" name="paymentMethod" value="credit-card" [(ngModel)]="paymentMethod">
+                <label for="card">
+                  <i class="bi bi-credit-card"></i>
+                  <span>{{ 'CHECKOUT.CREDIT_CARD' | translate }}</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Card payment subform -->
+            <div *ngIf="paymentMethod === 'credit-card'" class="card-payment-form mt-4">
+              <!-- Visual Mock Card -->
+              <div class="credit-card-preview mb-4">
+                <div class="card-front">
+                  <div class="card-logo d-flex justify-content-between align-items-center mb-4">
+                    <div class="brand">
+                      <i class="bi bi-shield-lock-fill me-2 text-warning"></i>
+                      <span class="fw-bold tracking-widest text-white">SECURE PAY</span>
+                    </div>
+                    <i class="bi bi-credit-card fs-2 text-white-50"></i>
+                  </div>
+                  <div class="card-chip-container mb-3 d-flex justify-content-between align-items-center">
+                    <div class="card-chip"></div>
+                    <i class="bi bi-wifi fs-4 text-white-50 rotation-90"></i>
+                  </div>
+                  <div class="card-number-display mb-3">
+                    {{ cardDetails.cardNumber || '•••• •••• •••• ••••' }}
+                  </div>
+                  <div class="card-info d-flex justify-content-between align-items-end">
+                    <div class="card-holder-info">
+                      <span class="label d-block text-white-50 small text-uppercase" style="font-size: 0.7rem;">{{ 'CHECKOUT.VISUAL_CARD_HOLDER' | translate }}</span>
+                      <span class="value fw-bold text-white text-uppercase" style="font-size: 0.95rem;">{{ cardDetails.cardName || 'YOUR FULL NAME' }}</span>
+                    </div>
+                    <div class="card-expiry-info">
+                      <span class="label d-block text-white-50 small text-uppercase" style="font-size: 0.7rem;">{{ 'CHECKOUT.VISUAL_CARD_EXPIRES' | translate }}</span>
+                      <span class="value fw-bold text-white" style="font-size: 0.95rem;">{{ cardDetails.cardExpiry || 'MM/YY' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Input Fields -->
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="cardName" class="form-label fw-semibold">{{ 'CHECKOUT.CARD_HOLDER' | translate }}</label>
+                  <input type="text" class="form-control py-2 shadow-sm" id="cardName" [(ngModel)]="cardDetails.cardName" name="cardName" placeholder="John Doe" required>
+                </div>
+                <div class="col-12">
+                  <label for="cardNumber" class="form-label fw-semibold">{{ 'CHECKOUT.CARD_NUMBER' | translate }}</label>
+                  <input type="text" class="form-control py-2 shadow-sm" id="cardNumber" [value]="cardDetails.cardNumber" (input)="formatCardNumber($event)" name="cardNumber" placeholder="1234 5678 1234 5678" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="cardExpiry" class="form-label fw-semibold">{{ 'CHECKOUT.EXPIRY' | translate }}</label>
+                  <input type="text" class="form-control py-2 shadow-sm" id="cardExpiry" [value]="cardDetails.cardExpiry" (input)="formatExpiry($event)" name="cardExpiry" placeholder="MM/YY" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="cardCvv" class="form-label fw-semibold">{{ 'CHECKOUT.CVV' | translate }}</label>
+                  <input type="password" class="form-control py-2 shadow-sm" id="cardCvv" [value]="cardDetails.cardCvv" (input)="formatCvv($event)" name="cardCvv" placeholder="123" required>
+                </div>
               </div>
             </div>
             <div class="d-flex justify-content-between mt-4">
               <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
                 <i class="bi bi-arrow-left me-2"></i>
-                Back
+                {{ 'CHECKOUT.BACK' | translate }}
               </button>
               <button type="button" class="btn btn-primary" (click)="nextStep()">
-                Review Order
+                {{ 'CHECKOUT.REVIEW_ORDER' | translate }}
                 <i class="bi bi-arrow-right ms-2"></i>
               </button>
             </div>
@@ -108,39 +168,39 @@
 
         <div *ngIf="currentStep === 3" class="checkout-card">
           <div class="card-header">
-            <h4><i class="bi bi-check-circle me-2"></i>Review Your Order</h4>
+            <h4><i class="bi bi-check-circle me-2"></i>{{ 'CHECKOUT.REVIEW_TITLE' | translate }}</h4>
           </div>
           <div class="card-body">
             <div class="review-section mb-4">
-              <h5>Shipping Address</h5>
+              <h5>{{ 'CHECKOUT.SHIPPING_ADDRESS' | translate }}</h5>
               <p class="mb-1"><strong>{{ shippingAddress.fullName }}</strong></p>
               <p class="mb-1">{{ shippingAddress.street }}</p>
               <p class="mb-1">{{ shippingAddress.city }}, {{ shippingAddress.state }} {{ shippingAddress.zipCode }}</p>
               <p class="mb-1">{{ shippingAddress.country }}</p>
               <p class="mb-0">Phone: {{ shippingAddress.phone }}</p>
               <button type="button" class="btn btn-sm btn-link p-0 mt-2" (click)="currentStep = 1">
-                Edit Address
+                {{ 'CHECKOUT.EDIT_ADDRESS' | translate }}
               </button>
             </div>
 
             <div class="review-section mb-4">
-              <h5>Payment Method</h5>
+              <h5>{{ 'CHECKOUT.PAYMENT_TITLE' | translate }}</h5>
               <p class="mb-0 text-capitalize">
-                <i class="bi bi-cash"></i>
-                Cash on Delivery
+                <i class="bi" [class.bi-cash]="paymentMethod === 'cash-on-delivery'" [class.bi-credit-card]="paymentMethod === 'credit-card'"></i>
+                {{ paymentMethod === 'cash-on-delivery' ? ('CHECKOUT.CASH_ON_DELIVERY' | translate) : ('CHECKOUT.CREDIT_CARD' | translate) + ' (Ending in ' + (cardDetails.cardNumber.slice(-4)) + ')' }}
               </p>
               <button type="button" class="btn btn-sm btn-link p-0 mt-2" (click)="currentStep = 2">
-                Change Payment Method
+                {{ 'CHECKOUT.CHANGE_PAYMENT' | translate }}
               </button>
             </div>
 
             <div class="review-section">
-              <h5>Order Items</h5>
+              <h5>{{ 'CHECKOUT.ORDER_ITEMS' | translate }}</h5>
               <div *ngFor="let item of cart?.items" class="order-item-review">
                 <img [src]="item.product.imageUrl" [alt]="item.product.name">
                 <div class="item-details">
                   <h6>{{ item.product.name }}</h6>
-                  <p>Quantity: {{ item.quantity }}</p>
+                  <p>{{ 'CHECKOUT.QTY' | translate }}: {{ item.quantity }}</p>
                 </div>
                 <div class="item-price">
                   ₾{{ item.product.price * item.quantity | number:'1.2-2' }}
@@ -151,16 +211,16 @@
             <div class="d-flex justify-content-between mt-4">
               <button type="button" class="btn btn-outline-secondary" (click)="prevStep()">
                 <i class="bi bi-arrow-left me-2"></i>
-                Back
+                {{ 'CHECKOUT.BACK' | translate }}
               </button>
               <button type="button" class="btn btn-success btn-lg" (click)="placeOrder()" [disabled]="loading">
                 <span *ngIf="!loading">
                   <i class="bi bi-check-circle me-2"></i>
-                  Place Order
+                  {{ 'CHECKOUT.PLACE_ORDER' | translate }}
                 </span>
                 <span *ngIf="loading">
                   <span class="spinner-border spinner-border-sm me-2"></span>
-                  Processing...
+                  {{ 'CHECKOUT.PROCESSING' | translate }}
                 </span>
               </button>
             </div>
@@ -170,18 +230,18 @@
 
       <div class="col-lg-4">
         <div class="order-summary sticky-top">
-          <h5>Order Summary</h5>
+          <h5>{{ 'CART.ORDER_SUMMARY' | translate }}</h5>
           <div class="summary-item">
-            <span>Subtotal ({{ cart?.items?.length || 0 }} items)</span>
+            <span>{{ 'CART.SUBTOTAL' | translate }} ({{ cart?.items?.length || 0 }} {{ 'CHECKOUT.ITEMS' | translate }})</span>
             <span>₾{{ cart?.total || 0 | number:'1.2-2' }}</span>
           </div>
           <div class="summary-item">
-            <span>Shipping</span>
+            <span>{{ 'CART.SHIPPING' | translate }}</span>
             <span>₾{{ getShippingFee() | number:'1.2-2' }}</span>
           </div>
           <hr>
           <div class="summary-total">
-            <span>Total</span>
+            <span>{{ 'CART.TOTAL' | translate }}</span>
             <span>₾{{ getFinalTotal() | number:'1.2-2' }}</span>
           </div>
         </div>

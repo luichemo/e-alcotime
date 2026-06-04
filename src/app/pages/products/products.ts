@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart';
 import { ProductService } from '../../services/product';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface PriceRange {
   min: number;
@@ -15,7 +16,7 @@ interface PriceRange {
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslateModule],
   templateUrl: './products.html',
   styleUrls: ['./products.css']
 })

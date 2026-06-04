@@ -8,11 +8,12 @@ import { Address } from '../../models/user.model';
 import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
 import { OrderService } from '../../services/order';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css'
 })
@@ -34,6 +35,14 @@ export class Checkout implements OnInit, OnDestroy {
 
   paymentMethod: string = 'cash-on-delivery';
   
+  // Card details
+  cardDetails = {
+    cardNumber: '',
+    cardExpiry: '',
+    cardCvv: '',
+    cardName: ''
+  };
+  
   loading: boolean = false;
   errorMessage: string = '';
   userEmail: string = '';
@@ -42,7 +51,8 @@ export class Checkout implements OnInit, OnDestroy {
     private cartService: CartService,
     private orderService: OrderService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -56,7 +66,7 @@ export class Checkout implements OnInit, OnDestroy {
       });
 
     try {
-      const user = await firstValueFrom(this.authService.currentUser$);
+      const user = this.authService.getCurrentUser();
       if (user) {
         this.userEmail = user.email || '';
         
@@ -81,9 +91,66 @@ export class Checkout implements OnInit, OnDestroy {
       this.currentStep = 2;
       this.errorMessage = '';
     } else if (this.currentStep === 2) {
+      if (this.paymentMethod === 'credit-card' && !this.validateCard()) {
+        return;
+      }
       this.currentStep = 3;
       this.errorMessage = '';
     }
+  }
+
+  validateCard(): boolean {
+    const card = this.cardDetails;
+    if (!card.cardName || !card.cardNumber || !card.cardExpiry || !card.cardCvv) {
+      this.errorMessage = this.translateService.instant('CHECKOUT.ERROR_CARD_FIELDS');
+      return false;
+    }
+    const numberClean = card.cardNumber.replace(/\s+/g, '');
+    if (numberClean.length < 15 || numberClean.length > 16 || isNaN(Number(numberClean))) {
+      this.errorMessage = this.translateService.instant('CHECKOUT.ERROR_CARD_NUMBER');
+      return false;
+    }
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(card.cardExpiry)) {
+      this.errorMessage = this.translateService.instant('CHECKOUT.ERROR_EXPIRY_FORMAT');
+      return false;
+    }
+    if (card.cardCvv.length < 3 || card.cardCvv.length > 4 || isNaN(Number(card.cardCvv))) {
+      this.errorMessage = this.translateService.instant('CHECKOUT.ERROR_CVV_FORMAT');
+      return false;
+    }
+    return true;
+  }
+
+  formatCardNumber(event: any): void {
+    let input = event.target.value.replace(/\D/g, '');
+    if (input.length > 16) {
+      input = input.substring(0, 16);
+    }
+    const parts = [];
+    for (let i = 0; i < input.length; i += 4) {
+      parts.push(input.substring(i, i + 4));
+    }
+    this.cardDetails.cardNumber = parts.join(' ');
+  }
+
+  formatExpiry(event: any): void {
+    let input = event.target.value.replace(/\D/g, '');
+    if (input.length > 4) {
+      input = input.substring(0, 4);
+    }
+    if (input.length > 2) {
+      this.cardDetails.cardExpiry = input.substring(0, 2) + '/' + input.substring(2);
+    } else {
+      this.cardDetails.cardExpiry = input;
+    }
+  }
+
+  formatCvv(event: any): void {
+    let input = event.target.value.replace(/\D/g, '');
+    if (input.length > 4) {
+      input = input.substring(0, 4);
+    }
+    this.cardDetails.cardCvv = input;
   }
 
   prevStep(): void {
@@ -98,7 +165,7 @@ export class Checkout implements OnInit, OnDestroy {
         !this.shippingAddress.street || !this.shippingAddress.city || 
         !this.shippingAddress.state || !this.shippingAddress.zipCode || 
         !this.shippingAddress.country) {
-      this.errorMessage = 'Please fill in all shipping address fields';
+      this.errorMessage = this.translateService.instant('CHECKOUT.ERROR_SHIPPING_FIELDS');
       return false;
     }
     this.errorMessage = '';
@@ -107,7 +174,7 @@ export class Checkout implements OnInit, OnDestroy {
 
   async placeOrder(): Promise<void> {
     if (!this.cart || this.cart.items.length === 0) {
-      this.errorMessage = 'Your cart is empty';
+      this.errorMessage = this.translateService.instant('CHECKOUT.ERROR_CART_EMPTY');
       return;
     }
 
@@ -120,7 +187,7 @@ export class Checkout implements OnInit, OnDestroy {
     this.errorMessage = '';
 
     try {
-      const user = await firstValueFrom(this.authService.currentUser$);
+      const user = this.authService.getCurrentUser();
       
       if (!user) {
         this.loading = false;
@@ -144,7 +211,7 @@ export class Checkout implements OnInit, OnDestroy {
 
     } catch (error: any) {
       this.loading = false;
-      this.errorMessage = error.message || 'Failed to place order. Please try again.';
+      this.errorMessage = error.message || this.translateService.instant('CHECKOUT.ERROR_PLACE_ORDER_FAILED');
       console.error('Order error:', error);
     }
   }

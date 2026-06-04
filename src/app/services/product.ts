@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
 import {
-  Firestore,
   collection,
   addDoc,
   updateDoc,
@@ -15,7 +15,7 @@ import {
   limit,
   CollectionReference,
   DocumentData
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
 import { Observable, from, map } from 'rxjs';
 import { Product } from '../models/product.model';
 
@@ -60,16 +60,22 @@ export class ProductService {
   getAvailableProducts(): Observable<Product[]> {
     const q = query(
       this.productsCollection,
-      where('isAvailable', '==', true),
-      orderBy('createdAt', 'desc')
+      where('isAvailable', '==', true)
     );
 
     return from(getDocs(q)).pipe(
       map(snapshot => {
-        return snapshot.docs.map(doc => ({
+        const products = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         } as Product));
+        
+        // Sort in memory by createdAt descending
+        return products.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dateB - dateA;
+        });
       })
     );
   }
@@ -77,17 +83,24 @@ export class ProductService {
   getFeaturedProducts(limitCount: number = 8): Observable<Product[]> {
     const q = query(
       this.productsCollection,
-      where('isAvailable', '==', true),
-      orderBy('createdAt', 'desc'),
-      limit(limitCount)
+      where('isAvailable', '==', true)
     );
 
     return from(getDocs(q)).pipe(
       map(snapshot => {
-        return snapshot.docs.map(doc => ({
+        const products = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         } as Product));
+        
+        // Sort and limit in memory by createdAt descending
+        return products
+          .sort((a, b) => {
+            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+            return dateB - dateA;
+          })
+          .slice(0, limitCount);
       })
     );
   }

@@ -6,10 +6,12 @@ import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart';
 import { ProductService } from '../../services/product';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslateModule],
   templateUrl: './product-detail.html',
   styleUrls: ['./product-detail.css']
 })
@@ -83,7 +85,9 @@ export class ProductDetail implements OnInit {
   }
 
   decreaseQuantity(): void {
-    this.quantity--;
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
   }
   
   clearCart(): void {

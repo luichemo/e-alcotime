@@ -6,11 +6,12 @@ import { User } from 'firebase/auth';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
@@ -24,9 +25,24 @@ export class NavbarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.currentUser$ = this.authService.currentUser$;
+    
+    // Set default and active languages
+    this.translate.setDefaultLang('en');
+    const savedLang = localStorage.getItem('alcotime_lang') || 'en';
+    this.translate.use(savedLang);
+  }
+
+  switchLanguage(lang: string): void {
+    this.translate.use(lang);
+    localStorage.setItem('alcotime_lang', lang);
+  }
+
+  getCurrentLang(): string {
+    return this.translate.currentLang || 'en';
   }
 
   ngOnInit(): void {

@@ -2,10 +2,10 @@
 
 <div class="product-management">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Product Management</h2>
+    <h2>{{ 'PRODUCT_MGMT.TITLE' | translate }}</h2>
     <button class="btn btn-primary" (click)="openAddModal()">
       <i class="bi bi-plus-circle me-2"></i>
-      Add New Product
+      {{ 'PRODUCT_MGMT.ADD_NEW' | translate }}
     </button>
   </div>
 
@@ -24,13 +24,13 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>{{ 'PRODUCT_MGMT.TABLE_IMAGE' | translate }}</th>
+              <th>{{ 'PRODUCT_MGMT.TABLE_NAME' | translate }}</th>
+              <th>{{ 'PRODUCT_MGMT.TABLE_CATEGORY' | translate }}</th>
+              <th>{{ 'PRODUCT_MGMT.TABLE_PRICE' | translate }}</th>
+              <th>{{ 'PRODUCT_MGMT.TABLE_STOCK' | translate }}</th>
+              <th>{{ 'PRODUCT_MGMT.TABLE_STATUS' | translate }}</th>
+              <th>{{ 'PRODUCT_MGMT.TABLE_ACTIONS' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -44,36 +44,36 @@
                 <small class="text-muted">{{ product.brand }}</small>
               </td>
               <td>
-                <span class="badge bg-secondary">{{ product.category }}</span>
+                <span class="badge bg-secondary">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
               </td>
               <td>
                 <span *ngIf="product.discountPrice" class="text-decoration-line-through text-muted small">
-                  ${{ product.price }}
+                  ₾{{ product.price }}
                 </span>
-                <strong>${{ product.discountPrice || product.price }}</strong>
+                <strong>₾{{ product.discountPrice || product.price }}</strong>
               </td>
               <td>
                 <span [class.text-danger]="product.stock < 10">
-                  {{ product.stock }} units
+                  {{ product.stock }} {{ 'PRODUCT_MGMT.UNITS' | translate }}
                 </span>
               </td>
               <td>
                 <span class="badge" [class.bg-success]="product.isAvailable" 
                       [class.bg-danger]="!product.isAvailable">
-                  {{ product.isAvailable ? 'Available' : 'Unavailable' }}
+                  {{ (product.isAvailable ? 'PRODUCT_MGMT.AVAILABLE' : 'PRODUCT_MGMT.UNAVAILABLE') | translate }}
                 </span>
               </td>
               <td>
                 <div class="btn-group btn-group-sm">
-                  <button class="btn btn-outline-primary" (click)="openEditModal(product)" title="Edit">
+                  <button class="btn btn-outline-primary" (click)="openEditModal(product)" [title]="'PRODUCT_MGMT.EDIT' | translate">
                     <i class="bi bi-pencil"></i>
                   </button>
                   <button class="btn btn-outline-warning" (click)="toggleAvailability(product)" 
-                          [title]="product.isAvailable ? 'Disable' : 'Enable'">
+                          [title]="(product.isAvailable ? 'PRODUCT_MGMT.DISABLE' : 'PRODUCT_MGMT.ENABLE') | translate">
                     <i class="bi" [class.bi-eye-slash]="product.isAvailable" 
                        [class.bi-eye]="!product.isAvailable"></i>
                   </button>
-                  <button class="btn btn-outline-danger" (click)="deleteProduct(product)" title="Delete">
+                  <button class="btn btn-outline-danger" (click)="deleteProduct(product)" [title]="'PRODUCT_MGMT.DELETE' | translate">
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
@@ -82,7 +82,7 @@
             <tr *ngIf="products.length === 0">
               <td colspan="7" class="text-center text-muted py-4">
                 <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                No products yet. Click "Add New Product" to get started!
+                {{ 'PRODUCT_MGMT.NO_PRODUCTS' | translate }}
               </td>
             </tr>
           </tbody>
@@ -97,7 +97,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            {{ editingProduct ? 'Edit Product' : 'Add New Product' }}
+            {{ (editingProduct ? 'PRODUCT_MGMT.EDIT_PRODUCT' : 'PRODUCT_MGMT.ADD_NEW') | translate }}
           </h5>
           <button type="button" class="btn-close" (click)="closeModal()"></button>
         </div>
@@ -105,41 +105,41 @@
           <form (ngSubmit)="onSubmit()" #productForm="ngForm">
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label class="form-label">Product Name *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_NAME' | translate }}</label>
                 <input type="text" class="form-control" [(ngModel)]="formData.name" 
                        name="name" required>
               </div>
               <div class="col-md-6 mb-3">
-                <label class="form-label">Brand *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_BRAND' | translate }}</label>
                 <input type="text" class="form-control" [(ngModel)]="formData.brand" 
                        name="brand" required>
               </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Description *</label>
+              <label class="form-label">{{ 'PRODUCT_MGMT.FORM_DESC' | translate }}</label>
               <textarea class="form-control" rows="3" [(ngModel)]="formData.description" 
                         name="description" required></textarea>
             </div>
 
             <div class="row">
               <div class="col-md-4 mb-3">
-                <label class="form-label">Category *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_CAT' | translate }}</label>
                 <select class="form-select" [(ngModel)]="formData.category" name="category" required>
-                  <option value="wine">Wine</option>
-                  <option value="beer">Beer</option>
-                  <option value="spirits">Spirits</option>
-                  <option value="champagne">Champagne</option>
-                  <option value="other">Other</option>
+                  <option value="wine">{{ 'CATEGORIES.WINE' | translate }}</option>
+                  <option value="beer">{{ 'CATEGORIES.BEER' | translate }}</option>
+                  <option value="spirits">{{ 'CATEGORIES.SPIRITS' | translate }}</option>
+                  <option value="champagne">{{ 'CATEGORIES.CHAMPAGNE' | translate }}</option>
+                  <option value="other">{{ 'CATEGORIES.OTHER' | translate }}</option>
                 </select>
               </div>
               <div class="col-md-4 mb-3">
-                <label class="form-label">Price ($) *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_PRICE' | translate }}</label>
                 <input type="number" class="form-control" [(ngModel)]="formData.price" 
                        name="price" min="0" step="0.01" required>
               </div>
               <div class="col-md-4 mb-3">
-                <label class="form-label">Discount Price ($)</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_DISCOUNT' | translate }}</label>
                 <input type="number" class="form-control" [(ngModel)]="formData.discountPrice" 
                        name="discountPrice" min="0" step="0.01">
               </div>
@@ -147,17 +147,17 @@
 
             <div class="row">
               <div class="col-md-4 mb-3">
-                <label class="form-label">Alcohol Content (%) *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_ALCOHOL' | translate }}</label>
                 <input type="number" class="form-control" [(ngModel)]="formData.alcoholContent" 
                        name="alcoholContent" min="0" max="100" step="0.1" required>
               </div>
               <div class="col-md-4 mb-3">
-                <label class="form-label">Volume (ml) *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_VOLUME' | translate }}</label>
                 <input type="number" class="form-control" [(ngModel)]="formData.volume" 
                        name="volume" min="0" required>
               </div>
               <div class="col-md-4 mb-3">
-                <label class="form-label">Stock *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_STOCK' | translate }}</label>
                 <input type="number" class="form-control" [(ngModel)]="formData.stock" 
                        name="stock" min="0" required>
               </div>
@@ -165,16 +165,16 @@
 
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label class="form-label">Country *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_COUNTRY' | translate }}</label>
                 <input type="text" class="form-control" [(ngModel)]="formData.country" 
                        name="country" required>
               </div>
               <div class="col-md-6 mb-3">
-                <label class="form-label">Image URL *</label>
+                <label class="form-label">{{ 'PRODUCT_MGMT.FORM_IMAGE' | translate }}</label>
                 <input type="url" class="form-control" [(ngModel)]="formData.imageUrl" 
                        name="imageUrl" required>
                 <small class="form-text text-muted">
-                  Use a free image hosting service like Imgur or direct URL
+                  {{ 'PRODUCT_MGMT.IMAGE_NOTE' | translate }}
                 </small>
               </div>
             </div>
@@ -183,7 +183,7 @@
               <input class="form-check-input" type="checkbox" [(ngModel)]="formData.isAvailable" 
                      name="isAvailable" id="isAvailable">
               <label class="form-check-label" for="isAvailable">
-                Available for sale
+                {{ 'PRODUCT_MGMT.AVAILABLE_SALE' | translate }}
               </label>
             </div>
 
@@ -193,11 +193,11 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ 'PRODUCT_MGMT.CANCEL' | translate }}</button>
           <button type="button" class="btn btn-primary" (click)="onSubmit()" 
                   [disabled]="loading || !productForm.valid">
             <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-            {{ editingProduct ? 'Update Product' : 'Add Product' }}
+            {{ (editingProduct ? 'PRODUCT_MGMT.UPDATE' : 'PRODUCT_MGMT.ADD') | translate }}
           </button>
         </div>
       </div>

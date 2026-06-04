@@ -1,10 +1,9 @@
-
 <section class="cart-hero">
   <div class="hero-overlay"></div>
   <div class="container">
     <div class="hero-content text-center">
-      <h1 class="display-5 fw-bold mb-2">Shopping Cart</h1>
-      <p class="lead">Review your items before checkout</p>
+      <h1 class="display-5 fw-bold mb-2">{{ 'CART.TITLE' | translate }}</h1>
+      <p class="lead">{{ 'CART.SUBTITLE' | translate }}</p>
     </div>
   </div>
 </section>
@@ -13,21 +12,21 @@
   <div class="container">
     <div *ngIf="!cartData || cartData.items.length === 0" class="empty-cart text-center py-5">
       <i class="bi bi-cart-x empty-icon"></i>
-      <h3 class="mt-4 mb-3">Your Cart is Empty</h3>
-      <p class="text-muted mb-4">Looks like you haven't added any items yet</p>
+      <h3 class="mt-4 mb-3">{{ 'CART.EMPTY' | translate }}</h3>
+      <p class="text-muted mb-4">{{ 'CART.EMPTY_DESC' | translate }}</p>
       <a routerLink="/products" class="btn btn-primary">
         <i class="bi bi-arrow-left me-2"></i>
-        Continue Shopping
+        {{ 'CART.CONTINUE_SHOPPING' | translate }}
       </a>
     </div>
 
     <div *ngIf="cartData && cartData.items.length > 0" class="row g-4">
       <div class="col-lg-8">
         <div class="cart-header d-flex justify-content-between align-items-center mb-3">
-          <h4 class="mb-0">Cart Items ({{ cartData.items.length }})</h4>
+          <h4 class="mb-0">{{ 'CART.ITEMS_COUNT' | translate }} ({{ cartData.items.length }})</h4>
           <button class="btn btn-sm btn-outline-danger" (click)="clearCart()">
             <i class="bi bi-trash me-2"></i>
-            Clear Cart
+            {{ 'CART.CLEAR' | translate }}
           </button>
         </div>
 
@@ -66,7 +65,7 @@
                 </button>
               </div>
               <small class="text-muted d-block mt-1 text-center">
-                Max: {{ item.product.stock }}
+                {{ 'CART.MAX_STOCK' | translate }}: {{ item.product.stock }}
               </small>
             </div>
 
@@ -85,52 +84,52 @@
 
       <div class="col-lg-4">
         <div class="order-summary">
-          <h4 class="summary-title">Order Summary</h4>
+          <h4 class="summary-title">{{ 'CART.ORDER_SUMMARY' | translate }}</h4>
 
           <div class="summary-row">
-            <span>Subtotal</span>
+            <span>{{ 'CART.SUBTOTAL' | translate }}</span>
             <strong>₾{{ cartData.subtotal.toFixed(2) }}</strong>
           </div>
 
           <div class="summary-row">
-            <span>Tax</span>
+            <span>{{ 'CART.TAX' | translate }}</span>
             <strong>₾{{ cartData.tax.toFixed(2) }}</strong>
           </div>
 
           <div class="summary-row">
-            <span>Shipping</span>
-            <strong class="text-success">Free</strong>
+            <span>{{ 'CART.SHIPPING' | translate }}</span>
+            <strong class="text-success">{{ 'CART.SHIPPING_FREE' | translate }}</strong>
           </div>
 
           <hr>
 
           <div class="summary-row total-row">
-            <span>Total</span>
+            <span>{{ 'CART.TOTAL' | translate }}</span>
             <strong>₾{{ cartData.total.toFixed(2) }}</strong>
           </div>
 
           <a routerLink="/checkout" class="btn btn-checkout w-100 mt-3">
             <i class="bi bi-lock-fill me-2"></i>
-            Proceed to Checkout
+            {{ 'CART.PROCEED' | translate }}
           </a>
 
           <a routerLink="/products" class="btn btn-continue w-100 mt-2">
             <i class="bi bi-arrow-left me-2"></i>
-            Continue Shopping
+            {{ 'CART.CONTINUE_SHOPPING' | translate }}
           </a>
 
           <div class="trust-badges mt-4">
             <div class="badge-item">
               <i class="bi bi-shield-check"></i>
-              <span>Secure Payment</span>
+              <span>{{ 'CART.SECURE_PAYMENT' | translate }}</span>
             </div>
             <div class="badge-item">
               <i class="bi bi-truck"></i>
-              <span>Free Shipping</span>
+              <span>{{ 'CART.SHIPPING_FREE' | translate }} {{ 'CART.SHIPPING' | translate }}</span>
             </div>
             <div class="badge-item">
               <i class="bi bi-arrow-return-left"></i>
-              <span>Easy Returns</span>
+              <span>{{ 'CART.EASY_RETURNS' | translate }}</span>
             </div>
           </div>
         </div>

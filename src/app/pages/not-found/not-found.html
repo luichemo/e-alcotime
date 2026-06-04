@@ -1,4 +1,3 @@
-
 <div class="not-found-page">
   <div class="container">
     <div class="content-wrapper">
@@ -14,41 +13,40 @@
         <span class="four">4</span>
       </div>
 
-      <h1 class="error-title">Page Not Found</h1>
+      <h1 class="error-title">{{ 'NOT_FOUND.TITLE' | translate }}</h1>
       <p class="error-message">
-        Oops! The page you're looking for seems to have wandered off. 
-        It might have been moved, deleted, or perhaps it never existed.
+        {{ 'NOT_FOUND.MESSAGE' | translate }}
       </p>
 
       <div class="action-buttons">
         <button class="btn btn-primary" (click)="goHome()">
           <i class="bi bi-house-door me-2"></i>
-          Go Home
+          {{ 'NOT_FOUND.GO_HOME' | translate }}
         </button>
         <button class="btn btn-secondary" (click)="goBack()">
           <i class="bi bi-arrow-left me-2"></i>
-          Go Back
+          {{ 'NOT_FOUND.GO_BACK' | translate }}
         </button>
       </div>
 
       <div class="helpful-links">
-        <p class="links-title">You might want to check:</p>
+        <p class="links-title">{{ 'NOT_FOUND.CHECK_LINKS' | translate }}</p>
         <div class="links-grid">
           <a routerLink="/" class="link-item">
             <i class="bi bi-house-door"></i>
-            <span>Home</span>
+            <span>{{ 'NOT_FOUND.HOME' | translate }}</span>
           </a>
           <a routerLink="/products" class="link-item">
             <i class="bi bi-shop"></i>
-            <span>Products</span>
+            <span>{{ 'NOT_FOUND.PRODUCTS' | translate }}</span>
           </a>
           <a routerLink="/about" class="link-item">
             <i class="bi bi-info-circle"></i>
-            <span>About</span>
+            <span>{{ 'NOT_FOUND.ABOUT' | translate }}</span>
           </a>
           <a routerLink="/contact" class="link-item">
             <i class="bi bi-envelope"></i>
-            <span>Contact</span>
+            <span>{{ 'NOT_FOUND.CONTACT' | translate }}</span>
           </a>
         </div>
       </div>

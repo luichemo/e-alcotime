@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
   templateUrl: './forgot-password.html',
   styleUrls: ['./forgot-password.css']
 })
@@ -21,7 +22,8 @@ export class ForgotPassword {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   async onSubmit(): Promise<void> {
@@ -29,13 +31,13 @@ export class ForgotPassword {
     this.successMessage = '';
 
     if (!this.email) {
-      this.errorMessage = 'Please enter your email address';
+      this.errorMessage = this.translateService.instant('AUTH.ERROR_EMAIL_REQUIRED');
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.email)) {
-      this.errorMessage = 'Please enter a valid email address';
+      this.errorMessage = this.translateService.instant('AUTH.ERROR_EMAIL_INVALID');
       return;
     }
 
@@ -43,7 +45,7 @@ export class ForgotPassword {
 
     try {
       await this.authService.resetPassword(this.email);
-      this.successMessage = 'Password reset email sent! Check your inbox.';
+      this.successMessage = this.translateService.instant('AUTH.SUCCESS_RESET_EMAIL');
       this.email = '';
       
       setTimeout(() => {
@@ -53,13 +55,13 @@ export class ForgotPassword {
       this.loading = false;
       
       if (error.code === 'auth/user-not-found') {
-        this.errorMessage = 'No account found with this email address';
+        this.errorMessage = this.translateService.instant('AUTH.ERROR_RESET_USER_NOT_FOUND');
       } else if (error.code === 'auth/invalid-email') {
-        this.errorMessage = 'Invalid email address';
+        this.errorMessage = this.translateService.instant('AUTH.ERROR_INVALID_EMAIL');
       } else if (error.code === 'auth/too-many-requests') {
-        this.errorMessage = 'Too many requests. Please try again later.';
+        this.errorMessage = this.translateService.instant('AUTH.ERROR_TOO_MANY_REQUESTS');
       } else {
-        this.errorMessage = 'Failed to send reset email. Please try again.';
+        this.errorMessage = this.translateService.instant('AUTH.ERROR_RESET_FAILED');
       }
     } finally {
       this.loading = false;

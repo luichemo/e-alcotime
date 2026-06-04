@@ -5,31 +5,31 @@
         <div class="position-sticky pt-3">
           <h5 class="text-white px-3 mb-3">
             <i class="bi bi-speedometer2 me-2"></i>
-            Admin Panel
+            {{ 'ADMIN_PANEL.TITLE' | translate }}
           </h5>
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link text-white" routerLink="/admin/dashboard" routerLinkActive="active">
                 <i class="bi bi-house-door me-2"></i>
-                Dashboard
+                {{ 'ADMIN_PANEL.DASHBOARD' | translate }}
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-white" routerLink="/admin/products" routerLinkActive="active">
                 <i class="bi bi-box-seam me-2"></i>
-                Products
+                {{ 'ADMIN_PANEL.PRODUCTS' | translate }}
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-white" routerLink="/admin/orders" routerLinkActive="active">
                 <i class="bi bi-receipt me-2"></i>
-                Orders
+                {{ 'ADMIN_PANEL.ORDERS' | translate }}
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-white" routerLink="/home">
                 <i class="bi bi-arrow-left me-2"></i>
-                Back to Store
+                {{ 'ADMIN_PANEL.BACK_TO_STORE' | translate }}
               </a>
             </li>
           </ul>

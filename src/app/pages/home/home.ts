@@ -5,11 +5,12 @@ import { Product } from '../../models/product.model';
 import { Observable, map } from 'rxjs';
 import { ProductService } from '../../services/product';
 import { AuthService } from '../../services/auth';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })

@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators'; 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-age-verification',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './age-verification.html',
   styleUrl: './age-verification.css'
 })

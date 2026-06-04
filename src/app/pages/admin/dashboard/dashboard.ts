@@ -7,11 +7,13 @@ import { Product } from '../../../models/product.model';
 import { Order } from '../../../models/order.model';
 import { OrderService } from '../../../services/order';
 import { ProductService } from '../../../services/product';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
@@ -25,16 +27,202 @@ export class Dashboard implements OnInit {
   lowStockProducts: Product[] = [];
   
   loading: boolean = true;
+  seeding: boolean = false;
 
   constructor(
     private productService: ProductService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
     setTimeout(() => {
     }, 500);
     this.loadDashboardData();
+  }
+
+  async seedSampleProducts(): Promise<void> {
+    const result = await Swal.fire({
+      title: this.translateService.instant('ADMIN_PANEL.SEED_CONFIRM_TITLE'),
+      text: this.translateService.instant('ADMIN_PANEL.SEED_CONFIRM_TEXT'),
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: this.translateService.instant('ADMIN_PANEL.SEED_CONFIRM_YES'),
+      cancelButtonText: this.translateService.instant('ADMIN_PANEL.SEED_CONFIRM_CANCEL'),
+      confirmButtonColor: '#ad8d66',
+      cancelButtonColor: '#d33'
+    });
+
+    if (!result.isConfirmed) return;
+
+    this.seeding = true;
+    try {
+      const sampleProducts: Omit<Product, 'id'>[] = [
+        {
+          name: "Château Margaux 2015",
+          brand: "Château Margaux",
+          country: "France",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "wine",
+          price: 1200,
+          discountPrice: 1100,
+          alcoholContent: 13.5,
+          volume: 750,
+          imageUrl: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=600",
+          stock: 8,
+          isAvailable: true
+        },
+        {
+          name: "Cloudy Bay Sauvignon Blanc",
+          brand: "Cloudy Bay",
+          country: "New Zealand",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "wine",
+          price: 95,
+          discountPrice: 85,
+          alcoholContent: 13,
+          volume: 750,
+          imageUrl: "https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?q=80&w=600",
+          stock: 24,
+          isAvailable: true
+        },
+        {
+          name: "Macallan 18 Year Double Cask",
+          brand: "The Macallan",
+          country: "Scotland",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "spirits",
+          price: 420,
+          discountPrice: 0,
+          alcoholContent: 43,
+          volume: 700,
+          imageUrl: "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?q=80&w=600",
+          stock: 12,
+          isAvailable: true
+        },
+        {
+          name: "Grey Goose L'Orange Vodka",
+          brand: "Grey Goose",
+          country: "France",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "spirits",
+          price: 85,
+          discountPrice: 75,
+          alcoholContent: 40,
+          volume: 1000,
+          imageUrl: "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?q=80&w=600",
+          stock: 15,
+          isAvailable: true
+        },
+        {
+          name: "Hendrick's Gin",
+          brand: "Hendrick's",
+          country: "Scotland",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "spirits",
+          price: 90,
+          discountPrice: 80,
+          alcoholContent: 41.4,
+          volume: 700,
+          imageUrl: "https://images.unsplash.com/photo-1608885898957-a599fb1698d6?q=80&w=600",
+          stock: 18,
+          isAvailable: true
+        },
+        {
+          name: "Chimay Blue Grande Réserve",
+          brand: "Chimay",
+          country: "Belgium",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "beer",
+          price: 18,
+          discountPrice: 15,
+          alcoholContent: 9,
+          volume: 330,
+          imageUrl: "https://images.unsplash.com/photo-1532634922-8fe0b757fb13?q=80&w=600",
+          stock: 40,
+          isAvailable: true
+        },
+        {
+          name: "BrewDog Punk IPA",
+          brand: "BrewDog",
+          country: "United Kingdom",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "beer",
+          price: 9,
+          discountPrice: 0,
+          alcoholContent: 5.4,
+          volume: 330,
+          imageUrl: "https://images.unsplash.com/photo-1566633806327-68e152aaf26d?q=80&w=600",
+          stock: 60,
+          isAvailable: true
+        },
+        {
+          name: "Dom Pérignon Vintage 2012",
+          brand: "Dom Pérignon",
+          country: "France",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "champagne",
+          price: 350,
+          discountPrice: 320,
+          alcoholContent: 12.5,
+          volume: 750,
+          imageUrl: "https://images.unsplash.com/photo-1594487523089-f4c7ab536a7b?q=80&w=600",
+          stock: 10,
+          isAvailable: true
+        },
+        {
+          name: "Veuve Clicquot Yellow Label",
+          brand: "Veuve Clicquot",
+          country: "France",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "champagne",
+          price: 160,
+          discountPrice: 145,
+          alcoholContent: 12,
+          volume: 750,
+          imageUrl: "https://images.unsplash.com/photo-1516596429074-ba3b3b43e8e7?q=80&w=600",
+          stock: 20,
+          isAvailable: true
+        },
+        {
+          name: "Aperol Aperitivo",
+          brand: "Aperol",
+          country: "Italy",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+          category: "other",
+          price: 48,
+          discountPrice: 42,
+          alcoholContent: 11,
+          volume: 700,
+          imageUrl: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=600",
+          stock: 30,
+          isAvailable: true
+        }
+      ];
+
+      for (const p of sampleProducts) {
+        await this.productService.addProduct(p);
+      }
+
+      await Swal.fire({
+        title: this.translateService.instant('ADMIN_PANEL.SEED_SUCCESS_TITLE'),
+        text: this.translateService.instant('ADMIN_PANEL.SEED_SUCCESS_TEXT'),
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      this.loadDashboardData();
+    } catch (error: any) {
+      console.error('Seeding error:', error);
+      await Swal.fire({
+        title: this.translateService.instant('ADMIN_PANEL.SEED_FAIL_TITLE'),
+        text: error.message || 'Something went wrong while seeding.',
+        icon: 'error'
+      });
+    } finally {
+      this.seeding = false;
+    }
   }
 
   loadDashboardData(): void {

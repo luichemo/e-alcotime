@@ -472,3 +472,117 @@
     margin-top: 0.5rem;
   }
 }
+
+/* Card Payment Form Styles */
+.card-payment-form {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.credit-card-preview {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.card-front {
+  background: linear-gradient(135deg, #1b1c1e 0%, #36373b 50%, #111215 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  aspect-ratio: 1.586; /* standard card ratio */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Card glass glow shine */
+.card-front::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.card-logo .brand {
+  display: flex;
+  align-items: center;
+}
+
+.card-logo .brand span {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+}
+
+.card-chip {
+  width: 45px;
+  height: 30px;
+  background: linear-gradient(135deg, #e0b034 0%, #fff6a2 50%, #c19114 100%);
+  border-radius: 6px;
+  position: relative;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5), 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Chip metallic lines */
+.card-chip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.card-chip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.card-number-display {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  word-spacing: 5px;
+  margin: 0.75rem 0;
+}
+
+.rotation-90 {
+  transform: rotate(90deg);
+}
+
+.card-info .label {
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.card-info .value {
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}

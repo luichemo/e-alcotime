@@ -5,11 +5,12 @@ import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
@@ -31,12 +32,11 @@ export class Profile implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-    }, 1000);
     this.loadUserProfile();
   }
 
@@ -45,11 +45,11 @@ export class Profile implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  async loadUserProfile(): Promise<void> {
+  loadUserProfile(): void {
     this.loading = true;
 
     try {
-      const firebaseUser = await firstValueFrom(this.authService.currentUser$);
+      const firebaseUser = this.authService.getCurrentUser();
 
       if (!firebaseUser) {
         this.router.navigate(['/login']);
@@ -59,7 +59,6 @@ export class Profile implements OnInit, OnDestroy {
       this.authService.getUserData(firebaseUser.uid)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-
           next: (userData) => {
             this.user = userData;
             if (this.user?.dateOfBirth && typeof this.user.dateOfBirth.toDate === 'function') {
@@ -101,7 +100,7 @@ export class Profile implements OnInit, OnDestroy {
           },
           error: (error) => {
             console.error('Error loading profile:', error);
-            this.error = 'Failed to load profile';
+            this.error = this.translateService.instant('PROFILE.ERROR_LOAD_FAILED');
             this.loading = false;
           }
         });
@@ -130,7 +129,7 @@ export class Profile implements OnInit, OnDestroy {
     if (!this.user) return;
 
     if (!this.editData.displayName.trim()) {
-      this.error = 'Full name cannot be empty.';
+      this.error = this.translateService.instant('PROFILE.ERROR_NAME_EMPTY');
       return;
     }
 
@@ -147,21 +146,17 @@ export class Profile implements OnInit, OnDestroy {
       if (this.editData.dateOfBirth) {
         updateData.dateOfBirth = new Date(this.editData.dateOfBirth);
       }
-      setTimeout(() => {
-      }, 2000);
       await this.authService.updateUserProfile(this.user.uid, updateData);
 
       this.user = { ...this.user, ...updateData };
 
-      this.successMessage = 'Profile updated successfully!';
+      this.successMessage = this.translateService.instant('PROFILE.SUCCESS_UPDATE');
       this.editMode = false;
       this.saving = false;
 
-      this.successMessage = '';
-
     } catch (error: any) {
       console.error('Error updating profile:', error);
-      this.error = error.message || 'Failed to update profile';
+      this.error = error.message || this.translateService.instant('PROFILE.ERROR_UPDATE_FAILED');
       this.saving = false;
     }
   }
@@ -194,7 +189,8 @@ export class Profile implements OnInit, OnDestroy {
     if (!this.user?.createdAt) return '';
 
     const date = new Date(this.user.createdAt);
-    return date.toLocaleDateString('en-US', {
+    const locale = this.translateService.currentLang === 'ka' ? 'ka-GE' : 'en-US';
+    return date.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long'
     });

@@ -5,12 +5,13 @@ import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { Order } from '../../models/order.model';
 import { OrderService } from '../../services/order';
 import { AuthService } from '../../services/auth';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-history',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './order-history.html',
   styleUrl: './order-history.css'
 })
@@ -24,12 +25,11 @@ export class OrderHistory implements OnInit, OnDestroy {
 
   constructor(
     private orderService: OrderService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-    }, 500);
     this.loadUserOrders();
   }
 
@@ -38,14 +38,14 @@ export class OrderHistory implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  async loadUserOrders(): Promise<void> {
+  loadUserOrders(): void {
     this.loading = true;
 
     try {
-      const user = await firstValueFrom(this.authService.currentUser$);
+      const user = this.authService.getCurrentUser();
 
       if (!user) {
-        this.error = 'Please log in to view your orders';
+        this.error = this.translateService.instant('ORDER_HISTORY.ERROR_LOGIN_REQUIRED');
         this.loading = false;
         return;
       }
@@ -59,13 +59,13 @@ export class OrderHistory implements OnInit, OnDestroy {
           },
           error: (error) => {
             console.error('Error loading orders:', error);
-            this.error = 'Failed to load orders';
+            this.error = this.translateService.instant('ORDER_HISTORY.ERROR_LOAD_ORDERS_FAILED');
             this.loading = false;
           }
         });
     } catch (error) {
       console.error('Error getting user:', error);
-      this.error = 'Failed to load orders';
+      this.error = this.translateService.instant('ORDER_HISTORY.ERROR_LOAD_ORDERS_FAILED');
       this.loading = false;
     }
   }
@@ -109,27 +109,43 @@ export class OrderHistory implements OnInit, OnDestroy {
   }
 
   async cancelOrder(orderId: string): Promise<void> {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, cancel it!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your order has been cancelled.",
-            icon: "success"
-          });
-          setTimeout(() => {
-    }, 500);
-       this.orderService.updateOrderStatus(orderId, 'cancelled');
+    const title = this.translateService.instant('ORDER_HISTORY.CANCEL_CONFIRM_TITLE');
+    const text = this.translateService.instant('ORDER_HISTORY.CANCEL_CONFIRM_TEXT_REVERT');
+    const confirmButtonText = this.translateService.instant('ORDER_HISTORY.CANCEL_CONFIRM_YES_EXCLAMATION');
 
-         this.loadUserOrders();
-        }
-      });
+    const result = await Swal.fire({
+      title,
+      text,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ad8d66",
+      cancelButtonColor: "#d33",
+      confirmButtonText
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await this.orderService.updateOrderStatus(orderId, 'cancelled');
+        const successTitle = this.translateService.instant('ORDER_HISTORY.CANCEL_SUCCESS_TITLE');
+        const successText = this.translateService.instant('ORDER_HISTORY.CANCEL_SUCCESS_TEXT_CONFIRM');
+        await Swal.fire({
+          title: successTitle,
+          text: successText,
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        });
+        this.loadUserOrders();
+      } catch (err: any) {
+        console.error('Failed to cancel order:', err);
+        const errorTitle = this.translateService.instant('ORDER_HISTORY.CANCEL_ERROR_TITLE');
+        const errorText = this.translateService.instant('ORDER_HISTORY.CANCEL_ERROR_TEXT');
+        Swal.fire({
+          title: errorTitle,
+          text: errorText,
+          icon: "error"
+        });
+      }
+    }
   }
 }

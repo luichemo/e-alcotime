@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { Order } from '../../../models/order.model';
 import { OrderService } from '../../../services/order';
@@ -12,7 +13,7 @@ import { Email } from '../../../services/email';
 @Component({
   selector: 'app-admin-orders',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './order-management.html',
   styleUrl: './order-management.css'
 })
@@ -34,7 +35,8 @@ export class OrderManagement implements OnInit, OnDestroy {
 
   constructor(
     private orderService: OrderService,
-    private emailService: Email
+    private emailService: Email,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -122,12 +124,15 @@ export class OrderManagement implements OnInit, OnDestroy {
 
     // SweetAlert confirmation
     const result = await Swal.fire({
-      title: 'Change Order Status?',
-      text: `Change status to "${newStatus}" for order #${order.id?.slice(0, 8)}?`,
+      title: this.translateService.instant('ORDER_MGMT.STATUS_CONFIRM_TITLE'),
+      text: this.translateService.instant('ORDER_MGMT.STATUS_CONFIRM_TEXT', {
+        status: this.translateService.instant('ORDER_MGMT.' + newStatus.toUpperCase()),
+        id: order.id?.slice(0, 8)
+      }),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Yes, change it',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: this.translateService.instant('ORDER_MGMT.STATUS_CONFIRM_YES'),
+      cancelButtonText: this.translateService.instant('ORDER_MGMT.STATUS_CONFIRM_CANCEL'),
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33'
     });
@@ -176,8 +181,11 @@ export class OrderManagement implements OnInit, OnDestroy {
 
       // SweetAlert success
       await Swal.fire({
-        title: 'Status Updated!',
-        text: `Order #${order.id?.slice(0, 8)} is now "${newStatus}".`,
+        title: this.translateService.instant('ORDER_MGMT.STATUS_SUCCESS_TITLE'),
+        text: this.translateService.instant('ORDER_MGMT.STATUS_SUCCESS_TEXT', {
+          status: this.translateService.instant('ORDER_MGMT.' + newStatus.toUpperCase()),
+          id: order.id?.slice(0, 8)
+        }),
         icon: 'success',
         timer: 2000,
         showConfirmButton: false,
@@ -188,8 +196,8 @@ export class OrderManagement implements OnInit, OnDestroy {
 
       // SweetAlert error
       await Swal.fire({
-        title: 'Update Failed',
-        text: 'Something went wrong. Please try again later.',
+        title: this.translateService.instant('ORDER_MGMT.STATUS_FAIL_TITLE'),
+        text: this.translateService.instant('ORDER_MGMT.STATUS_FAIL_TEXT'),
         icon: 'error',
         confirmButtonText: 'OK'
       });
