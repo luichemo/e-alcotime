@@ -18,11 +18,11 @@
     </div>
 
     <div *ngIf="!loading && !error && orders.length === 0" class="empty-state">
-      <i class="bi bi-bag-x"></i>
+      <i class="bi bi-bag-x empty-state-icon"></i>
       <h3>{{ 'ORDER_HISTORY.NO_ORDERS' | translate }}</h3>
       <p>{{ 'ORDER_HISTORY.NO_ORDERS_DESC' | translate }}</p>
-      <a routerLink="/products" class="btn btn-primary d-inline-flex align-items-center">
-        <i class="bi bi-bag me-2"></i>
+      <a routerLink="/products" class="btn btn-primary empty-state-btn">
+        <i class="bi bi-bag"></i>
         <span>{{ 'ORDER_HISTORY.START_SHOPPING' | translate }}</span> 
       </a>
     </div>

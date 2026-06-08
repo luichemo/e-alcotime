@@ -39,18 +39,25 @@
               <p class="product-brand">by <strong>{{ product.brand }}</strong></p>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div class="product-rating mb-3">
-                <i *ngFor="let starClass of getStarsArray()" class="bi {{ starClass }}"></i>
-                <span class="ms-2">({{ getRating() }} / 5)</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div class="product-rating mb-3 d-flex align-items-center gap-2">
+                <div class="stars-wrapper">
+                  <i *ngFor="let starClass of getStarsArray()" class="bi {{ starClass }}"></i>
+                </div>
+                <span class="rating-value">({{ getRating() }} / 5)</span>
+                <span class="drinkability-tag ms-2" [title]="'PRODUCT_DETAIL.RATING_DESC' | translate">
+                  <i class="bi bi-info-circle me-1"></i>
+                  {{ 'PRODUCT_DETAIL.RATING_LABEL' | translate }}
+                </span>
               </div>
               <span class="category-badge">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
             </div>
 
             <div class="price-section mb-4" style="width: 100%;">
-              <span *ngIf="product.discountPrice" class="old-price">₾{{ product.price }}</span>
               <h2 class="current-price">₾{{ product.discountPrice || product.price }}</h2>
+              <span *ngIf="product.discountPrice" class="old-price">₾{{ product.price }}</span>
               <span *ngIf="product.discountPrice" class="save-badge">
+                <i class="bi bi-tag-fill me-1"></i>
                 {{ 'PRODUCT_DETAIL.SAVE' | translate }} ₾{{ (product.price - product.discountPrice).toFixed(2) }}
               </span>
             </div>

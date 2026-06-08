@@ -9,7 +9,7 @@
    - Pure light: #ffffff
 */
 
-@import 'litepicker/dist/css/litepicker.css';
+
 
 .register-page {
   min-height: 100vh;
@@ -429,12 +429,22 @@
 
 /* 
    ==========================================================================
-   Premium custom themed styling for Litepicker Datepicker Calendar
+   Premium custom themed styling for Angular Material Datepicker
    ==========================================================================
 */
 
-.litepicker {
-  background: #1c1c1a !important;
+.dob-picker-input {
+  cursor: pointer !important;
+}
+
+/* Custom dark theme for Angular Material Datepicker popup */
+.cdk-overlay-container {
+  z-index: 10000 !important;
+}
+
+.mat-datepicker-content {
+  background-color: #1c1c1a !important;
+  color: #ebdec7 !important;
   border: 1px solid rgba(192, 162, 124, 0.25) !important;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.65) !important;
   border-radius: 16px !important;
@@ -442,92 +452,77 @@
   padding: 0.5rem !important;
 }
 
-.litepicker .container__months {
-  background: transparent !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+.mat-datepicker-content .mat-calendar {
+  background-color: transparent !important;
 }
 
-.litepicker .container__months .month-item {
-  background: transparent !important;
-  padding: 0.5rem !important;
-}
-
-.litepicker .container__months .month-item-header {
+.mat-calendar-header {
   color: #ebdec7 !important;
-  font-size: 1.1rem !important;
-  font-weight: 600 !important;
-  padding: 0.5rem 0 !important;
+  border-bottom: 1px solid rgba(192, 162, 124, 0.15) !important;
+  padding: 8px 8px 0 8px !important;
 }
 
-.litepicker .container__months .month-item-header .button-previous-month,
-.litepicker .container__months .month-item-header .button-next-month {
+.mat-calendar-controls {
+  color: #ebdec7 !important;
+  margin: 0 !important;
+}
+
+.mat-calendar-previous-button, 
+.mat-calendar-next-button,
+.mat-calendar-period-button {
   color: #c0a27c !important;
   fill: #c0a27c !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
 }
 
-.litepicker .container__months .month-item-header .button-previous-month:hover,
-.litepicker .container__months .month-item-header .button-next-month:hover {
+.mat-calendar-previous-button:hover, 
+.mat-calendar-next-button:hover,
+.mat-calendar-period-button:hover {
+  background-color: rgba(192, 162, 124, 0.15) !important;
   color: #ebdec7 !important;
-  fill: #ebdec7 !important;
-  background: rgba(192, 162, 124, 0.15) !important;
-  border-radius: 8px !important;
 }
 
-.litepicker .container__months .month-item-header .month-item-name,
-.litepicker .container__months .month-item-header .month-item-year {
-  font-weight: 600 !important;
-}
-
-.litepicker .container__months .month-item-weekdays-row {
+.mat-calendar-table-header {
   color: rgba(192, 162, 124, 0.7) !important;
+}
+
+.mat-calendar-body-label {
+  color: #c0a27c !important;
   font-weight: 600 !important;
-  font-size: 0.82rem !important;
-  padding: 0.5rem 0 !important;
 }
 
-.litepicker .container__months .month-item-weekdays-row > div {
-  text-align: center !important;
-}
-
-.litepicker .container__days .day-item {
+.mat-calendar-body-cell-content {
   color: rgba(255, 255, 255, 0.85) !important;
   border-radius: 10px !important;
   font-weight: 400 !important;
   transition: all 0.25s ease !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
+  border: none !important;
 }
 
-.litepicker .container__days .day-item:hover {
-  background: rgba(192, 162, 124, 0.18) !important;
+.mat-calendar-body-cell:hover .mat-calendar-body-cell-content {
+  background-color: rgba(192, 162, 124, 0.18) !important;
   color: #ffffff !important;
-  box-shadow: 0 0 0 1px rgba(192, 162, 124, 0.3) !important;
 }
 
-.litepicker .container__days .day-item.is-today {
-  color: #c0a27c !important;
-  font-weight: 600 !important;
-  box-shadow: inset 0 0 0 1.5px #c0a27c !important;
-}
-
-.litepicker .container__days .day-item.is-selected {
-  background: #c0a27c !important;
+.mat-calendar-body-selected {
+  background-color: #c0a27c !important;
   color: #141412 !important;
   font-weight: 600 !important;
   box-shadow: 0 4px 10px rgba(192, 162, 124, 0.3) !important;
 }
 
-.litepicker .container__days .day-item.is-locked,
-.litepicker .container__days .day-item.is-locked:hover {
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border-color: #c0a27c !important;
+  color: #c0a27c !important;
+}
+
+.mat-calendar-body-disabled .mat-calendar-body-cell-content {
   color: rgba(255, 255, 255, 0.15) !important;
   background: transparent !important;
-  cursor: not-allowed !important;
-  box-shadow: none !important;
+}
+
+.mat-datepicker-content .mat-calendar-body-selected {
+  background-color: #c0a27c !important;
+  color: #141412 !important;
 }
 
 

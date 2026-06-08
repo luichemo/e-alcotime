@@ -1,22 +1,31 @@
-import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import Litepicker from 'litepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    RouterModule, 
+    TranslateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule
+  ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
-export class RegisterComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('dobPicker') dobPicker!: ElementRef;
-  private litepickerInstance: any;
-
+export class RegisterComponent implements OnInit {
   displayName: string = '';
   email: string = '';
   password: string = '';
@@ -25,6 +34,9 @@ export class RegisterComponent implements AfterViewInit, OnDestroy {
   dateOfBirth: string = '';
   agreeTerms: boolean = false;
   
+  maxDate!: Date;
+  startAtDate!: Date;
+
   loading: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
@@ -38,24 +50,31 @@ export class RegisterComponent implements AfterViewInit, OnDestroy {
     private translateService: TranslateService
   ) {}
 
-  ngAfterViewInit(): void {
-    this.litepickerInstance = new Litepicker({
-      element: this.dobPicker.nativeElement,
-      format: 'YYYY-MM-DD',
-      maxDate: this.getMaxDate(),
-      startDate: this.dateOfBirth || undefined,
-      setup: (picker: any) => {
-        picker.on('selected', (date: any) => {
-          this.dateOfBirth = date.format('YYYY-MM-DD');
-        });
-      }
-    });
+  ngOnInit(): void {
+    const today = new Date();
+    this.maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    this.startAtDate = this.maxDate;
   }
 
-  ngOnDestroy(): void {
-    if (this.litepickerInstance) {
-      this.litepickerInstance.destroy();
+  onDateChange(event: any): void {
+    const date: Date = event.value;
+    if (date) {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      this.dateOfBirth = `${year}-${month}-${day}`;
+    } else {
+      this.dateOfBirth = '';
     }
+  }
+
+  getDateObject(): Date | null {
+    if (!this.dateOfBirth) return null;
+    const parts = this.dateOfBirth.split('-');
+    if (parts.length === 3) {
+      return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    }
+    return new Date(this.dateOfBirth);
   }
 
   togglePasswordVisibility(): void {
@@ -140,11 +159,5 @@ export class RegisterComponent implements AfterViewInit, OnDestroy {
     }
     
     return age;
-  }
-
-  getMaxDate(): string {
-    const today = new Date();
-    const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-    return maxDate.toISOString().split('T')[0];
   }
 }

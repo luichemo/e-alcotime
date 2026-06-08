@@ -27,6 +27,7 @@ export class Products implements OnInit {
   searchTerm: string = '';
   sortBy: string = 'name';
   loading: boolean = true;
+  initialLoading: boolean = true;
 
   // Pagination
   currentPage: number = 1;
@@ -83,7 +84,7 @@ export class Products implements OnInit {
     { value: 'other', label: 'Other', icon: 'bi-three-dots' }
   ];
 
-  showFilters: boolean = true;
+  showFilters: boolean = false;
 
   // Custom sort dropdown
   sortDropdownOpen: boolean = false;
@@ -135,17 +136,19 @@ export class Products implements OnInit {
   }
 
   loadProducts(): void {
+    this.initialLoading = true;
     this.loading = true;
     this.productService.getAvailableProducts().subscribe({
-      next: (products) => {
+      next: async (products) => {
         this.products = products;
         this.extractFilterOptions();
-        this.applyFilters();
-        this.loading = false;
+        await this.applyFilters();
+        this.initialLoading = false;
       },
       error: (error) => {
         console.error('Error loading products:', error);
         this.loading = false;
+        this.initialLoading = false;
       }
     });
   }
@@ -158,7 +161,8 @@ export class Products implements OnInit {
     this.availableVolumes = [...new Set(this.products.map(p => p.volume))].sort((a, b) => a - b);
   }
 
-  applyFilters(): void {
+  async applyFilters(): Promise<void> {
+    this.loading = true;
     let filtered = [...this.products];
 
     if (this.selectedCategory !== 'all') {
@@ -216,12 +220,47 @@ export class Products implements OnInit {
 
     this.filteredProducts = filtered;
     this.currentPage = 1; // reset to first page on every filter change
+
+    try {
+      await this.preloadPagedImages();
+    } catch (e) {
+      console.error('Error preloading page images:', e);
+    }
+    this.loading = false;
   }
 
-  goToPage(page: number): void {
+  preloadPagedImages(): Promise<void> {
+    const visibleProducts = this.pagedProducts;
+    if (visibleProducts.length === 0) {
+      return Promise.resolve();
+    }
+    const promises = visibleProducts.map(product => {
+      return new Promise<void>((resolve) => {
+        if (!product.imageUrl) {
+          resolve();
+          return;
+        }
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        img.src = product.imageUrl;
+      });
+    });
+    return Promise.all(promises).then(() => {});
+  }
+
+  async goToPage(page: number): Promise<void> {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    this.loading = true;
+    try {
+      await this.preloadPagedImages();
+    } catch (e) {
+      console.error('Error preloading page images on navigation:', e);
+    }
+    this.loading = false;
   }
 
   getPageEnd(): number {

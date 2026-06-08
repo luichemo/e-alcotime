@@ -78,23 +78,32 @@
           </div>
         </div>
 
-        <!-- Date of Birth (Flatpickr) -->
+        <!-- Date of Birth (Angular Material Datepicker) -->
         <div class="form-group grid-span-1">
           <label for="dateOfBirth" class="form-label-custom">
-            <span>{{ 'AUTH.DOB' | translate }}</span>
+            <span>{{ 'AUTH.DOB' | translate }} *</span>
           </label>
           <div class="input-wrapper">
             <i class="bi bi-calendar3 input-icon"></i>
             <input 
-              #dobPicker
               type="text" 
               class="form-input dob-picker-input" 
               id="dateOfBirth"
-              [(ngModel)]="dateOfBirth"
+              [value]="dateOfBirth"
               name="dateOfBirth"
               placeholder="Select birth date"
+              (click)="picker.open()"
               required
               readonly>
+            <button type="button" class="password-toggle-btn" (click)="picker.open()" aria-label="Open calendar" style="right: 0px !important;">
+            </button>
+            <input 
+              style="width: 0; height: 0; padding: 0; margin: 0; border: none; position: absolute; visibility: hidden;" 
+              [matDatepicker]="picker" 
+              [max]="maxDate" 
+              [value]="getDateObject()"
+              (dateChange)="onDateChange($event)">
+            <mat-datepicker #picker startView="multi-year" [startAt]="startAtDate"></mat-datepicker>
           </div>
           <small class="form-text-custom">
             {{ 'AUTH.DOB_NOTICE' | translate }}

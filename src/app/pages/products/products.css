@@ -272,7 +272,7 @@
 }
 
 .sidebar-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
   font-weight: 700;
   color: #c0a27c;
   margin: 0;
@@ -707,7 +707,7 @@
 }
 
 .card-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
   font-weight: 700;
   color: #ffffff;
   font-size: 1.1rem;
@@ -762,7 +762,7 @@
 
 .price-wrapper .product-price {
   color: #c0a27c;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-weight: 700;
   font-size: 1.35rem;
   margin: 0;
@@ -835,7 +835,7 @@
 
 .empty-state h3 {
   color: #ebdec7;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
   font-weight: 700;
 }
 
@@ -988,4 +988,36 @@
 .pagination-list li.disabled .page-btn {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+/* Full-screen initial loading state */
+.loading-container {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #141412;
+}
+
+.loading-container .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-color: #c0a27c;
+  border-right-color: transparent;
+}
+
+.animate-fade-in {
+  animation: fadeInPage 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
