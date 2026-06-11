@@ -34,22 +34,12 @@
         <div class="col-lg-6">
           <div class="product-info">
 
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
               <h1 class="product-title">{{ product.name }}</h1>
-              <p class="product-brand">by <strong>{{ product.brand }}</strong></p>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-              <div class="product-rating mb-3 d-flex align-items-center gap-2">
-                <div class="stars-wrapper">
-                  <i *ngFor="let starClass of getStarsArray()" class="bi {{ starClass }}"></i>
-                </div>
-                <span class="rating-value">({{ getRating() }} / 5)</span>
-                <span class="drinkability-tag ms-2" [title]="'PRODUCT_DETAIL.RATING_DESC' | translate">
-                  <i class="bi bi-info-circle me-1"></i>
-                  {{ 'PRODUCT_DETAIL.RATING_LABEL' | translate }}
-                </span>
-              </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; width: 100%;">
+              <p class="product-brand mb-0" style="margin: 0;">by <strong>{{ product.brand }}</strong></p>
               <span class="category-badge">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
             </div>
 

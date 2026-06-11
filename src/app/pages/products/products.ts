@@ -125,6 +125,11 @@ export class Products implements OnInit {
       if (params['category']) {
         this.selectedCategory = params['category'];
       }
+      if (params['search']) {
+        this.searchTerm = params['search'];
+      } else {
+        this.searchTerm = '';
+      }
       this.loadProducts();
     });
   }

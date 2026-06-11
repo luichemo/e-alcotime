@@ -10,7 +10,13 @@
     "REGISTER": "Регистрация",
     "LOGOUT": "Выйти",
     "ABOUT": "О нас",
-    "CONTACT": "Контакты"
+    "CONTACT": "Контакты",
+    "SEARCH_PLACEHOLDER": "Поиск товаров...",
+    "PRODUCTS_FOUND": "Найденные товары",
+    "VIEW_ALL_RESULTS": "Показать все результаты",
+    "NO_RESULTS": "Результаты не найдены по запросу",
+    "LANGUAGE": "Язык",
+    "ACCOUNT": "Личный кабинет"
   },
   "HOME": {
     "WELCOME": "Добро пожаловать в ALCOTIME",

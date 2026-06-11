@@ -9,6 +9,51 @@
     <div class="hero-content">
       <div class="container text-center">
         <img src="/rm-log.png" alt="AlcoTime Premium Logo" class="hero-logo mb-4">
+        
+        <!-- Mobile Search Bar (only visible on mobile size, below logo) -->
+        <div class="search-container mobile-hero-search d-block d-lg-none mb-4 mx-auto" style="width: 100%; max-width: 100%;">
+          <div class="search-wrapper">
+            <input 
+              type="text" 
+              class="form-control search-input" 
+              [(ngModel)]="searchQuery" 
+              (input)="onSearchInput()"
+              (focus)="onSearchFocus()"
+              (keydown.enter)="onSearchSubmit()"
+              [placeholder]="'NAVBAR.SEARCH_PLACEHOLDER' | translate">
+            <button class="btn search-btn" (click)="onSearchSubmit()" aria-label="Search">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+          
+          <!-- Search Preview Dropdown -->
+          <div class="search-preview-dropdown mobile" *ngIf="showSearchResults">
+            <!-- Found matches -->
+            <div *ngIf="searchResults.length > 0">
+              <ul class="preview-list">
+                <li *ngFor="let product of searchResults" (click)="onSelectProduct(product.id!)" class="preview-item">
+                  <img [src]="product.imageUrl" [alt]="product.name" class="preview-img">
+                  <div class="preview-info text-start">
+                    <div class="preview-name text-truncate">{{ product.name }}</div>
+                    <div class="preview-brand text-truncate">{{ product.brand }}</div>
+                  </div>
+                  <div class="preview-price ms-auto text-end">
+                    <div *ngIf="product.discountPrice" class="preview-price-original">₾{{ product.price }}</div>
+                    <div class="preview-price-current">₾{{ product.discountPrice || product.price }}</div>
+                  </div>
+                </li>
+              </ul>
+              <div class="preview-footer text-center" (click)="onSearchSubmit()">
+                {{ 'NAVBAR.VIEW_ALL_RESULTS' | translate }} <i class="bi bi-arrow-right ms-1"></i>
+              </div>
+            </div>
+            
+            <!-- Empty state -->
+            <div *ngIf="searchResults.length === 0 && searchQuery.trim() !== ''" class="preview-no-results text-center py-3">
+              <span class="d-block">{{ 'NAVBAR.NO_RESULTS' | translate }} "{{ searchQuery }}"</span>
+            </div>
+          </div>
+        </div>
         <h1 class="display-3 brand-headline">{{ 'HOME.WELCOME' | translate }}</h1>
         <p class="brand-subtext mb-5">{{ 'HOME.SUBTITLE' | translate }}</p>
         

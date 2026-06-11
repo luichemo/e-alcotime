@@ -3,26 +3,26 @@
    ========================================================================== */
 
 .order-history-container {
-  background-color: #141412;
+  background-color: #FAF8F5;
   min-height: 100vh;
   padding: 2rem 0;
   background-image:
-    radial-gradient(at 0% 0%, rgba(84, 71, 49, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(192, 162, 124, 0.1) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(84, 71, 49, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(192, 162, 124, 0.03) 0px, transparent 50%);
 }
 
 .page-header h2 {
   font-family: 'Playfair Display', serif;
-  color: #ffffff;
+  color: #141412;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #ffffff 30%, #ebdec7 70%, #c0a27c 100%);
+  background: linear-gradient(135deg, #141412 30%, #5a5a54 70%, #ad8d66 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
 .page-header .text-muted {
-  color: rgba(235, 222, 199, 0.55) !important;
+  color: #5a5a54 !important;
 }
 
 /* ==========================================================================
@@ -32,12 +32,12 @@
 .empty-state {
   text-align: center;
   padding: 5rem 2rem;
-  background: rgba(28, 28, 26, 0.55);
+  background: #ffffff;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  border: 1px solid rgba(192, 162, 124, 0.25);
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
 .empty-state-icon {
@@ -69,13 +69,13 @@
 
 .empty-state h3 {
   font-family: 'Playfair Display', serif;
-  color: #ebdec7;
+  color: #141412;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .empty-state p {
-  color: rgba(235, 222, 199, 0.55);
+  color: #5a5a54;
   margin-bottom: 2rem;
   font-size: 1.05rem;
 }
@@ -91,23 +91,23 @@
 }
 
 .order-card {
-  background: rgba(28, 28, 26, 0.55);
+  background: #ffffff;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
-  border: 1px solid rgba(192, 162, 124, 0.12);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(192, 162, 124, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .order-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(192, 162, 124, 0.35);
-  background: rgba(28, 28, 26, 0.85);
+  border-color: #c0a27c;
+  background: #ffffff;
   box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.45),
-    0 0 15px rgba(192, 162, 124, 0.08);
+    0 15px 35px rgba(84, 71, 49, 0.08),
+    0 0 15px rgba(192, 162, 124, 0.05);
 }
 
 .order-header {
@@ -115,8 +115,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  background: rgba(192, 162, 124, 0.06);
-  border-bottom: 1px solid rgba(192, 162, 124, 0.12);
+  background: rgba(192, 162, 124, 0.05);
+  border-bottom: 1px solid rgba(192, 162, 124, 0.18);
 }
 
 .order-info h4 {
@@ -125,18 +125,18 @@
 }
 
 .order-info code {
-  background: rgba(192, 162, 124, 0.12);
-  color: #c0a27c;
+  background: #ffffff;
+  color: #ad8d66;
   padding: 0.3rem 0.7rem;
   border-radius: 6px;
   font-size: 0.95rem;
   font-weight: 700;
-  border: 1px solid rgba(192, 162, 124, 0.2);
+  border: 1px solid rgba(192, 162, 124, 0.25);
 }
 
 .order-date {
   margin: 0;
-  color: rgba(235, 222, 199, 0.5);
+  color: #5a5a54;
   font-size: 0.88rem;
   display: flex;
   align-items: center;
@@ -212,15 +212,15 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  background: rgba(192, 162, 124, 0.05);
+  background: rgba(192, 162, 124, 0.03);
   border-radius: 10px;
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  border: 1px solid rgba(192, 162, 124, 0.15);
   flex: 0 0 calc(50% - 0.5rem);
   transition: border-color 0.3s ease;
 }
 
 .order-item-preview:hover {
-  border-color: rgba(192, 162, 124, 0.25);
+  border-color: #c0a27c;
 }
 
 .order-item-preview img {
@@ -237,20 +237,20 @@
 
 .order-item-preview strong {
   display: block;
-  color: #ebdec7;
+  color: #141412;
   font-size: 0.88rem;
   margin-bottom: 0.25rem;
 }
 
 .order-item-preview p {
   margin: 0;
-  color: rgba(235, 222, 199, 0.5);
+  color: #5a5a54;
   font-size: 0.78rem;
 }
 
 .order-summary {
   padding-top: 1rem;
-  border-top: 1px solid rgba(192, 162, 124, 0.12);
+  border-top: 1px solid rgba(192, 162, 124, 0.18);
 }
 
 .summary-row {
@@ -258,12 +258,12 @@
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
-  color: rgba(235, 222, 199, 0.7);
+  color: #5a5a54;
 }
 
 .order-total {
   font-size: 1.25rem;
-  color: #c0a27c;
+  color: #ad8d66;
   font-weight: 700;
   font-family: 'Outfit', sans-serif;
 }
@@ -276,8 +276,8 @@
   display: flex;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  background: rgba(192, 162, 124, 0.03);
-  border-top: 1px solid rgba(192, 162, 124, 0.1);
+  background: rgba(192, 162, 124, 0.02);
+  border-top: 1px solid rgba(192, 162, 124, 0.12);
   flex-wrap: wrap;
 }
 
@@ -315,10 +315,10 @@
   width: 90%;
   max-width: 700px;
   max-height: 90vh;
-  background: #1c1c1a;
-  border: 1px solid rgba(192, 162, 124, 0.15);
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.25);
   border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(192, 162, 124, 0.08);
+  box-shadow: 0 20px 60px rgba(84, 71, 49, 0.08), 0 0 30px rgba(192, 162, 124, 0.05);
   z-index: 1050;
   overflow-y: auto;
   animation: slideUp 0.3s ease;
@@ -353,14 +353,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(192, 162, 124, 0.12);
+  border-bottom: 1px solid rgba(192, 162, 124, 0.18);
   background: rgba(192, 162, 124, 0.05);
 }
 
 .modal-header h4 {
   margin: 0;
   font-family: 'Playfair Display', serif;
-  color: #c0a27c;
+  color: #141412;
   font-weight: 700;
 }
 
@@ -369,8 +369,8 @@
   height: 35px;
   border-radius: 50%;
   background: rgba(192, 162, 124, 0.08);
-  border: 1px solid rgba(192, 162, 124, 0.2);
-  color: rgba(235, 222, 199, 0.7);
+  border: 1px solid rgba(192, 162, 124, 0.25);
+  color: #141412;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -380,7 +380,7 @@
 
 .btn-close:hover {
   background: #c0a27c;
-  color: #141412;
+  color: #ffffff;
   border-color: #c0a27c;
   transform: rotate(90deg);
 }
@@ -392,14 +392,14 @@
 .info-section {
   margin-bottom: 1.25rem;
   padding: 1.25rem;
-  background: rgba(192, 162, 124, 0.04);
+  background: rgba(192, 162, 124, 0.03);
   border-radius: 12px;
-  border: 1px solid rgba(192, 162, 124, 0.1);
+  border: 1px solid rgba(192, 162, 124, 0.15);
 }
 
 .info-section h5 {
   font-family: 'Playfair Display', serif;
-  color: #c0a27c;
+  color: #141412;
   font-weight: 700;
   margin-bottom: 1rem;
   font-size: 1rem;
@@ -407,24 +407,24 @@
 
 .info-section label {
   font-weight: 600;
-  color: rgba(192, 162, 124, 0.7);
+  color: #5a5a54;
   font-size: 0.82rem;
   margin-bottom: 0.25rem;
   display: block;
 }
 
 .info-section p {
-  color: #ebdec7;
+  color: #141412;
   margin-bottom: 0.5rem;
 }
 
 .info-section code {
-  background: rgba(192, 162, 124, 0.12);
-  color: #c0a27c;
+  background: #ffffff;
+  color: #ad8d66;
   padding: 0.25rem 0.6rem;
   border-radius: 6px;
   font-weight: 700;
-  border: 1px solid rgba(192, 162, 124, 0.2);
+  border: 1px solid rgba(192, 162, 124, 0.25);
 }
 
 /* ==========================================================================
@@ -442,14 +442,14 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: #ffffff;
   border-radius: 10px;
-  border: 1px solid rgba(192, 162, 124, 0.1);
+  border: 1px solid rgba(192, 162, 124, 0.15);
   transition: border-color 0.3s ease;
 }
 
 .order-item:hover {
-  border-color: rgba(192, 162, 124, 0.2);
+  border-color: #c0a27c;
 }
 
 .order-item img {
@@ -466,19 +466,19 @@
 
 .order-item .item-details strong {
   display: block;
-  color: #ebdec7;
+  color: #141412;
   margin-bottom: 0.25rem;
 }
 
 .order-item .item-details p {
-  color: rgba(235, 222, 199, 0.5);
+  color: #5a5a54;
   font-size: 0.85rem;
   margin: 0;
 }
 
 .order-item .item-total {
   font-weight: 700;
-  color: #c0a27c;
+  color: #ad8d66;
   font-size: 1.05rem;
   font-family: 'Outfit', sans-serif;
 }
@@ -487,12 +487,12 @@
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  background: rgba(192, 162, 124, 0.06);
-  border: 1px solid rgba(192, 162, 124, 0.15);
+  background: rgba(192, 162, 124, 0.05);
+  border: 1px solid rgba(192, 162, 124, 0.18);
   border-radius: 10px;
   margin-top: 1rem;
   font-size: 1.15rem;
-  color: #c0a27c;
+  color: #ad8d66;
   font-family: 'Outfit', sans-serif;
 }
 
@@ -545,17 +545,17 @@
 }
 
 .btn-outline-secondary {
-  border: 1.5px solid rgba(192, 162, 124, 0.2);
-  color: rgba(235, 222, 199, 0.6);
-  background: rgba(255, 255, 255, 0.02);
+  border: 1.5px solid rgba(192, 162, 124, 0.25);
+  color: #5a5a54;
+  background: #ffffff;
   border-radius: 8px;
   transition: all 0.3s ease;
 }
 
 .btn-outline-secondary:hover {
   background: rgba(192, 162, 124, 0.08);
-  border-color: rgba(192, 162, 124, 0.35);
-  color: #ebdec7;
+  border-color: #c0a27c;
+  color: #141412;
 }
 
 /* ==========================================================================
@@ -570,11 +570,11 @@
 }
 
 .text-muted {
-  color: rgba(235, 222, 199, 0.5) !important;
+  color: #5a5a54 !important;
 }
 
 .text-success {
-  color: #c0a27c !important;
+  color: #28a745 !important;
 }
 
 /* ==========================================================================

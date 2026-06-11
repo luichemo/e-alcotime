@@ -5,9 +5,9 @@
 .cart-hero {
   position: relative;
   min-height: 35vh;
-  background-color: #141412;
+  background-color: #FAF8F5;
   background-image:
-    radial-gradient(at 0% 0%, rgba(84, 71, 49, 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, rgba(192, 162, 124, 0.08) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(192, 162, 124, 0.12) 0px, transparent 50%);
   display: flex;
   align-items: center;
@@ -20,15 +20,15 @@
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background:
-    radial-gradient(circle at 20% 50%, rgba(192, 162, 124, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(215, 188, 150, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(192, 162, 124, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(215, 188, 150, 0.04) 0%, transparent 50%);
   animation: pulse 8s ease-in-out infinite;
 }
 
 .cart-hero .hero-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(20, 20, 18, 0.5) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(250, 248, 245, 0.5) 100%);
 }
 
 .cart-hero .hero-content {
@@ -38,7 +38,7 @@
 }
 
 .cart-hero h1 {
-  background: linear-gradient(135deg, #ffffff 30%, #ebdec7 70%, #c0a27c 100%);
+  background: linear-gradient(135deg, #141412 30%, #5a5a54 70%, #ad8d66 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -47,8 +47,8 @@
 }
 
 .cart-hero .lead {
-  color: rgba(235, 222, 199, 0.7);
-  font-weight: 300;
+  color: #5a5a54;
+  font-weight: 400;
   font-size: 1rem;
 }
 
@@ -57,7 +57,7 @@
    ========================================================================== */
 
 .cart-content {
-  background-color: #141412;
+  background-color: #faf8f5;
   min-height: 60vh;
 }
 
@@ -66,28 +66,26 @@
    ========================================================================== */
 
 .empty-cart {
-  background: rgba(28, 28, 26, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.2);
   border-radius: 20px;
   padding: 3rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
 .empty-cart .empty-icon {
   font-size: 4rem;
-  color: rgba(192, 162, 124, 0.35);
+  color: rgba(192, 162, 124, 0.4);
 }
 
 .empty-cart h3 {
   font-family: 'Playfair Display', serif;
-  color: #ebdec7;
+  color: #141412;
   font-weight: 700;
 }
 
 .empty-cart .text-muted {
-  color: rgba(235, 222, 199, 0.5) !important;
+  color: #5a5a54 !important;
 }
 
 .empty-cart .btn-primary {
@@ -112,7 +110,7 @@
 
 .cart-header h4 {
   font-family: 'Playfair Display', serif;
-  color: #ebdec7;
+  color: #141412;
   font-weight: 700;
 }
 
@@ -147,19 +145,18 @@
   grid-template-columns: 100px 1fr auto auto auto auto;
   gap: 1rem;
   align-items: center;
-  background: rgba(28, 28, 26, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.2);
   border-radius: 16px;
   padding: 1rem;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
 .cart-item:hover {
-  border-color: rgba(192, 162, 124, 0.3);
-  background: rgba(28, 28, 26, 0.85);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border-color: #c0a27c;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(192, 162, 124, 0.1);
   transform: translateX(3px);
 }
 
@@ -168,19 +165,20 @@
   height: 100px;
   border-radius: 10px;
   overflow: hidden;
-  background: rgba(20, 20, 18, 0.4);
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  background: rgba(192, 162, 124, 0.04);
+  border: 1px solid rgba(192, 162, 124, 0.2);
 }
 
 .cart-item .item-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 0.25rem;
   transition: transform 0.4s ease;
 }
 
 .cart-item:hover .item-image img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 /* Clickable image link */
@@ -225,7 +223,7 @@
 
 .cart-item .item-name {
   font-family: 'Playfair Display', serif;
-  color: #ffffff;
+  color: #141412;
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 0.25rem;
@@ -238,14 +236,14 @@
 
 .cart-item .item-brand {
   font-size: 0.82rem;
-  color: rgba(192, 162, 124, 0.65) !important;
+  color: #ad8d66 !important;
 }
 
 .cart-item .item-specs {
   display: flex;
   gap: 1rem;
   font-size: 0.78rem;
-  color: rgba(235, 222, 199, 0.5);
+  color: #5a5a54;
   margin-top: 0.5rem;
 }
 
@@ -267,13 +265,14 @@
 .cart-item .old-price {
   display: block;
   text-decoration: line-through;
-  color: rgba(235, 222, 199, 0.35);
+  color: #ad8d66;
+  opacity: 0.65;
   font-size: 0.78rem;
   margin-bottom: 0.2rem;
 }
 
 .cart-item .current-price {
-  color: #c0a27c;
+  color: #ad8d66;
   font-size: 1.05rem;
   font-weight: 700;
   font-family: 'Outfit', sans-serif;
@@ -286,10 +285,10 @@
 .quantity-selector {
   display: flex;
   align-items: center;
-  border: 1.5px solid rgba(192, 162, 124, 0.2);
+  border: 1.5px solid rgba(192, 162, 124, 0.3);
   border-radius: 30px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.03);
+  background: #ffffff;
 }
 
 .quantity-selector .qty-btn {
@@ -297,7 +296,7 @@
   border: none;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
-  color: rgba(235, 222, 199, 0.7);
+  color: #141412;
   font-size: 0.9rem;
   transition: all 0.3s ease;
 }
@@ -316,7 +315,7 @@
   min-width: 35px;
   text-align: center;
   font-weight: 700;
-  color: #ebdec7;
+  color: #141412;
   font-size: 0.95rem;
 }
 
@@ -327,7 +326,7 @@
 
 .cart-item .item-total strong {
   font-family: 'Outfit', sans-serif;
-  color: #ebdec7;
+  color: #ad8d66;
   font-size: 1.15rem;
   font-weight: 800;
 }
@@ -354,7 +353,7 @@
 }
 
 .text-muted {
-  color: rgba(235, 222, 199, 0.45) !important;
+  color: #5a5a54 !important;
 }
 
 /* ==========================================================================
@@ -362,24 +361,22 @@
    ========================================================================== */
 
 .order-summary {
-  background: rgba(28, 28, 26, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.2);
   border-radius: 20px;
   padding: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   position: sticky;
   top: 100px;
 }
 
 .order-summary .summary-title {
   font-family: 'Playfair Display', serif;
-  color: #c0a27c;
+  color: #141412;
   font-weight: 800;
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(192, 162, 124, 0.2);
+  border-bottom: 1px solid rgba(192, 162, 124, 0.15);
   font-size: 1.25rem;
 }
 
@@ -392,11 +389,11 @@
 }
 
 .order-summary .summary-row span {
-  color: rgba(235, 222, 199, 0.6);
+  color: #5a5a54;
 }
 
 .order-summary .summary-row strong {
-  color: #ebdec7;
+  color: #141412;
   font-weight: 700;
 }
 
@@ -406,13 +403,13 @@
 }
 
 .order-summary .total-row span {
-  color: #ebdec7;
+  color: #141412;
   font-weight: 700;
 }
 
 .order-summary .total-row strong {
   font-family: 'Outfit', sans-serif;
-  color: #c0a27c;
+  color: #ad8d66;
   font-size: 1.45rem;
 }
 
@@ -448,9 +445,9 @@
 }
 
 .btn-continue {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(192, 162, 124, 0.05);
   border: 1.5px solid rgba(192, 162, 124, 0.3);
-  color: #c0a27c;
+  color: #141412;
   font-weight: 600;
   padding: 0.75rem;
   border-radius: 40px;
@@ -464,7 +461,7 @@
 .btn-continue:hover {
   background: rgba(192, 162, 124, 0.1);
   border-color: #c0a27c;
-  color: #c0a27c;
+  color: #ad8d66;
   transform: translateY(-2px);
 }
 
@@ -477,8 +474,8 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 1rem;
-  background: rgba(192, 162, 124, 0.05);
-  border: 1px solid rgba(192, 162, 124, 0.1);
+  background: rgba(192, 162, 124, 0.04);
+  border: 1px solid rgba(192, 162, 124, 0.15);
   border-radius: 12px;
 }
 
@@ -486,7 +483,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: rgba(235, 222, 199, 0.65);
+  color: #5a5a54;
 }
 
 .trust-badges .badge-item i {

@@ -1,6 +1,6 @@
 
 .confirmation-container {
-  background: linear-gradient(135deg, #f8f5f0 0%, #ebe8e0 100%);
+  background: #FAF8F5;
   min-height: 100vh;
   padding: 2rem 0;
 }
@@ -48,14 +48,14 @@
 }
 
 .success-header h1 {
-  color: #544731;
+  color: #141412;
   font-weight: 800;
   margin-bottom: 1rem;
   font-size: 2.5rem;
 }
 
 .success-header .lead {
-  color: #937652;
+  color: #5a5a54;
   font-size: 1.2rem;
   margin-bottom: 2rem;
 }
@@ -67,22 +67,23 @@
   background: white;
   padding: 1rem 2rem;
   border-radius: 50px;
-  box-shadow: 0 4px 15px rgba(84, 71, 49, 0.1);
-  border: 2px solid rgba(192, 162, 124, 0.2);
+  box-shadow: 0 4px 15px rgba(84, 71, 49, 0.02);
+  border: 1.5px solid rgba(192, 162, 124, 0.25);
 }
 
 .order-number span {
-  color: #937652;
+  color: #5a5a54;
   font-weight: 600;
 }
 
 .order-number code {
-  background: linear-gradient(135deg, rgba(192, 162, 124, 0.2), rgba(173, 141, 102, 0.15));
-  color: #544731;
+  background: #faf8f5;
+  color: #ad8d66;
   padding: 0.5rem 1rem;
   border-radius: 25px;
   font-size: 1.1rem;
   font-weight: 700;
+  border: 1px solid rgba(192, 162, 124, 0.15);
 }
 
 .error-icon {
@@ -105,8 +106,8 @@
 .info-card {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(84, 71, 49, 0.08);
-  border: 2px solid rgba(163, 142, 112, 0.15);
+  box-shadow: 0 4px 20px rgba(84, 71, 49, 0.04);
+  border: 1px solid rgba(192, 162, 124, 0.25);
   overflow: hidden;
   animation: slideUp 0.5s ease;
 }
@@ -123,14 +124,14 @@
 }
 
 .info-card .card-header {
-  background: linear-gradient(135deg, rgba(235, 222, 199, 0.4), rgba(215, 188, 150, 0.3));
+  background: rgba(192, 162, 124, 0.05);
   padding: 1.25rem 1.5rem;
-  border-bottom: 2px solid rgba(192, 162, 124, 0.2);
+  border-bottom: 1px solid rgba(192, 162, 124, 0.18);
 }
 
 .info-card .card-header h4 {
   margin: 0;
-  color: #544731;
+  color: #141412;
   font-weight: 700;
   font-size: 1.2rem;
 }
@@ -155,15 +156,15 @@
   align-items: center;
   gap: 1.25rem;
   padding: 1.25rem;
-  background: rgba(235, 222, 199, 0.2);
+  background: #ffffff;
   border-radius: 10px;
   border: 1px solid rgba(163, 142, 112, 0.15);
   transition: all 0.3s ease;
 }
 
 .order-item:hover {
-  background: rgba(235, 222, 199, 0.3);
-  border-color: rgba(192, 162, 124, 0.3);
+  background: rgba(192, 162, 124, 0.03);
+  border-color: #c0a27c;
 }
 
 .order-item img {
@@ -171,7 +172,7 @@
   height: 80px;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(84, 71, 49, 0.1);
+  box-shadow: 0 2px 8px rgba(84, 71, 49, 0.03);
 }
 
 .order-item .item-info {
@@ -179,20 +180,20 @@
 }
 
 .order-item .item-info h5 {
-  color: #544731;
+  color: #141412;
   font-weight: 700;
   margin-bottom: 0.5rem;
   font-size: 1rem;
 }
 
 .order-item .item-info p {
-  color: #937652;
+  color: #5a5a54;
   margin-bottom: 0.25rem;
   font-size: 0.9rem;
 }
 
 .order-item .item-info .price {
-  color: #a18448;
+  color: #ad8d66;
   font-weight: 600;
 }
 
@@ -203,7 +204,7 @@
 }
 
 .order-totals {
-  border-top: 2px solid rgba(192, 162, 124, 0.2);
+  border-top: 1px solid rgba(192, 162, 124, 0.18);
   padding-top: 1rem;
 }
 
@@ -212,17 +213,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 0;
-  color: #666;
+  color: #5a5a54;
   font-size: 1rem;
 }
 
 .total-row span:last-child {
   font-weight: 600;
-  color: #544731;
+  color: #141412;
 }
 
 .grand-total {
-  border-top: 2px solid rgba(192, 162, 124, 0.2);
+  border-top: 1px solid rgba(192, 162, 124, 0.18);
   margin-top: 0.5rem;
   padding-top: 1rem;
   font-size: 1.3rem;
@@ -235,14 +236,14 @@
 
 .info-card .card-body label {
   font-weight: 600;
-  color: #937652;
+  color: #5a5a54;
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
   display: block;
 }
 
 .info-card .card-body p {
-  color: #544731;
+  color: #141412;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
@@ -252,9 +253,9 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(32, 201, 151, 0.05));
+  background: rgba(40, 167, 69, 0.04);
   border-radius: 10px;
-  border: 2px solid rgba(40, 167, 69, 0.2);
+  border: 1px solid rgba(40, 167, 69, 0.2);
   margin-top: 1rem;
 }
 
@@ -265,7 +266,7 @@
 
 .delivery-estimate strong {
   display: block;
-  color: #544731;
+  color: #155724;
   margin-bottom: 0.25rem;
   font-size: 1rem;
 }
@@ -291,7 +292,7 @@
   top: 35px;
   bottom: 35px;
   width: 3px;
-  background: rgba(192, 162, 124, 0.2);
+  background: rgba(192, 162, 124, 0.15);
 }
 
 .status-step {
@@ -305,8 +306,8 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: rgba(192, 162, 124, 0.15);
-  border: 3px solid rgba(192, 162, 124, 0.3);
+  background: #ffffff;
+  border: 3px solid rgba(192, 162, 124, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,33 +319,33 @@
 
 .status-icon i {
   font-size: 1rem;
-  color: #999;
+  color: #b5b2ad;
 }
 
 .status-step.active .status-icon {
-  background: linear-gradient(135deg, #c0a27c, #ad8d66);
+  background: #c0a27c;
   border-color: #c0a27c;
 }
 
 .status-step.active .status-icon i {
-  color: #292a23;
+  color: #ffffff;
 }
 
 .status-info strong {
   display: block;
-  color: #544731;
+  color: #141412;
   margin-bottom: 0.25rem;
   font-size: 0.95rem;
 }
 
 .status-info p {
-  color: #937652;
+  color: #5a5a54;
   margin: 0;
   font-size: 0.85rem;
 }
 
 .status-step.active .status-info strong {
-  color: #c0a27c;
+  color: #ad8d66;
 }
 
 .action-buttons {
@@ -354,29 +355,29 @@
 .btn-primary {
   background: linear-gradient(135deg, #c0a27c, #ad8d66);
   border: none;
-  color: #292a23;
+  color: #141412;
   font-weight: 700;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.3);
+  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.2);
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, #ad8d66, #9a7a58);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(192, 162, 124, 0.4);
+  box-shadow: 0 6px 20px rgba(192, 162, 124, 0.3);
 }
 
 .btn-outline-secondary {
-  border: 2px solid rgba(163, 142, 112, 0.3);
-  color: #544731;
+  border: 1.5px solid rgba(163, 142, 112, 0.25);
+  color: #141412;
   font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .btn-outline-secondary:hover {
-  background: rgba(192, 162, 124, 0.1);
+  background: rgba(192, 162, 124, 0.08);
   border-color: #c0a27c;
-  color: #544731;
+  color: #141412;
 }
 
 .email-notice {

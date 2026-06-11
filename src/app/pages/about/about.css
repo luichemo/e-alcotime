@@ -1,11 +1,11 @@
 /* src/app/pages/about/about.css */
 
 .about-page {
-  background-color: #141412;
+  background-color: #FAF8F5;
   background-image: 
-    radial-gradient(circle at 20% 30%, rgba(192, 162, 124, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(173, 141, 102, 0.05) 0%, transparent 40%);
-  color: #f5f3f0;
+    radial-gradient(circle at 20% 30%, rgba(192, 162, 124, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(173, 141, 102, 0.03) 0%, transparent 40%);
+  color: #141412;
   min-height: 100vh;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
@@ -38,7 +38,7 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 700;
   font-size: 2.25rem;
-  color: #c0a27c;
+  color: #141412;
   margin-bottom: 1.5rem;
   position: relative;
   display: inline-block;
@@ -65,7 +65,7 @@
 .lead-text {
   font-size: 1.15rem;
   line-height: 1.8;
-  color: #e5e2dd;
+  color: #2c2c2a;
   font-weight: 400;
   margin-bottom: 1.5rem;
 }
@@ -73,7 +73,7 @@
 .body-text {
   font-size: 1rem;
   line-height: 1.7;
-  color: #b5b2ad;
+  color: #5a5a54;
 }
 
 /* Image styling */
@@ -99,8 +99,8 @@
 
 /* Value Cards Grid */
 .value-card {
-  background: rgba(28, 28, 26, 0.55);
-  border: 1px solid rgba(192, 162, 124, 0.15);
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.25);
   border-radius: 16px;
   padding: 2.5rem 2rem;
   text-align: center;
@@ -108,13 +108,13 @@
   -webkit-backdrop-filter: blur(15px);
   height: 100%;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
 .value-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(192, 162, 124, 0.4);
-  box-shadow: 0 15px 35px rgba(192, 162, 124, 0.1), 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-color: #c0a27c;
+  box-shadow: 0 15px 35px rgba(192, 162, 124, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .value-card i {
@@ -137,24 +137,24 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #c0a27c;
+  color: #141412;
   margin-bottom: 1rem;
 }
 
 .value-card p {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #b5b2ad;
+  color: #5a5a54;
   margin-bottom: 0;
 }
 
 /* Call to Action Section */
 .bg-glass-cta {
-  background: linear-gradient(135deg, rgba(28, 28, 26, 0.6) 0%, rgba(20, 20, 18, 0.8) 100%);
-  border: 1px solid rgba(192, 162, 124, 0.2) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #faf8f5 100%);
+  border: 1px solid rgba(192, 162, 124, 0.25) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
   padding: 3.5rem 2rem !important;
 }
 
@@ -162,11 +162,11 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #c0a27c;
+  color: #141412;
 }
 
 .bg-glass-cta p {
-  color: #b5b2ad;
+  color: #5a5a54;
   font-size: 1.1rem;
   max-width: 600px;
   margin-left: auto;

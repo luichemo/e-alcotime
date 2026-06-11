@@ -10,7 +10,13 @@
     "REGISTER": "Register",
     "LOGOUT": "Logout",
     "ABOUT": "About Us",
-    "CONTACT": "Contact Us"
+    "CONTACT": "Contact Us",
+    "SEARCH_PLACEHOLDER": "Search products...",
+    "PRODUCTS_FOUND": "Products Found",
+    "VIEW_ALL_RESULTS": "View all results",
+    "NO_RESULTS": "No results found for",
+    "LANGUAGE": "Language",
+    "ACCOUNT": "Account"
   },
   "HOME": {
     "WELCOME": "Welcome to ALCOTIME",

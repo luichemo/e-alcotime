@@ -6,7 +6,7 @@
       <h2>{{ 'PRODUCT_MGMT.TITLE' | translate }}</h2>
       <p class="pm-subtitle">Manage your product catalog</p>
     </div>
-    <button class="pm-add-btn" (click)="openAddModal()" style="color:aliceblue">
+    <button class="pm-add-btn" (click)="openAddModal()">
       <i class="bi bi-plus-lg"></i>
       {{ 'PRODUCT_MGMT.ADD_NEW' | translate }}
     </button>
@@ -85,7 +85,7 @@
             </td>
             <td>
               <span class="badge" [class.bg-success]="product.isAvailable"
-                    [class.bg-danger]="product.isAvailable">
+                    [class.bg-danger]="!product.isAvailable">
                 {{ (product.isAvailable ? 'PRODUCT_MGMT.AVAILABLE' : 'PRODUCT_MGMT.UNAVAILABLE') | translate }}
               </span>
             </td>
@@ -156,7 +156,7 @@
       <div class="pm-modal-header">
         <div class="pm-modal-header-left">
           <div class="pm-modal-icon">
-            <i class="bi" [class.bi-plus-lg]="!editingProduct" [class.bi-pencil-square]="editingProduct"></i>
+            <i class="bi" [class.bi-plus-lg]="!editingProduct" [class.bi-pencil-square]="editingProduct" style="color: #ffffff;"></i>
           </div>
           <div>
             <h4 class="pm-modal-title">
@@ -166,7 +166,7 @@
           </div>
         </div>
         <button class="pm-modal-close" (click)="closeModal()">
-          <i class="bi bi-x-lg"></i>
+          <i class="bi bi-x-lg" style="color: #141412;"></i>
         </button>
       </div>
 

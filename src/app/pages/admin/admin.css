@@ -10,18 +10,18 @@
 
 .admin-dashboard {
   min-height: 100vh;
-  background-color: #141412;
+  background-color: #FAF8F5;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(84, 71, 49, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(192, 162, 124, 0.12) 0px, transparent 50%);
-  color: #ffffff;
+    radial-gradient(at 0% 0%, rgba(84, 71, 49, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(192, 162, 124, 0.03) 0px, transparent 50%);
+  color: #141412;
 }
 
 .sidebar {
   min-height: 100vh;
-  background-color: #1c1c1a !important;
-  border-right: 1px solid rgba(192, 162, 124, 0.15);
-  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5);
+  background-color: #ffffff !important;
+  border-right: 1px solid rgba(192, 162, 124, 0.25);
+  box-shadow: 4px 0 25px rgba(84, 71, 49, 0.02);
   position: relative;
   overflow: hidden;
 }
@@ -45,15 +45,15 @@
 }
 
 .sidebar h5 {
-  color: #c0a27c !important;
+  color: #141412 !important;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   font-size: 1.35rem;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1.5rem;
-  border-bottom: 1.5px solid rgba(192, 162, 124, 0.15);
+  border-bottom: 1.5px solid rgba(192, 162, 124, 0.18);
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: none;
 }
 
 .sidebar h5 i {
@@ -70,7 +70,7 @@
 }
 
 .sidebar .nav-link {
-  color: rgba(235, 222, 199, 0.75) !important;
+  color: #5a5a54 !important;
   padding: 0.9rem 1.25rem;
   border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -100,26 +100,26 @@
 
 .sidebar .nav-link:hover {
   background-color: rgba(192, 162, 124, 0.08);
-  color: #ffffff !important;
+  color: #141412 !important;
   transform: translateX(5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(84, 71, 49, 0.04);
 }
 
 .sidebar .nav-link:hover i {
-  color: #ffffff;
+  color: #141412;
   transform: scale(1.15);
 }
 
 .sidebar .nav-link.active {
   background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%);
-  color: #141412 !important;
+  color: #ffffff !important;
   font-weight: 600;
-  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.3);
+  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.25);
   transform: translateX(5px);
 }
 
 .sidebar .nav-link.active i {
-  color: #141412;
+  color: #ffffff;
 }
 
 .sidebar .nav-link.active::after {
@@ -130,7 +130,7 @@
   transform: translateY(-50%);
   width: 4px;
   height: 60%;
-  background: #141412;
+  background: #ffffff;
   border-radius: 4px 0 0 4px;
 }
 
@@ -157,25 +157,25 @@ main .table-responsive {
 }
 
 main .card {
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  border: 1px solid rgba(192, 162, 124, 0.25);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  background: rgba(28, 28, 26, 0.55);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  background: #ffffff;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: all 0.3s ease;
 }
 
 main .card:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 15px rgba(192, 162, 124, 0.1);
+  box-shadow: 0 15px 35px rgba(84, 71, 49, 0.06), 0 0 15px rgba(192, 162, 124, 0.08);
   transform: translateY(-2px);
-  border-color: rgba(192, 162, 124, 0.25);
+  border-color: #c0a27c;
 }
 
 main .card-header {
-  background: rgba(20, 20, 18, 0.4);
-  border-bottom: 1.5px solid rgba(192, 162, 124, 0.15);
-  color: #c0a27c;
+  background: rgba(192, 162, 124, 0.05);
+  border-bottom: 1.5px solid rgba(192, 162, 124, 0.18);
+  color: #141412;
   font-weight: 600;
   padding: 1.25rem 1.5rem;
   border-radius: 16px 16px 0 0;
@@ -186,7 +186,7 @@ main .card-body {
 }
 
 main .table {
-  color: #ffffff;
+  color: #141412;
 }
 
 main .table,
@@ -195,12 +195,12 @@ main .table td,
 main .table th {
   background-color: transparent !important;
   background: transparent !important;
-  color: #ffffff !important;
+  color: #141412 !important;
   box-shadow: none !important;
 }
 
 main .table thead th {
-  color: #c0a27c !important;
+  color: #ad8d66 !important;
   font-weight: 600;
   border: none;
   padding: 1rem;
@@ -208,12 +208,12 @@ main .table thead th {
 }
 
 main .table tbody tr {
-  border-bottom: 1px solid rgba(192, 162, 124, 0.15) !important;
+  border-bottom: 1px solid rgba(192, 162, 124, 0.18) !important;
   transition: all 0.3s ease;
 }
 
 main .table tbody tr:hover td {
-  background-color: rgba(192, 162, 124, 0.08) !important;
+  background-color: rgba(192, 162, 124, 0.05) !important;
   box-shadow: none !important;
 }
 
@@ -241,8 +241,8 @@ main .btn-primary:hover {
 }
 
 main .btn-danger {
-  background: rgba(220, 53, 69, 0.1);
-  border: 1.5px solid rgba(220, 53, 69, 0.4);
+  background: rgba(220, 53, 69, 0.04);
+  border: 1.5px solid rgba(220, 53, 69, 0.25);
   color: #dc3545;
   font-weight: 600;
   padding: 0.65rem 1.5rem;
@@ -251,9 +251,9 @@ main .btn-danger {
 }
 
 main .btn-danger:hover {
-  background: rgba(220, 53, 69, 0.2);
-  color: #ff4d5a;
-  border-color: #ff4d5a;
+  background: rgba(220, 53, 69, 0.12);
+  color: #dc3545;
+  border-color: #dc3545;
   transform: translateY(-2px);
 }
 
@@ -274,13 +274,13 @@ main .btn-outline-primary {
 
 main .btn-outline-primary:hover {
   background: #c0a27c;
-  color: #141412;
+  color: #ffffff;
   border-color: #c0a27c;
 }
 
 main .stat-card {
-  background: rgba(28, 28, 26, 0.55);
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.25);
   border-radius: 16px;
   padding: 1.5rem;
   transition: all 0.3s ease;
@@ -295,15 +295,15 @@ main .stat-card::before {
   right: 0;
   width: 100px;
   height: 100px;
-  background: radial-gradient(circle, rgba(192, 162, 124, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(192, 162, 124, 0.04) 0%, transparent 70%);
   border-radius: 50%;
   transform: translate(30%, -30%);
 }
 
 main .stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border-color: rgba(192, 162, 124, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  border-color: #c0a27c;
 }
 
 main .stat-card .stat-icon {
@@ -312,13 +312,13 @@ main .stat-card .stat-icon {
 }
 
 main .stat-card .stat-value {
-  color: #ffffff;
+  color: #141412;
   font-size: 2rem;
   font-weight: 700;
 }
 
 main .stat-card .stat-label {
-  color: #ebdec7;
+  color: #5a5a54;
   font-size: 0.95rem;
   font-weight: 500;
 }
@@ -330,36 +330,36 @@ main .badge {
 }
 
 main .badge.bg-success {
-  background: rgba(192, 162, 124, 0.15) !important;
-  color: #c0a27c;
-  border: 1px solid rgba(192, 162, 124, 0.3);
+  background: rgba(40, 167, 69, 0.08) !important;
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.2);
 }
 
 main .badge.bg-warning {
-  background: rgba(215, 188, 150, 0.12) !important;
-  color: #d7bc96;
-  border: 1px solid rgba(215, 188, 150, 0.25);
+  background: rgba(255, 193, 7, 0.08) !important;
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.2);
 }
 
 main .badge.bg-danger {
-  background: rgba(220, 53, 69, 0.1) !important;
+  background: rgba(220, 53, 69, 0.08) !important;
   color: #dc3545;
-  border: 1px solid rgba(220, 53, 69, 0.25);
+  border: 1px solid rgba(220, 53, 69, 0.2);
 }
 
 main .form-label {
-  color: #ebdec7;
+  color: #141412;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 main .form-control,
 main .form-select {
-  border: 2px solid rgba(192, 162, 124, 0.25);
+  border: 1.5px solid rgba(192, 162, 124, 0.25);
   border-radius: 10px;
   padding: 0.75rem 1rem;
-  color: #ffffff;
-  background: rgba(20, 20, 18, 0.5);
+  color: #141412;
+  background: #ffffff;
   transition: all 0.3s ease;
 }
 
@@ -367,8 +367,8 @@ main .form-control:focus,
 main .form-select:focus {
   border-color: #c0a27c;
   box-shadow: 0 0 0 0.25rem rgba(192, 162, 124, 0.15);
-  background: rgba(20, 20, 18, 0.7);
-  color: #ffffff;
+  background: #ffffff;
+  color: #141412;
 }
 
 @keyframes fadeIn {
@@ -453,7 +453,7 @@ main .form-select:focus {
 }
 
 main h1, main h2, main h3, main h4 {
-  color: #c0a27c;
+  color: #141412;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
 }
@@ -482,19 +482,19 @@ main .alert {
 }
 
 main .alert-success {
-  background: rgba(192, 162, 124, 0.08);
-  border-left-color: #c0a27c;
-  color: #ebdec7;
+  background: rgba(40, 167, 69, 0.06);
+  border-left-color: #28a745;
+  color: #155724;
 }
 
 main .alert-danger {
-  background: rgba(220, 53, 69, 0.08);
+  background: rgba(220, 53, 69, 0.06);
   border-left-color: #dc3545;
-  color: #f8d7da;
+  color: #721c24;
 }
 
 main .alert-info {
   background: rgba(192, 162, 124, 0.05);
-  border-left-color: #ad8d66;
-  color: #ebdec7;
+  border-left-color: #c0a27c;
+  color: #5a5a54;
 }

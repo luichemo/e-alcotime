@@ -10,7 +10,13 @@
     "REGISTER": "რეგისტრაცია",
     "LOGOUT": "გამოსვლა",
     "ABOUT": "ჩვენ შესახებ",
-    "CONTACT": "კონტაქტი"
+    "CONTACT": "კონტაქტი",
+    "SEARCH_PLACEHOLDER": "მოძებნეთ პროდუქტები...",
+    "PRODUCTS_FOUND": "მოძებნილი პროდუქტები",
+    "VIEW_ALL_RESULTS": "ყველა შედეგის ნახვა",
+    "NO_RESULTS": "შედეგი ვერ მოიძებნა ტერმინისთვის",
+    "LANGUAGE": "ენა",
+    "ACCOUNT": "ანგარიში"
   },
   "HOME": {
     "WELCOME": "კეთილი იყოს თქვენი მობრძანება ALCOTIME-ში",
@@ -422,7 +428,7 @@
     "FORM_CAT": "კატეგორია *",
     "FORM_PRICE": "ფასი (₾) *",
     "FORM_DISCOUNT": "ფასდაკლებული ფასი (₾)",
-    "FORM_ALCOHOL": "ალკოჰოლის შემცველობა (%) *",
+    "FORM_ALCOHOL": "ალკ. შემცველობა (%) *",
     "FORM_VOLUME": "მოცულობა (მლ) *",
     "FORM_STOCK": "მარაგი *",
     "FORM_COUNTRY": "ქვეყანა *",

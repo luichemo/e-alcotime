@@ -5,29 +5,29 @@
 }
 
 .dashboard-header h2 {
-  color: #c0a27c;
+  color: #141412;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
 .dashboard-header .text-muted {
-  color: #ad8d66 !important;
+  color: #5a5a54 !important;
 }
 
 /* Stat Cards */
 .stat-card {
-  background: rgba(28, 28, 26, 0.55);
+  background: #ffffff;
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  border: 1px solid rgba(192, 162, 124, 0.15);
+  border: 1px solid rgba(192, 162, 124, 0.25);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(84, 71, 49, 0.03);
 }
 
 .stat-card::before {
@@ -47,8 +47,8 @@
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-  border-color: rgba(192, 162, 124, 0.3);
+  box-shadow: 0 10px 25px rgba(84, 71, 49, 0.05);
+  border-color: #c0a27c;
 }
 
 .stat-icon {
@@ -92,13 +92,13 @@
 .stat-details h3 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #141412;
   margin: 0;
   line-height: 1;
 }
 
 .stat-details p {
-  color: #ebdec7;
+  color: #5a5a54;
   margin: 0.25rem 0 0 0;
   font-size: 0.85rem;
   font-weight: 500;
@@ -120,23 +120,23 @@
 
 .stat-link:hover {
   background: #c0a27c;
-  color: #141412;
+  color: #ffffff;
   transform: scale(1.1);
 }
 
 /* Dashboard Cards */
 .dashboard-card {
-  background: rgba(28, 28, 26, 0.55);
+  background: #ffffff;
   border-radius: 12px;
-  border: 1px solid rgba(192, 162, 124, 0.15);
+  border: 1px solid rgba(192, 162, 124, 0.25);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 15px rgba(84, 71, 49, 0.03);
 }
 
 .dashboard-card .card-header {
   padding: 1.25rem 1.5rem;
-  background: rgba(20, 20, 18, 0.4);
-  border-bottom: 1.5px solid rgba(192, 162, 124, 0.15);
+  background: rgba(192, 162, 124, 0.05);
+  border-bottom: 1px solid rgba(192, 162, 124, 0.18);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -144,7 +144,7 @@
 
 .dashboard-card .card-header h5 {
   margin: 0;
-  color: #c0a27c;
+  color: #141412;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   font-size: 1.2rem;
@@ -161,7 +161,7 @@
 /* Table Styles */
 .table {
   margin: 0;
-  color: #ffffff;
+  color: #141412;
 }
 
 .table,
@@ -170,13 +170,13 @@
 .table th {
   background-color: transparent !important;
   background: transparent !important;
-  color: #ffffff !important;
+  color: #141412 !important;
   box-shadow: none !important;
 }
 
 .table thead th {
   border-bottom: 2px solid rgba(192, 162, 124, 0.18) !important;
-  color: #c0a27c !important;
+  color: #ad8d66 !important;
   font-weight: 700;
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -194,7 +194,7 @@
 }
 
 .table tbody tr:hover td {
-  background-color: rgba(192, 162, 124, 0.08) !important;
+  background-color: rgba(192, 162, 124, 0.05) !important;
   box-shadow: none !important;
 }
 
@@ -252,15 +252,15 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  background: rgba(20, 20, 18, 0.3);
+  background: #ffffff;
   border-radius: 8px;
-  border: 1px solid rgba(192, 162, 124, 0.12);
+  border: 1px solid rgba(192, 162, 124, 0.18);
   transition: all 0.3s ease;
 }
 
 .low-stock-item:hover {
-  background: rgba(192, 162, 124, 0.05);
-  border-color: rgba(192, 162, 124, 0.3);
+  background: rgba(192, 162, 124, 0.03);
+  border-color: #c0a27c;
 }
 
 .low-stock-item img {
@@ -279,7 +279,7 @@
 }
 
 .low-stock-item .product-info strong {
-  color: #ffffff;
+  color: #141412;
   font-size: 0.9rem;
   line-height: 1.2;
 }
@@ -316,10 +316,10 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.9rem 1rem;
-  background: rgba(20, 20, 18, 0.3);
-  border: 1.5px solid rgba(192, 162, 124, 0.2);
+  background: #ffffff;
+  border: 1.5px solid rgba(192, 162, 124, 0.25);
   border-radius: 10px;
-  color: #ebdec7;
+  color: #5a5a54;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -328,10 +328,10 @@
 
 .quick-action-btn:hover {
   background: linear-gradient(135deg, #c0a27c, #ad8d66);
-  color: #141412;
+  color: #ffffff;
   border-color: #c0a27c;
   transform: translateX(5px);
-  box-shadow: 0 4px 12px rgba(192, 162, 124, 0.2);
+  box-shadow: 0 4px 12px rgba(192, 162, 124, 0.25);
 }
 
 .quick-action-btn i {
@@ -346,13 +346,13 @@
   border-right-color: transparent;
 }
 .btn-outline-primary{
-  color: #141412;
+  color: #ffffff;
   background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%);
   border: none;
 }
 .btn-outline-primary:hover{
   background: linear-gradient(135deg, #d7bc96 0%, #c0a27c 100%);
-  color: #141412;
+  color: #ffffff;
   transform: translateY(-2px);
 }
 

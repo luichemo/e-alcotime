@@ -1,0 +1,217 @@
+/* src/app/pages/privacy/privacy.css */
+
+.legal-page {
+  background-color: #FAF8F5;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(192, 162, 124, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(173, 141, 102, 0.03) 0%, transparent 45%);
+  color: #141412;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.page-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 3rem;
+  color: #141412;
+  margin-bottom: 0.5rem;
+}
+
+.last-updated {
+  color: #ad8d66;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  font-style: italic;
+}
+
+.legal-content {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.22);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.legal-section {
+  margin-bottom: 2.5rem;
+}
+
+.legal-section h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #141412;
+  border-bottom: 1.5px solid rgba(192, 162, 124, 0.15);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.legal-section h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #141412;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-section p, 
+.legal-section li {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #5a5a54;
+}
+
+.legal-section ul {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.legal-section li {
+  margin-bottom: 0.4rem;
+}
+
+/* Warnings and Boxes */
+.warning-box {
+  display: flex;
+  gap: 1rem;
+  background: rgba(220, 53, 69, 0.04);
+  border: 1px solid rgba(220, 53, 69, 0.15);
+  border-left: 4px solid #dc3545;
+  padding: 1.25rem;
+  border-radius: 10px;
+  color: #721c24;
+  margin: 1.75rem 0;
+}
+
+.warning-box i {
+  color: #dc3545;
+  font-size: 1.3rem;
+}
+
+.info-box {
+  display: flex;
+  gap: 1rem;
+  background: rgba(192, 162, 124, 0.06);
+  border: 1px solid rgba(192, 162, 124, 0.15);
+  border-left: 4px solid #c0a27c;
+  padding: 1.25rem;
+  border-radius: 10px;
+  color: #5a5a54;
+  margin: 1.75rem 0;
+}
+
+.info-box i {
+  color: #c0a27c;
+  font-size: 1.3rem;
+}
+
+/* Rights Grid */
+.rights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.right-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: #faf8f5;
+  border: 1px solid rgba(192, 162, 124, 0.15);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.right-item:hover {
+  transform: translateY(-3px);
+  border-color: #c0a27c;
+  box-shadow: 0 8px 20px rgba(192, 162, 124, 0.08);
+}
+
+.right-item i {
+  font-size: 1.75rem;
+  color: #c0a27c;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+.right-item h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #141412;
+  margin-bottom: 0.5rem;
+}
+
+.right-item p {
+  font-size: 0.85rem;
+  color: #5a5a54;
+  margin: 0;
+}
+
+/* Contact Details */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #5a5a54;
+}
+
+.contact-item i {
+  color: #c0a27c;
+  font-size: 1.1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #c0a27c, #ad8d66);
+  border: none;
+  color: #141412;
+  font-weight: 600;
+  border-radius: 30px;
+  padding: 0.65rem 2rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(192, 162, 124, 0.25);
+  color: #141412;
+}
+
+.btn-outline-primary {
+  border: 1.5px solid rgba(192, 162, 124, 0.4);
+  color: #c0a27c;
+  font-weight: 600;
+  border-radius: 30px;
+  padding: 0.65rem 2rem;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  border-color: #c0a27c;
+  background: rgba(192, 162, 124, 0.05);
+  color: #ad8d66;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2.25rem;
+  }
+  .legal-content {
+    padding: 2rem 1.5rem;
+  }
+}

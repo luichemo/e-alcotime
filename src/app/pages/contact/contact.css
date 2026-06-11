@@ -1,11 +1,11 @@
 /* src/app/pages/contact/contact.css */
 
 .contact-page {
-  background-color: #141412;
+  background-color: #FAF8F5;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(192, 162, 124, 0.05) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(173, 141, 102, 0.04) 0%, transparent 45%);
-  color: #f5f3f0;
+    radial-gradient(circle at 10% 20%, rgba(192, 162, 124, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(173, 141, 102, 0.03) 0%, transparent 45%);
+  color: #141412;
   min-height: 100vh;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
@@ -38,7 +38,7 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 700;
   font-size: 2rem;
-  color: #c0a27c;
+  color: #141412;
   margin-bottom: 1.5rem;
   position: relative;
   display: inline-block;
@@ -58,32 +58,32 @@
 .lead-text {
   font-size: 1.05rem;
   line-height: 1.7;
-  color: #e5e2dd;
+  color: #2c2c2a;
   margin-bottom: 2rem;
 }
 
 .body-text {
   font-size: 0.95rem;
-  color: #b5b2ad;
+  color: #5a5a54;
 }
 
 /* Info Card & Form Card */
 .contact-info-card,
 .contact-form-card {
-  background: rgba(28, 28, 26, 0.55);
-  border: 1px solid rgba(192, 162, 124, 0.18);
+  background: #ffffff;
+  border: 1px solid rgba(192, 162, 124, 0.25);
   border-radius: 16px;
   padding: 3rem 2.5rem;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
   transition: all 0.4s ease;
 }
 
 .contact-info-card:hover,
 .contact-form-card:hover {
-  border-color: rgba(192, 162, 124, 0.3);
-  box-shadow: 0 20px 45px rgba(192, 162, 124, 0.05), 0 10px 20px rgba(0, 0, 0, 0.3);
+  border-color: #c0a27c;
+  box-shadow: 0 20px 45px rgba(192, 162, 124, 0.1), 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
 /* Contact Detail Items */
@@ -124,13 +124,13 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #c0a27c;
+  color: #141412;
   margin-bottom: 0.25rem;
 }
 
 .detail-text p {
   font-size: 0.95rem;
-  color: #b5b2ad;
+  color: #5a5a54;
   margin-bottom: 0;
 }
 
@@ -151,32 +151,32 @@
   font-family: 'Outfit', sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
-  color: #e5e2dd;
+  color: #141412;
   margin-bottom: 0.5rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
 .form-control {
-  background-color: #1c1c1a;
-  border: 1px solid rgba(192, 162, 124, 0.2);
+  background-color: #ffffff;
+  border: 1.5px solid rgba(192, 162, 124, 0.25);
   border-radius: 8px;
-  color: #ffffff;
+  color: #141412;
   padding: 0.85rem 1rem;
   font-size: 0.95rem;
   transition: all 0.3s ease;
 }
 
 .form-control:focus {
-  background-color: #242422;
+  background-color: #ffffff;
   border-color: #c0a27c;
   box-shadow: 0 0 0 3px rgba(192, 162, 124, 0.15);
-  color: #ffffff;
+  color: #141412;
   outline: none;
 }
 
 .form-control::placeholder {
-  color: #696660;
+  color: #b5b2ad;
 }
 
 /* Buttons */

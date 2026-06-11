@@ -2,7 +2,7 @@
 
 .not-found-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #292a23 0%, #544731 50%, #3d3a2e 100%);
+  background: #FAF8F5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,13 +33,13 @@
   text-align: center;
   max-width: 600px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.98);
+  background: #ffffff;
   backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 2.5rem 2rem;
   box-shadow: 
-    0 20px 50px rgba(41, 42, 35, 0.4),
-    0 0 0 1px rgba(192, 162, 124, 0.2);
+    0 20px 50px rgba(84, 71, 49, 0.04),
+    0 0 0 1px rgba(192, 162, 124, 0.25);
   animation: fadeInScale 0.8s ease-out;
 }
 
@@ -84,7 +84,7 @@
 
 /* Error Title and Message */
 .error-title {
-  color: #544731;
+  color: #141412;
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
@@ -93,7 +93,7 @@
 }
 
 .error-message {
-  color: #937652;
+  color: #5a5a54;
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1.75rem;
@@ -127,8 +127,8 @@
 
 .btn-primary {
   background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%);
-  color: #292a23;
-  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.4);
+  color: #141412;
+  box-shadow: 0 4px 15px rgba(192, 162, 124, 0.2);
 }
 
 .btn-primary:hover {
@@ -139,12 +139,12 @@
 
 .btn-secondary {
   background: transparent;
-  color: #544731;
-  border: 2px solid rgba(163, 142, 112, 0.4);
+  color: #141412;
+  border: 2px solid rgba(163, 142, 112, 0.25);
 }
 
 .btn-secondary:hover {
-  background: rgba(192, 162, 124, 0.15);
+  background: rgba(192, 162, 124, 0.08);
   border-color: #c0a27c;
   transform: translateY(-2px);
 }
@@ -155,7 +155,7 @@
 }
 
 .links-title {
-  color: #937652;
+  color: #5a5a54;
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 1rem;
@@ -173,10 +173,10 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.85rem 0.5rem;
-  background: rgba(192, 162, 124, 0.08);
-  border: 1px solid rgba(163, 142, 112, 0.2);
+  background: rgba(192, 162, 124, 0.05);
+  border: 1px solid rgba(163, 142, 112, 0.15);
   border-radius: 10px;
-  color: #544731;
+  color: #141412;
   text-decoration: none;
   transition: all 0.3s ease;
 }

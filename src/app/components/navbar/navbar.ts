@@ -7,11 +7,14 @@ import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../services/product';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [CommonModule, RouterModule, TranslateModule, FormsModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
@@ -19,20 +22,36 @@ export class NavbarComponent implements OnInit {
   currentUser$: Observable<User | null>;
   cartItemCount: number = 0;
   isMenuOpen: boolean = false;
+  isSidebarOpen: boolean = false;
   currentRoute: string = '';
   isAdmin: boolean = false;
   isScrolled: boolean = false;
+
+  // Search variables
+  searchQuery: string = '';
+  allProducts: Product[] = [];
+  searchResults: Product[] = [];
+  showSearchResults: boolean = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 20;
   }
 
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.search-container')) {
+      this.showSearchResults = false;
+    }
+  }
+
   constructor(
     private authService: AuthService,
     private cartService: CartService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private productService: ProductService
   ) {
     this.currentUser$ = this.authService.currentUser$;
     
@@ -73,18 +92,78 @@ export class NavbarComponent implements OnInit {
         this.isAdmin = false;
       }
     });
+
+    // Preload products once for high-performance instant filtering in navbar
+    this.productService.getAvailableProducts().subscribe({
+      next: (products) => {
+        this.allProducts = products;
+      },
+      error: (error) => {
+        console.error('Error loading products for navbar search:', error);
+      }
+    });
+  }
+
+  onSearchInput(): void {
+    const query = this.searchQuery.trim().toLowerCase();
+    if (!query) {
+      this.searchResults = [];
+      this.showSearchResults = false;
+      return;
+    }
+
+    this.searchResults = this.allProducts.filter(product => 
+      product.name.toLowerCase().includes(query) ||
+      product.brand.toLowerCase().includes(query) ||
+      product.category.toLowerCase().includes(query)
+    ).slice(0, 5);
+
+    this.showSearchResults = true;
+  }
+
+  onSearchFocus(): void {
+    if (this.searchQuery.trim()) {
+      this.showSearchResults = true;
+    }
+  }
+
+  onSearchSubmit(): void {
+    const query = this.searchQuery.trim();
+    if (!query) return;
+
+    this.showSearchResults = false;
+    this.searchResults = [];
+    this.router.navigate(['/products'], { queryParams: { search: query } });
+    this.searchQuery = '';
+    this.closeMenu();
+  }
+
+  onSelectProduct(productId: string): void {
+    this.showSearchResults = false;
+    this.searchResults = [];
+    this.searchQuery = '';
+    this.router.navigate(['/product', productId]);
+    this.closeMenu();
   }
 
   isAdminPage(): boolean {
     return this.currentRoute.startsWith('/admin');
   }
 
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
+  }
+
   toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.toggleSidebar();
   }
 
   closeMenu(): void {
-    this.isMenuOpen = false;
+    this.closeSidebar();
   }
 
   async logout(): Promise<void> {
