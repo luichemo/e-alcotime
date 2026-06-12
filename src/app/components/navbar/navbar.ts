@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
-import { User } from 'firebase/auth';
+import { User } from '../../models/user.model';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private productService: ProductService
   ) {
-    this.currentUser$ = this.authService.currentUser$;
+    this.currentUser$ = this.authService.getCurrentUserData();
     
     // Set default and active languages
     this.translate.setDefaultLang('en');
@@ -91,12 +91,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.currentRoute = event.url;
     });
 
-    this.currentUser$.subscribe(async (user) => {
-      setTimeout(() => {
-    }, 2000);
+    this.currentUser$.subscribe((user) => {
       if (user) {
-        const userData = await this.authService.getUserData(user.uid).toPromise();
-        this.isAdmin = userData?.role === 'admin';
+        this.isAdmin = user.role === 'admin';
       } else {
         this.isAdmin = false;
       }

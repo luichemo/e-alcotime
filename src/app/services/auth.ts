@@ -12,7 +12,8 @@ import { Firestore } from '@angular/fire/firestore';
 import { 
   doc, 
   setDoc, 
-  getDoc
+  getDoc,
+  onSnapshot
 } from 'firebase/firestore';
 import { Observable, from, of, switchMap, shareReplay } from 'rxjs';
 import { User } from '../models/user.model';
@@ -103,15 +104,17 @@ export class AuthService {
 
   getUserData(uid: string): Observable<User | null> {
     const userDocRef = doc(this.firestore, 'users', uid);
-    return from(getDoc(userDocRef)).pipe(
-      switchMap(docSnap => {
+    return new Observable<User | null>(subscriber => {
+      return onSnapshot(userDocRef, (docSnap) => {
         if (docSnap.exists()) {
-          return of(docSnap.data() as User);
+          subscriber.next(docSnap.data() as User);
         } else {
-          return of(null);
+          subscriber.next(null);
         }
-      })
-    );
+      }, (error) => {
+        subscriber.error(error);
+      });
+    });
   }
 
   getCurrentUserData(): Observable<User | null> {

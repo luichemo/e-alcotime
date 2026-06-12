@@ -118,7 +118,7 @@
             <a style="padding: 12px !important; " class="nav-link dropdown-toggle" href="#" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle me-1"></i>
-              {{ user.email }}
+              {{ user.displayName || user.email }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
@@ -326,7 +326,7 @@
           <div class="d-flex flex-column gap-2">
             <div class="user-email-header d-flex align-items-center gap-2 mb-2">
               <i class="bi bi-person-circle fs-5 text-gold-icon"></i>
-              <span class="text-truncate" style="font-size: 0.85rem;">{{ user.email }}</span>
+              <span class="text-truncate" style="font-size: 0.85rem;">{{ user.displayName || user.email }}</span>
             </div>
             <a class="mobile-auth-btn d-flex align-items-center" routerLink="/order-history" (click)="closeSidebar()">
               <i class="bi bi-clock-history me-2 text-gold-icon"></i>

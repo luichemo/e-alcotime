@@ -96,6 +96,7 @@ export class Profile implements OnInit, OnDestroy {
                 phoneNumber: this.user.phoneNumber || '',
                 dateOfBirth: dateString
               };
+
             }
           },
           error: (error) => {
