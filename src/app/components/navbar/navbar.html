@@ -2,17 +2,13 @@
   <div class="container d-flex align-items-center flex-nowrap gap-3">
     <!-- Left: Toggler & Logo -->
     <div class="d-flex align-items-center gap-3">
-      <button 
-        class="navbar-toggler-custom" 
-        [class.open]="isSidebarOpen"
-        type="button" 
-        (click)="toggleSidebar()"
+      <button class="navbar-toggler-custom" [class.open]="isSidebarOpen" type="button" (click)="toggleSidebar()"
         aria-label="Toggle sidebar menu">
         <span class="bar line-1"></span>
         <span class="bar line-2"></span>
         <span class="bar line-3"></span>
       </button>
-      
+
       <a class="navbar-brand fw-bold" routerLink="/home">
         <img src="/rm-log.png" alt="AlcoTime Logo" class="hero-logo">
       </a>
@@ -21,19 +17,14 @@
     <!-- Center: Search Bar (Desktop only) -->
     <div class="search-container d-none d-lg-block flex-grow-1">
       <div class="search-wrapper">
-        <input 
-          type="text" 
-          class="form-control search-input" 
-          [(ngModel)]="searchQuery" 
-          (input)="onSearchInput()"
-          (focus)="onSearchFocus()"
-          (keydown.enter)="onSearchSubmit()"
+        <input type="text" class="form-control search-input" [(ngModel)]="searchQuery" (input)="onSearchInput()"
+          (focus)="onSearchFocus()" (keydown.enter)="onSearchSubmit()"
           [placeholder]="'NAVBAR.SEARCH_PLACEHOLDER' | translate">
         <button class="btn search-btn" (click)="onSearchSubmit()" aria-label="Search">
           <i class="bi bi-search"></i>
         </button>
       </div>
-      
+
       <!-- Search Preview Dropdown -->
       <div class="search-preview-dropdown" *ngIf="showSearchResults">
         <!-- Found matches -->
@@ -56,9 +47,10 @@
             {{ 'NAVBAR.VIEW_ALL_RESULTS' | translate }} <i class="bi bi-arrow-right ms-1"></i>
           </div>
         </div>
-        
+
         <!-- Empty state -->
-        <div *ngIf="searchResults.length === 0 && searchQuery.trim() !== ''" class="preview-no-results text-center py-4">
+        <div *ngIf="searchResults.length === 0 && searchQuery.trim() !== ''"
+          class="preview-no-results text-center py-4">
           <i class="bi bi-search fs-3 text-gold-icon mb-2 d-block"></i>
           <span class="d-block px-3">{{ 'NAVBAR.NO_RESULTS' | translate }} "{{ searchQuery }}"</span>
         </div>
@@ -70,8 +62,7 @@
       <!-- Mobile Only Cart Icon (always visible in navbar header for best UX) -->
       <a class="nav-link mobile-cart-header-link d-lg-none position-relative" routerLink="/cart">
         <i class="bi bi-cart3 fs-4 text-gold"></i>
-        <span 
-          *ngIf="cartItemCount > 0" 
+        <span *ngIf="cartItemCount > 0"
           class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
           {{ cartItemCount }}
         </span>
@@ -81,11 +72,9 @@
       <ul class="navbar-nav d-none d-lg-flex align-items-center flex-row gap-3">
         <!-- Language Switcher -->
         <li class="nav-item dropdown d-flex align-items-center">
-          <button 
-            class="btn btn-sm btn-outline-warning dropdown-toggle py-1 px-2 fw-semibold d-flex align-items-center gap-1" 
-            type="button" 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false"
+          <button
+            class="btn btn-sm btn-outline-warning dropdown-toggle py-1 px-2 fw-semibold d-flex align-items-center gap-1"
+            type="button" data-bs-toggle="dropdown" aria-expanded="false"
             style="font-size: 0.75rem; border-radius: 6px;">
             <img *ngIf="getCurrentLang() === 'en'" src="/american_flag.webp" alt="English" class="flag-icon">
             <img *ngIf="getCurrentLang() === 'ka'" src="/Georgian_flag.webp" alt="Georgian" class="flag-icon">
@@ -115,8 +104,7 @@
           <a class="nav-link p-2" routerLink="/cart">
             <span class="position-relative d-inline-block">
               <i class="bi bi-cart3 fs-5"></i>
-              <span 
-                *ngIf="cartItemCount > 0" 
+              <span *ngIf="cartItemCount > 0"
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {{ cartItemCount }}
               </span>
@@ -127,17 +115,12 @@
         <!-- Profile / Account -->
         <ng-container *ngIf="currentUser$ | async as user; else loginButtons">
           <li class="nav-item dropdown">
-            <a 
-              style="padding: 12px !important; "
-              class="nav-link dropdown-toggle" 
-              href="#" 
-              role="button" 
-              data-bs-toggle="dropdown"
-              aria-expanded="false">
+            <a style="padding: 12px !important; " class="nav-link dropdown-toggle" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle me-1"></i>
               {{ user.email }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" >
+            <ul class="dropdown-menu dropdown-menu-end">
               <li>
                 <a class="dropdown-item" routerLink="/order-history">
                   <i class="bi bi-clock-history me-2"></i>{{ 'NAVBAR.ORDER_HISTORY' | translate }}
@@ -148,13 +131,17 @@
                   <i class="bi bi-person me-2"></i>{{ 'NAVBAR.PROFILE' | translate }}
                 </a>
               </li>
-              <li *ngIf="isAdmin"><hr class="dropdown-divider"></li>
+              <li *ngIf="isAdmin">
+                <hr class="dropdown-divider">
+              </li>
               <li *ngIf="isAdmin">
                 <a class="dropdown-item" routerLink="/admin">
                   <i class="bi bi-speedometer2 me-2"></i>{{ 'NAVBAR.ADMIN' | translate }}
                 </a>
               </li>
-              <li><hr class="dropdown-divider"></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
               <li>
                 <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">
                   <i class="bi bi-box-arrow-right me-2"></i>{{ 'NAVBAR.LOGOUT' | translate }}
@@ -166,43 +153,93 @@
 
         <ng-template #loginButtons>
           <li class="nav-item">
-            <a class="nav-link" style="margin-top: 0.2rem; margin-right: 0.5rem;" routerLink="/login">{{ 'NAVBAR.LOGIN' | translate }}</a>
+            <a class="nav-link" style="margin-top: 0.2rem; margin-right: 0.5rem;" routerLink="/login">{{ 'NAVBAR.LOGIN'
+              | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="btn btn-outline-light btn-sm" style="margin-top: 0.2rem;" routerLink="/register">{{ 'NAVBAR.REGISTER' | translate }}</a>
+            <a class="btn btn-outline-light btn-sm" style="margin-top: 0.2rem;" routerLink="/register">{{
+              'NAVBAR.REGISTER' | translate }}</a>
           </li>
         </ng-template>
       </ul>
     </div>
   </div>
 
-  <!-- Sub-Navbar: Drink Categories -->
+  <!-- Sub-Navbar: Drink Categories (Carousel Slider) -->
   <div class="sub-navbar">
     <div class="container">
-      <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'all' }" routerLinkActive="active">
-        <i class="bi bi-grid"></i>
-        <span>{{ 'CATEGORIES.ALL' | translate }}</span>
-      </a>
-      <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'wine' }" routerLinkActive="active">
-        <i class="bi bi-droplet"></i>
-        <span>{{ 'CATEGORIES.WINE' | translate }}</span>
-      </a>
-      <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'beer' }" routerLinkActive="active">
-        <i class="bi bi-moisture"></i>
-        <span>{{ 'CATEGORIES.BEER' | translate }}</span>
-      </a>
-      <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'spirits' }" routerLinkActive="active">
-        <i class="bi bi-thermometer-high"></i>
-        <span>{{ 'CATEGORIES.SPIRITS' | translate }}</span>
-      </a>
-      <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'champagne' }" routerLinkActive="active">
-        <i class="bi bi-stars"></i>
-        <span>{{ 'CATEGORIES.CHAMPAGNE' | translate }}</span>
-      </a>
-      <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'other' }" routerLinkActive="active">
-        <i class="bi bi-three-dots"></i>
-        <span>{{ 'CATEGORIES.OTHER' | translate }}</span>
-      </a>
+      <div class="sub-navbar-wrapper">
+        <!-- Carousel Arrow Buttons -->
+        <button class="sub-navbar-arrow left d-none d-sm-flex" (click)="scrollSubNavbar('left')"
+          aria-label="Scroll left">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <div class="sub-navbar-container" (mouseenter)="stopSubNavbarAutoplay()" (mouseleave)="startSubNavbarAutoplay()">
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'all' }" routerLinkActive="active">
+            <i class="bi bi-grid"></i>
+            <span>{{ 'CATEGORIES.ALL' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ sale: 'true' }" routerLinkActive="active">
+            <i class="bi bi-tag-fill" style="color: rgb(192, 2, 2);"></i>
+            <span style=" font-weight: 600;">{{ 'CATEGORIES.SALE' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'whiskey' }"
+            routerLinkActive="active">
+            <i class="bi bi-cup-hot"></i>
+            <span>{{ 'CATEGORIES.WHISKEY' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'spirits' }"
+            routerLinkActive="active">
+            <i class="bi bi-thermometer-high"></i>
+            <span>{{ 'CATEGORIES.SPIRITS' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'wine' }" routerLinkActive="active">
+            <i class="bi bi-droplet"></i>
+            <span>{{ 'CATEGORIES.WINE' | translate }}</span>
+          </a>
+
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'cognac' }"
+            routerLinkActive="active">
+            <i class="bi bi-gem"></i>
+            <span>{{ 'CATEGORIES.COGNAC' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'sparkling_wine' }"
+            routerLinkActive="active">
+            <i class="bi bi-stars"></i>
+            <span>{{ 'CATEGORIES.SPARKLING_WINE' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'tequila' }"
+            routerLinkActive="active">
+            <i class="bi bi-brightness-high"></i>
+            <span>{{ 'CATEGORIES.TEQUILA' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'rum' }" routerLinkActive="active">
+            <i class="bi bi-water"></i>
+            <span>{{ 'CATEGORIES.RUM' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'gin' }" routerLinkActive="active">
+            <i class="bi bi-flower1"></i>
+            <span>{{ 'CATEGORIES.GIN' | translate }}</span>
+          </a>
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'beer' }" routerLinkActive="active">
+            <i class="bi bi-moisture"></i>
+            <span>{{ 'CATEGORIES.BEER' | translate }}</span>
+          </a>
+
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'champagne' }"
+            routerLinkActive="active">
+            <i class="bi bi-stars"></i>
+            <span>{{ 'CATEGORIES.CHAMPAGNE' | translate }}</span>
+          </a>
+
+        </div>
+
+        <button class="sub-navbar-arrow right d-none d-sm-flex" (click)="scrollSubNavbar('right')"
+          aria-label="Scroll right">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
     </div>
   </div>
 </nav>
@@ -211,7 +248,8 @@
 <div class="sidebar-backdrop" *ngIf="isSidebarOpen" (click)="closeSidebar()"></div>
 
 <div class="sidebar-drawer" [class.open]="isSidebarOpen">
-  <div class="sidebar-header d-flex align-items-center justify-content-between p-3 border-bottom border-gold-transparent">
+  <div
+    class="sidebar-header d-flex align-items-center justify-content-between p-3 border-bottom border-gold-transparent">
     <a class="sidebar-brand fw-bold" routerLink="/home" (click)="closeSidebar()">
       <img src="/rm-log.png" alt="AlcoTime Logo" class="sidebar-logo">
     </a>
@@ -219,31 +257,35 @@
       <i class="bi bi-x-lg fs-5"></i>
     </button>
   </div>
-  
+
   <div class="sidebar-content p-4">
     <!-- Navigation Links -->
     <h6 class="sidebar-section-title text-gold-icon mb-3">{{ 'NAVBAR.PRODUCTS' | translate }}</h6>
     <ul class="sidebar-nav list-unstyled d-flex flex-column gap-2 mb-4">
       <li class="sidebar-item">
-        <a class="sidebar-link d-flex align-items-center" routerLink="/home" routerLinkActive="active" (click)="closeSidebar()">
+        <a class="sidebar-link d-flex align-items-center" routerLink="/home" routerLinkActive="active"
+          (click)="closeSidebar()">
           <i class="bi bi-house-door me-3 text-gold-icon"></i>
           <span>{{ 'NAVBAR.HOME' | translate }}</span>
         </a>
       </li>
       <li class="sidebar-item">
-        <a class="sidebar-link d-flex align-items-center" routerLink="/products" routerLinkActive="active" (click)="closeSidebar()">
+        <a class="sidebar-link d-flex align-items-center" routerLink="/products" routerLinkActive="active"
+          (click)="closeSidebar()">
           <i class="bi bi-handbag me-3 text-gold-icon"></i>
           <span>{{ 'NAVBAR.PRODUCTS' | translate }}</span>
         </a>
       </li>
       <li class="sidebar-item">
-        <a class="sidebar-link d-flex align-items-center" routerLink="/about" routerLinkActive="active" (click)="closeSidebar()">
+        <a class="sidebar-link d-flex align-items-center" routerLink="/about" routerLinkActive="active"
+          (click)="closeSidebar()">
           <i class="bi bi-info-circle me-3 text-gold-icon"></i>
           <span>{{ 'NAVBAR.ABOUT' | translate }}</span>
         </a>
       </li>
       <li class="sidebar-item">
-        <a class="sidebar-link d-flex align-items-center" routerLink="/contact" routerLinkActive="active" (click)="closeSidebar()">
+        <a class="sidebar-link d-flex align-items-center" routerLink="/contact" routerLinkActive="active"
+          (click)="closeSidebar()">
           <i class="bi bi-chat-left-text me-3 text-gold-icon"></i>
           <span>{{ 'NAVBAR.CONTACT' | translate }}</span>
         </a>
@@ -255,16 +297,19 @@
       <!-- Language Switcher -->
       <h6 class="sidebar-section-title text-gold-icon mb-3">{{ 'NAVBAR.LANGUAGE' | translate }}</h6>
       <div class="d-flex gap-2 mb-4">
-        <button class="btn btn-sm btn-outline-warning d-flex align-items-center gap-2 px-3 py-2 flex-grow-1 justify-content-center" 
-                [class.active]="getCurrentLang() === 'en'" (click)="switchLanguage('en')">
+        <button
+          class="btn btn-sm btn-outline-warning d-flex align-items-center gap-2 px-3 py-2 flex-grow-1 justify-content-center"
+          [class.active]="getCurrentLang() === 'en'" (click)="switchLanguage('en')">
           <img src="/american_flag.webp" alt="English" class="flag-icon"> EN
         </button>
-        <button class="btn btn-sm btn-outline-warning d-flex align-items-center gap-2 px-3 py-2 flex-grow-1 justify-content-center" 
-                [class.active]="getCurrentLang() === 'ka'" (click)="switchLanguage('ka')">
+        <button
+          class="btn btn-sm btn-outline-warning d-flex align-items-center gap-2 px-3 py-2 flex-grow-1 justify-content-center"
+          [class.active]="getCurrentLang() === 'ka'" (click)="switchLanguage('ka')">
           <img src="/Georgian_flag.webp" alt="Georgian" class="flag-icon"> KA
         </button>
-        <button class="btn btn-sm btn-outline-warning d-flex align-items-center gap-2 px-3 py-2 flex-grow-1 justify-content-center" 
-                [class.active]="getCurrentLang() === 'ru'" (click)="switchLanguage('ru')">
+        <button
+          class="btn btn-sm btn-outline-warning d-flex align-items-center gap-2 px-3 py-2 flex-grow-1 justify-content-center"
+          [class.active]="getCurrentLang() === 'ru'" (click)="switchLanguage('ru')">
           <img src="/russian_flag.webp" alt="Russian" class="flag-icon"> RU
         </button>
       </div>
@@ -286,11 +331,13 @@
               <i class="bi bi-person me-2 text-gold-icon"></i>
               <span>{{ 'NAVBAR.PROFILE' | translate }}</span>
             </a>
-            <a *ngIf="isAdmin" class="mobile-auth-btn admin-btn d-flex align-items-center" routerLink="/admin" (click)="closeSidebar()">
+            <a *ngIf="isAdmin" class="mobile-auth-btn admin-btn d-flex align-items-center" routerLink="/admin"
+              (click)="closeSidebar()">
               <i class="bi bi-speedometer2 me-2 text-gold-icon"></i>
               <span>{{ 'NAVBAR.ADMIN' | translate }}</span>
             </a>
-            <button class="mobile-auth-btn logout-btn mt-2 d-flex align-items-center btn btn-link p-0 text-start" (click)="logout(); closeSidebar()">
+            <button class="mobile-auth-btn logout-btn mt-2 d-flex align-items-center btn btn-link p-0 text-start"
+              (click)="logout(); closeSidebar()">
               <i class="bi bi-box-arrow-right me-2 text-danger"></i>
               <span class="text-danger">{{ 'NAVBAR.LOGOUT' | translate }}</span>
             </button>
@@ -298,14 +345,16 @@
         </ng-container>
         <ng-template #mobileLoginButtons>
           <div class="d-flex gap-2">
-            <a class="btn btn-outline-light mobile-login-btn flex-grow-1 btn-sm" routerLink="/login" (click)="closeSidebar()">{{ 'NAVBAR.LOGIN' | translate }}</a>
-            <a class="btn btn-outline-light mobile-register-btn flex-grow-1 btn-sm" routerLink="/register" (click)="closeSidebar()">{{ 'NAVBAR.REGISTER' | translate }}</a>
+            <a class="btn btn-outline-light mobile-login-btn flex-grow-1 btn-sm" routerLink="/login"
+              (click)="closeSidebar()">{{ 'NAVBAR.LOGIN' | translate }}</a>
+            <a class="btn btn-outline-light mobile-register-btn flex-grow-1 btn-sm" routerLink="/register"
+              (click)="closeSidebar()">{{ 'NAVBAR.REGISTER' | translate }}</a>
           </div>
         </ng-template>
       </div>
     </div>
   </div>
-  
+
   <div class="sidebar-footer p-3 border-top border-gold-transparent mt-auto">
     <p class="text-center mb-0" style="font-size: 0.75rem; color: rgba(235, 222, 199, 0.45);">
       {{ 'FOOTER.RESPONSIBLE_DRINKING' | translate }}

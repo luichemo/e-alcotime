@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   name: string;
   description: string;
-  category: 'wine' | 'beer' | 'spirits' | 'champagne' | 'other';
+  category: 'wine' | 'beer' | 'spirits' | 'champagne' | 'whiskey' | 'cognac' | 'sparkling_wine' | 'tequila' | 'rum' | 'gin' | 'other';
   price: number;
   discountPrice: number;
   alcoholContent: number;

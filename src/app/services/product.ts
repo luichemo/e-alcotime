@@ -105,6 +105,32 @@ export class ProductService {
     );
   }
 
+  getDiscountedProducts(limitCount: number = 8): Observable<Product[]> {
+    const q = query(
+      this.productsCollection,
+      where('isAvailable', '==', true)
+    );
+
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        const products = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        } as Product));
+        
+        // Filter products that have a discountPrice, then sort and limit
+        return products
+          .filter(p => !!p.discountPrice)
+          .sort((a, b) => {
+            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+            return dateB - dateA;
+          })
+          .slice(0, limitCount);
+      })
+    );
+  }
+
   getProductById(id: string): Observable<Product | null> {
     const docRef = doc(this.firestore, 'products', id);
     return from(getDoc(docRef)).pipe(

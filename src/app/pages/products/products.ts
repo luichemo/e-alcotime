@@ -52,6 +52,11 @@ export class Products implements OnInit {
     return pages;
   }
 
+  getDiscountPercentage(product: Product): number {
+    if (!product.price || !product.discountPrice) return 0;
+    return Math.round(((product.price - product.discountPrice) / product.price) * 100);
+  }
+
   showOnSale: boolean = false;
   selectedBrands: string[] = [];
   selectedPriceRange: string = 'all';
@@ -77,6 +82,12 @@ export class Products implements OnInit {
   categories = [
     { value: 'all', label: 'All Products', icon: 'bi-grid' },
     { value: 'wine', label: 'Wine', icon: 'bi-droplet' },
+    { value: 'whiskey', label: 'Whiskey', icon: 'bi-cup-hot' },
+    { value: 'cognac', label: 'Cognac', icon: 'bi-gem' },
+    { value: 'sparkling_wine', label: 'Sparkling Wine', icon: 'bi-stars' },
+    { value: 'tequila', label: 'Tequila', icon: 'bi-brightness-high' },
+    { value: 'rum', label: 'Rum', icon: 'bi-water' },
+    { value: 'gin', label: 'Gin', icon: 'bi-flower1' },
     { value: 'spirits', label: 'Spirits', icon: 'bi-thermometer-high' },
     { value: 'beer', label: 'Beer', icon: 'bi-moisture' },
     { value: 'champagne', label: 'Champagne', icon: 'bi-stars' },
@@ -114,6 +125,32 @@ export class Products implements OnInit {
     this.onSortChange();
   }
 
+  // Custom price range dropdown
+  priceDropdownOpen: boolean = false;
+
+  priceRangeOptions = [
+    { value: 'all', translationKey: 'PRODUCTS.PRICE_ALL' },
+    { value: '0-20', translationKey: 'PRODUCTS.PRICE_UNDER_20' },
+    { value: '20-50', translationKey: 'PRODUCTS.PRICE_20_50' },
+    { value: '50-100', translationKey: 'PRODUCTS.PRICE_50_100' },
+    { value: '100-200', translationKey: 'PRODUCTS.PRICE_100_200' },
+    { value: '200-999999', translationKey: 'PRODUCTS.PRICE_OVER_200' }
+  ];
+
+  togglePriceDropdown(): void {
+    this.priceDropdownOpen = !this.priceDropdownOpen;
+  }
+
+  selectPriceRange(value: string): void {
+    this.selectedPriceRange = value;
+    this.priceDropdownOpen = false;
+    this.onPriceRangeChange();
+  }
+
+  getSelectedPriceLabel(): string {
+    return this.priceRangeOptions.find(o => o.value === this.selectedPriceRange)?.translationKey ?? 'PRODUCTS.PRICE_ALL';
+  }
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
@@ -124,12 +161,15 @@ export class Products implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['category']) {
         this.selectedCategory = params['category'];
+      } else {
+        this.selectedCategory = 'all';
       }
       if (params['search']) {
         this.searchTerm = params['search'];
       } else {
         this.searchTerm = '';
       }
+      this.showOnSale = params['sale'] === 'true';
       this.loadProducts();
     });
   }

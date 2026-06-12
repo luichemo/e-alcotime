@@ -118,16 +118,11 @@
                 <i class="bi bi-box-seam"></i>
                 <div>
                   <strong>{{ 'PRODUCT_DETAIL.STOCK' | translate }}</strong>
-                  <span [class.text-danger]="product.stock < 10">
-                    {{ product.stock }} {{ 'PRODUCT_DETAIL.UNITS_AVAILABLE' | translate }}
+                  <span [class.text-success]="product.stock > 0" [class.text-danger]="product.stock === 0">
+                    {{ (product.stock > 0 ? 'PRODUCTS.PRODUCT_CARD.IN_STOCK' : 'PRODUCTS.PRODUCT_CARD.OUT_OF_STOCK') | translate }}
                   </span>
                 </div>
               </div>
-            </div>
-
-            <div *ngIf="product.stock < 10 && product.stock > 0" class="alert alert-warning">
-              <i class="bi bi-exclamation-triangle me-2"></i>
-              <strong>{{ 'PRODUCT_DETAIL.HURRY' | translate }}</strong> {{ 'PRODUCTS.PRODUCT_CARD.ONLY_LEFT' | translate:{stock: product.stock} }}
             </div>
 
             <div *ngIf="product.stock === 0" class="alert alert-danger">

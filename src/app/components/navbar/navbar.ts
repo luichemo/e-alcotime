@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import { Product } from '../../models/product.model';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   currentUser$: Observable<User | null>;
   cartItemCount: number = 0;
   isMenuOpen: boolean = false;
@@ -26,6 +26,8 @@ export class NavbarComponent implements OnInit {
   currentRoute: string = '';
   isAdmin: boolean = false;
   isScrolled: boolean = false;
+
+  private subNavbarAutoplayIntervalId: any = null;
 
   // Search variables
   searchQuery: string = '';
@@ -102,6 +104,12 @@ export class NavbarComponent implements OnInit {
         console.error('Error loading products for navbar search:', error);
       }
     });
+
+    this.startSubNavbarAutoplay();
+  }
+
+  ngOnDestroy(): void {
+    this.stopSubNavbarAutoplay();
   }
 
   onSearchInput(): void {
@@ -144,6 +152,50 @@ export class NavbarComponent implements OnInit {
     this.searchQuery = '';
     this.router.navigate(['/product', productId]);
     this.closeMenu();
+  }
+
+  scrollSubNavbar(direction: 'left' | 'right'): void {
+    const container = document.querySelector('.sub-navbar-container');
+    if (!container) return;
+    const scrollAmount = 250; // smooth scroll step
+    if (direction === 'left') {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+    this.resetSubNavbarAutoplay();
+  }
+
+  startSubNavbarAutoplay(): void {
+    this.stopSubNavbarAutoplay();
+    this.subNavbarAutoplayIntervalId = setInterval(() => {
+      this.autoScrollSubNavbar();
+    }, 5000);
+  }
+
+  stopSubNavbarAutoplay(): void {
+    if (this.subNavbarAutoplayIntervalId) {
+      clearInterval(this.subNavbarAutoplayIntervalId);
+      this.subNavbarAutoplayIntervalId = null;
+    }
+  }
+
+  resetSubNavbarAutoplay(): void {
+    this.startSubNavbarAutoplay();
+  }
+
+  autoScrollSubNavbar(): void {
+    const container = document.querySelector('.sub-navbar-container');
+    if (!container) return;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    
+    if (maxScrollLeft <= 0) return;
+
+    if (container.scrollLeft >= maxScrollLeft - 10) {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: 250, behavior: 'smooth' });
+    }
   }
 
   isAdminPage(): boolean {
