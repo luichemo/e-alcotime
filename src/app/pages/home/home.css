@@ -1127,6 +1127,27 @@
   -webkit-overflow-scrolling: touch;
   padding: 1rem 0.5rem 2rem;
   margin: 0 -0.5rem;
+
+  /* Mask configurations for smooth fading ends */
+  transition: mask-image 0.3s ease, -webkit-mask-image 0.3s ease;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* Fading gradients based on scroll indicators */
+.product-carousel-wrapper.can-scroll-right:not(.can-scroll-left) .product-carousel-container {
+  mask-image: linear-gradient(to right, black calc(100% - 120px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 120px), transparent 100%);
+}
+
+.product-carousel-wrapper.can-scroll-left:not(.can-scroll-right) .product-carousel-container {
+  mask-image: linear-gradient(to left, black calc(100% - 120px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black calc(100% - 120px), transparent 100%);
+}
+
+.product-carousel-wrapper.can-scroll-left.can-scroll-right .product-carousel-container {
+  mask-image: linear-gradient(to right, transparent 0%, black 120px, black calc(100% - 120px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 120px, black calc(100% - 120px), transparent 100%);
 }
 
 .product-carousel-container::-webkit-scrollbar {

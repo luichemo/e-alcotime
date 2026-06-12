@@ -28,6 +28,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   showSearchResults: boolean = false;
 
   private autoplayIntervalId: any = null;
+  canScrollLeft: boolean = false;
+  canScrollRight: boolean = false;
+  imgLoaded: { [id: string]: boolean } = {};
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
@@ -35,6 +38,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!target.closest('.search-container')) {
       this.showSearchResults = false;
     }
+  }
+
+  @HostListener('window:resize', [])
+  onWindowResize() {
+    this.checkScrollLimits();
   }
 
   constructor(
@@ -62,6 +70,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.startAutoplay();
+
+    // Recalculate scroll limits after products load and render
+    setTimeout(() => {
+      this.checkScrollLimits();
+    }, 1000);
   }
 
   ngOnDestroy(): void {
@@ -96,6 +109,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       behavior: 'smooth'
     });
     this.resetAutoplay();
+    // Update scroll limits after manual interaction
+    setTimeout(() => this.checkScrollLimits(), 300);
   }
 
   startAutoplay(): void {
@@ -128,6 +143,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       container.scrollBy({ left: 300, behavior: 'smooth' });
     }
+    // Update scroll limits after autoplay scroll begins
+    setTimeout(() => this.checkScrollLimits(), 300);
+  }
+
+  checkScrollLimits(): void {
+    if (!this.productCarouselContainer) return;
+    const container = this.productCarouselContainer.nativeElement;
+    this.canScrollLeft = container.scrollLeft > 5;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    this.canScrollRight = container.scrollLeft < maxScrollLeft - 5;
   }
 
   onSearchInput(): void {

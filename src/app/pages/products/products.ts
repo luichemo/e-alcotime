@@ -27,6 +27,7 @@ export class Products implements OnInit {
   searchTerm: string = '';
   sortBy: string = 'name';
   loading: boolean = true;
+  imgLoaded: { [id: string]: boolean } = {};
 
   // Pagination
   currentPage: number = 1;

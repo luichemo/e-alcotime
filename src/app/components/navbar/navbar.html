@@ -168,14 +168,17 @@
   <!-- Sub-Navbar: Drink Categories (Carousel Slider) -->
   <div class="sub-navbar">
     <div class="container">
-      <div class="sub-navbar-wrapper">
+      <div class="sub-navbar-wrapper" [class.can-scroll-left]="canScrollLeft" [class.can-scroll-right]="canScrollRight">
         <!-- Carousel Arrow Buttons -->
         <button class="sub-navbar-arrow left d-none d-sm-flex" (click)="scrollSubNavbar('left')"
           aria-label="Scroll left">
           <i class="bi bi-chevron-left"></i>
         </button>
 
-        <div class="sub-navbar-container" (mouseenter)="stopSubNavbarAutoplay()" (mouseleave)="startSubNavbarAutoplay()">
+        <div class="sub-navbar-container" 
+             (scroll)="checkScrollLimits()"
+             (mouseenter)="stopSubNavbarAutoplay()" 
+             (mouseleave)="startSubNavbarAutoplay()">
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'all' }" routerLinkActive="active">
             <i class="bi bi-grid"></i>
             <span>{{ 'CATEGORIES.ALL' | translate }}</span>
@@ -313,8 +316,10 @@
           <img src="/russian_flag.webp" alt="Russian" class="flag-icon"> RU
         </button>
       </div>
+    </div>
 
-      <!-- Account / Auth Status -->
+    <!-- Account / Auth Status (Always visible in sidebar on all screen sizes) -->
+    <div class="mt-4 pt-4 border-top border-gold-transparent">
       <h6 class="sidebar-section-title text-gold-icon mb-3">{{ 'NAVBAR.ACCOUNT' | translate }}</h6>
       <div class="mobile-auth-card p-3 rounded">
         <ng-container *ngIf="currentUser$ | async as user; else mobileLoginButtons">

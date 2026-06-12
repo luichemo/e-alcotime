@@ -62,14 +62,16 @@
   filter: drop-shadow(0 4px 10px rgba(192, 162, 124, 0.3));
 }
 
-.navbar-brand:hover {
-  color: #d7bc96 !important;
-  transform: translateY(-1px);
-}
+@media (hover: hover) {
+  .navbar-brand:hover {
+    color: #d7bc96 !important;
+    transform: translateY(-1px);
+  }
 
-.navbar-brand:hover .hero-logo {
-  transform: scale(1.08) rotate(-3deg);
-  filter: drop-shadow(0 6px 15px rgba(192, 162, 124, 0.5));
+  .navbar-brand:hover .hero-logo {
+    transform: scale(1.08) rotate(-3deg);
+    filter: drop-shadow(0 6px 15px rgba(192, 162, 124, 0.5));
+  }
 }
 
 /* Navigation Links */
@@ -436,105 +438,6 @@
     transform: scale(0.95);
   }
 
-  .mobile-auth-card {
-    background: rgba(192, 162, 124, 0.04);
-    border: 1px solid rgba(192, 162, 124, 0.16);
-    border-radius: 16px;
-    padding: 1.15rem;
-    margin-top: 0.25rem;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.4);
-  }
-
-  .user-email-header {
-    font-family: 'DM Sans', sans-serif;
-    color: rgba(235, 222, 199, 0.85);
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding-bottom: 0.65rem;
-    margin-bottom: 0.4rem;
-    border-bottom: 1px solid rgba(192, 162, 124, 0.12);
-  }
-
-  .user-email-header .text-gold {
-    color: #c0a27c;
-  }
-
-  .mobile-auth-btn {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background: transparent;
-    border: none;
-    color: #ebdec7;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    padding: 0.7rem 1rem;
-    margin: 0.2rem 0;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    text-align: left;
-  }
-
-  .mobile-auth-btn i {
-    color: rgba(192, 162, 124, 0.75);
-    font-size: 1.1rem;
-    transition: transform 0.3s ease;
-  }
-
-  .mobile-auth-btn:hover {
-    background: rgba(192, 162, 124, 0.1);
-    color: #c0a27c;
-    padding-left: 1.35rem;
-  }
-
-  .mobile-auth-btn:hover i {
-    color: #c0a27c;
-    transform: scale(1.1);
-  }
-
-  .mobile-auth-btn.admin-btn {
-    color: #c0a27c;
-    background: rgba(192, 162, 124, 0.06);
-    border: 1px solid rgba(192, 162, 124, 0.15);
-  }
-
-  .mobile-auth-btn.logout-btn {
-    color: #f87171;
-    border: 1px solid rgba(248, 113, 113, 0.2);
-    background: rgba(248, 113, 113, 0.03);
-  }
-
-  .mobile-auth-btn.logout-btn i {
-    color: #f87171;
-  }
-
-  .mobile-auth-btn.logout-btn:hover {
-    background: rgba(248, 113, 113, 0.1);
-    color: #fca5a5;
-    padding-left: 1.35rem;
-  }
-
-  .mobile-login-btn {
-    border-radius: 12px !important;
-    padding: 0.65rem !important;
-  }
-
-  .mobile-register-btn {
-    border-radius: 12px !important;
-    padding: 0.65rem !important;
-    background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%) !important;
-    color: #141412 !important;
-    border: none !important;
-  }
-  
-  .mobile-register-btn:hover {
-    background: linear-gradient(135deg, #d7bc96 0%, #c0a27c 100%) !important;
-  }
-
   .navbar-nav {
     margin-bottom: 0.5rem;
   }
@@ -547,6 +450,106 @@
     margin-top: 0.5rem !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
   }
+}
+
+/* Sidebar Auth Card & Account Buttons (Common for all screen sizes) */
+.mobile-auth-card {
+  background: rgba(192, 162, 124, 0.04);
+  border: 1px solid rgba(192, 162, 124, 0.16);
+  border-radius: 16px;
+  padding: 1.15rem;
+  margin-top: 0.25rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.user-email-header {
+  font-family: 'DM Sans', sans-serif;
+  color: rgba(235, 222, 199, 0.85);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding-bottom: 0.65rem;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(192, 162, 124, 0.12);
+}
+
+.user-email-header .text-gold {
+  color: #c0a27c;
+}
+
+.mobile-auth-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #ebdec7;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.7rem 1rem;
+  margin: 0.2rem 0;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+}
+
+.mobile-auth-btn i {
+  color: rgba(192, 162, 124, 0.75);
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.mobile-auth-btn:hover {
+  background: rgba(192, 162, 124, 0.1);
+  color: #c0a27c;
+  padding-left: 1.35rem;
+}
+
+.mobile-auth-btn:hover i {
+  color: #c0a27c;
+  transform: scale(1.1);
+}
+
+.mobile-auth-btn.admin-btn {
+  color: #c0a27c;
+  background: rgba(192, 162, 124, 0.06);
+  border: 1px solid rgba(192, 162, 124, 0.15);
+}
+
+.mobile-auth-btn.logout-btn {
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  background: rgba(248, 113, 113, 0.03);
+}
+
+.mobile-auth-btn.logout-btn i {
+  color: #f87171;
+}
+
+.mobile-auth-btn.logout-btn:hover {
+  background: rgba(248, 113, 113, 0.1);
+  color: #fca5a5;
+  padding-left: 1.35rem;
+}
+
+.mobile-login-btn {
+  border-radius: 12px !important;
+  padding: 0.65rem !important;
+}
+
+.mobile-register-btn {
+  border-radius: 12px !important;
+  padding: 0.65rem !important;
+  background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%) !important;
+  color: #141412 !important;
+  border: none !important;
+}
+
+.mobile-register-btn:hover {
+  background: linear-gradient(135deg, #d7bc96 0%, #c0a27c 100%) !important;
 }
 
 @media (max-width: 575.98px) {
@@ -1003,6 +1006,27 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
   width: 100%;
+
+  /* Mask configurations for smooth fading ends */
+  transition: mask-image 0.3s ease, -webkit-mask-image 0.3s ease;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* Fading gradients based on scroll indicators */
+.sub-navbar-wrapper.can-scroll-right:not(.can-scroll-left) .sub-navbar-container {
+  mask-image: linear-gradient(to right, black calc(100% - 80px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 80px), transparent 100%);
+}
+
+.sub-navbar-wrapper.can-scroll-left:not(.can-scroll-right) .sub-navbar-container {
+  mask-image: linear-gradient(to left, black calc(100% - 80px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black calc(100% - 80px), transparent 100%);
+}
+
+.sub-navbar-wrapper.can-scroll-left.can-scroll-right .sub-navbar-container {
+  mask-image: linear-gradient(to right, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%);
 }
 
 @media (min-width: 576px) {

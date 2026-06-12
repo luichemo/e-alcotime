@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isScrolled: boolean = false;
 
   private subNavbarAutoplayIntervalId: any = null;
+  canScrollLeft: boolean = false;
+  canScrollRight: boolean = false;
 
   // Search variables
   searchQuery: string = '';
@@ -38,6 +40,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 20;
+  }
+
+  @HostListener('window:resize', [])
+  onWindowResize() {
+    this.checkScrollLimits();
   }
 
   @HostListener('document:click', ['$event'])
@@ -106,6 +113,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
 
     this.startSubNavbarAutoplay();
+
+    // Check initial scroll limits after rendering has completed
+    setTimeout(() => {
+      this.checkScrollLimits();
+    }, 500);
   }
 
   ngOnDestroy(): void {
@@ -164,6 +176,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
     this.resetSubNavbarAutoplay();
+    // Update scroll limits after manual interaction
+    setTimeout(() => this.checkScrollLimits(), 300);
   }
 
   startSubNavbarAutoplay(): void {
@@ -196,6 +210,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
     } else {
       container.scrollBy({ left: 250, behavior: 'smooth' });
     }
+    // Update scroll limits after autoplay scroll begins
+    setTimeout(() => this.checkScrollLimits(), 300);
+  }
+
+  checkScrollLimits(): void {
+    const container = document.querySelector('.sub-navbar-container');
+    if (!container) return;
+    this.canScrollLeft = container.scrollLeft > 5;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    this.canScrollRight = container.scrollLeft < maxScrollLeft - 5;
   }
 
   isAdminPage(): boolean {
