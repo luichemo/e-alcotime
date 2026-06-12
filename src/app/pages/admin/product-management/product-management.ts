@@ -33,7 +33,15 @@ export class ProductManagement implements OnInit {
     stock: 0,
     brand: '',
     country: '',
-    isAvailable: true
+    isAvailable: true,
+    nameKa: '',
+    nameEn: '',
+    descriptionKa: '',
+    descriptionEn: '',
+    brandKa: '',
+    brandEn: '',
+    countryKa: '',
+    countryEn: ''
   };
 
   loading = false;
@@ -134,7 +142,15 @@ export class ProductManagement implements OnInit {
       stock: product.stock,
       brand: product.brand,
       country: product.country,
-      isAvailable: product.isAvailable
+      isAvailable: product.isAvailable,
+      nameKa: product.nameKa || product.name || '',
+      nameEn: product.nameEn || product.name || '',
+      descriptionKa: product.descriptionKa || product.description || '',
+      descriptionEn: product.descriptionEn || product.description || '',
+      brandKa: product.brandKa || product.brand || '',
+      brandEn: product.brandEn || product.brand || '',
+      countryKa: product.countryKa || product.country || '',
+      countryEn: product.countryEn || product.country || ''
     };
     this.showAddModal = true;
   }
@@ -158,7 +174,15 @@ export class ProductManagement implements OnInit {
       stock: 0,
       brand: '',
       country: '',
-      isAvailable: true
+      isAvailable: true,
+      nameKa: '',
+      nameEn: '',
+      descriptionKa: '',
+      descriptionEn: '',
+      brandKa: '',
+      brandEn: '',
+      countryKa: '',
+      countryEn: ''
     };
   }
 
@@ -166,6 +190,12 @@ export class ProductManagement implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.loading = true;
+
+    // Populate standard properties with English inputs prior to saving/adding.
+    this.formData.name = this.formData.nameEn;
+    this.formData.description = this.formData.descriptionEn;
+    this.formData.brand = this.formData.brandEn;
+    this.formData.country = this.formData.countryEn;
 
     const saveOperation = this.editingProduct && this.editingProduct.id
       ? this.productService.updateProduct(this.editingProduct.id, this.formData)

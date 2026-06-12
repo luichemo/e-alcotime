@@ -14,4 +14,14 @@ export interface Product {
   isAvailable: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+
+  // Localized fields for bilingual support
+  nameKa?: string;
+  nameEn?: string;
+  descriptionKa?: string;
+  descriptionEn?: string;
+  brandKa?: string;
+  brandEn?: string;
+  countryKa?: string;
+  countryEn?: string;
 }

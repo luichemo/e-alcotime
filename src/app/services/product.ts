@@ -16,8 +16,9 @@ import {
   CollectionReference,
   DocumentData
 } from 'firebase/firestore';
-import { Observable, from, map } from 'rxjs';
+import { Observable, from, map, combineLatest, startWith } from 'rxjs';
 import { Product } from '../models/product.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +26,40 @@ import { Product } from '../models/product.model';
 export class ProductService {
   private productsCollection: CollectionReference<DocumentData>;
 
-  constructor(private firestore: Firestore) {
+  constructor(private firestore: Firestore, private translate: TranslateService) {
     this.productsCollection = collection(this.firestore, 'products');
   }
 
+  private localizeProduct(product: Product, lang: string): Product {
+    return {
+      ...product,
+      name: lang === 'ka' ? (product.nameKa || product.name) : (product.nameEn || product.name),
+      description: lang === 'ka' ? (product.descriptionKa || product.description) : (product.descriptionEn || product.description),
+      brand: lang === 'ka' ? (product.brandKa || product.brand) : (product.brandEn || product.brand),
+      country: lang === 'ka' ? (product.countryKa || product.country) : (product.countryEn || product.country),
+    };
+  }
+
+  private localizeProductsStream(products$: Observable<Product[]>): Observable<Product[]> {
+    return combineLatest([
+      products$,
+      this.translate.onLangChange.pipe(startWith({ lang: this.translate.currentLang || 'en' }))
+    ]).pipe(
+      map(([products, event]) => products.map(p => this.localizeProduct(p, event.lang)))
+    );
+  }
+
+  private localizeProductStream(product$: Observable<Product | null>): Observable<Product | null> {
+    return combineLatest([
+      product$,
+      this.translate.onLangChange.pipe(startWith({ lang: this.translate.currentLang || 'en' }))
+    ]).pipe(
+      map(([product, event]) => product ? this.localizeProduct(product, event.lang) : null)
+    );
+  }
+
   getAllProducts(): Observable<Product[]> {
-    return from(getDocs(this.productsCollection)).pipe(
+    const products$ = from(getDocs(this.productsCollection)).pipe(
       map(snapshot => {
         return snapshot.docs.map(doc => ({
           id: doc.id,
@@ -38,6 +67,7 @@ export class ProductService {
         } as Product));
       })
     );
+    return this.localizeProductsStream(products$);
   }
 
   getProductsByCategory(category: string): Observable<Product[]> {
@@ -47,7 +77,7 @@ export class ProductService {
       where('isAvailable', '==', true)
     );
 
-    return from(getDocs(q)).pipe(
+    const products$ = from(getDocs(q)).pipe(
       map(snapshot => {
         return snapshot.docs.map(doc => ({
           id: doc.id,
@@ -55,6 +85,7 @@ export class ProductService {
         } as Product));
       })
     );
+    return this.localizeProductsStream(products$);
   }
 
   getAvailableProducts(): Observable<Product[]> {
@@ -63,7 +94,7 @@ export class ProductService {
       where('isAvailable', '==', true)
     );
 
-    return from(getDocs(q)).pipe(
+    const products$ = from(getDocs(q)).pipe(
       map(snapshot => {
         const products = snapshot.docs.map(doc => ({
           id: doc.id,
@@ -78,6 +109,7 @@ export class ProductService {
         });
       })
     );
+    return this.localizeProductsStream(products$);
   }
 
   getFeaturedProducts(limitCount: number = 8): Observable<Product[]> {
@@ -86,7 +118,7 @@ export class ProductService {
       where('isAvailable', '==', true)
     );
 
-    return from(getDocs(q)).pipe(
+    const products$ = from(getDocs(q)).pipe(
       map(snapshot => {
         const products = snapshot.docs.map(doc => ({
           id: doc.id,
@@ -103,6 +135,7 @@ export class ProductService {
           .slice(0, limitCount);
       })
     );
+    return this.localizeProductsStream(products$);
   }
 
   getDiscountedProducts(limitCount: number = 8): Observable<Product[]> {
@@ -111,7 +144,7 @@ export class ProductService {
       where('isAvailable', '==', true)
     );
 
-    return from(getDocs(q)).pipe(
+    const products$ = from(getDocs(q)).pipe(
       map(snapshot => {
         const products = snapshot.docs.map(doc => ({
           id: doc.id,
@@ -129,11 +162,12 @@ export class ProductService {
           .slice(0, limitCount);
       })
     );
+    return this.localizeProductsStream(products$);
   }
 
   getProductById(id: string): Observable<Product | null> {
     const docRef = doc(this.firestore, 'products', id);
-    return from(getDoc(docRef)).pipe(
+    const product$ = from(getDoc(docRef)).pipe(
       map(docSnap => {
         if (docSnap.exists()) {
           return {
@@ -144,6 +178,7 @@ export class ProductService {
         return null;
       })
     );
+    return this.localizeProductStream(product$);
   }
 
   searchProducts(searchTerm: string): Observable<Product[]> {

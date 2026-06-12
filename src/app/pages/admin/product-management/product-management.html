@@ -186,23 +186,44 @@
                 <div class="row g-3">
                   <div class="col-md-6">
                     <div class="pm-field">
-                      <label>{{ 'PRODUCT_MGMT.FORM_NAME' | translate }}</label>
-                      <input type="text" [(ngModel)]="formData.name" name="name" required
+                      <label>{{ 'PRODUCT_MGMT.FORM_NAME_KA' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.nameKa" name="nameKa" required
+                             placeholder="მაგ. შატო მარგო 2015">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_NAME_EN' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.nameEn" name="nameEn" required
                              placeholder="e.g. Château Margaux 2015">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="pm-field">
-                      <label>{{ 'PRODUCT_MGMT.FORM_BRAND' | translate }}</label>
-                      <input type="text" [(ngModel)]="formData.brand" name="brand" required
+                      <label>{{ 'PRODUCT_MGMT.FORM_BRAND_KA' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.brandKa" name="brandKa" required
+                             placeholder="მაგ. მოე და შანდონი">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_BRAND_EN' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.brandEn" name="brandEn" required
                              placeholder="e.g. Moët & Chandon">
                     </div>
                   </div>
-                  <div class="col-12">
+                  <div class="col-md-6">
                     <div class="pm-field">
-                      <label>{{ 'PRODUCT_MGMT.FORM_DESC' | translate }}</label>
-                      <textarea [(ngModel)]="formData.description" name="description" required
-                                rows="3" placeholder="Describe the product aroma, taste, and pairing suggestions…"></textarea>
+                      <label>{{ 'PRODUCT_MGMT.FORM_DESC_KA' | translate }}</label>
+                      <textarea [(ngModel)]="formData.descriptionKa" name="descriptionKa" required
+                                rows="3" placeholder="მაგ. აღწერეთ პროდუქტის არომატი, გემო..."></textarea>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_DESC_EN' | translate }}</label>
+                      <textarea [(ngModel)]="formData.descriptionEn" name="descriptionEn" required
+                                rows="3" placeholder="e.g. Describe the product aroma, taste..."></textarea>
                     </div>
                   </div>
                 </div>
@@ -291,10 +312,17 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-12">
+                  <div class="col-md-6">
                     <div class="pm-field">
-                      <label>{{ 'PRODUCT_MGMT.FORM_COUNTRY' | translate }}</label>
-                      <input type="text" [(ngModel)]="formData.country" name="country" required
+                      <label>{{ 'PRODUCT_MGMT.FORM_COUNTRY_KA' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.countryKa" name="countryKa" required
+                             placeholder="მაგ. საფრანგეთი">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_COUNTRY_EN' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.countryEn" name="countryEn" required
                              placeholder="e.g. France">
                     </div>
                   </div>
@@ -343,12 +371,12 @@
                   </div>
                   <div class="pm-preview-body">
                     <span class="pm-preview-category">{{ formData.category || 'Category' }}</span>
-                    <h6 class="pm-preview-name">{{ formData.name || 'Product Name' }}</h6>
-                    <p class="pm-preview-brand">{{ formData.brand || 'Brand' }}</p>
+                    <h6 class="pm-preview-name">{{ formData.nameEn || formData.nameKa || formData.name || 'Product Name' }}</h6>
+                    <p class="pm-preview-brand">{{ formData.brandEn || formData.brandKa || formData.brand || 'Brand' }}</p>
                     <div class="pm-preview-meta">
                       <span><i class="bi bi-droplet-half"></i> {{ formData.alcoholContent || 0 }}%</span>
                       <span><i class="bi bi-cup"></i> {{ formData.volume || 0 }}ml</span>
-                      <span><i class="bi bi-geo-alt"></i> {{ formData.country || '—' }}</span>
+                      <span><i class="bi bi-geo-alt"></i> {{ formData.countryEn || formData.countryKa || formData.country || '—' }}</span>
                     </div>
                     <div class="pm-preview-price">
                       <span class="pm-preview-old" *ngIf="formData.discountPrice">₾{{ formData.price }}</span>
