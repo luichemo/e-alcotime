@@ -41,7 +41,16 @@ export class ProductManagement implements OnInit {
     brandKa: '',
     brandEn: '',
     countryKa: '',
-    countryEn: ''
+    countryEn: '',
+    technology: '',
+    flavor: '',
+    taste: '',
+    technologyKa: '',
+    technologyEn: '',
+    flavorKa: '',
+    flavorEn: '',
+    tasteKa: '',
+    tasteEn: ''
   };
 
   loading = false;
@@ -150,7 +159,16 @@ export class ProductManagement implements OnInit {
       brandKa: product.brandKa || product.brand || '',
       brandEn: product.brandEn || product.brand || '',
       countryKa: product.countryKa || product.country || '',
-      countryEn: product.countryEn || product.country || ''
+      countryEn: product.countryEn || product.country || '',
+      technology: product.technology || '',
+      flavor: product.flavor || '',
+      taste: product.taste || '',
+      technologyKa: product.technologyKa || product.technology || '',
+      technologyEn: product.technologyEn || product.technology || '',
+      flavorKa: product.flavorKa || product.flavor || '',
+      flavorEn: product.flavorEn || product.flavor || '',
+      tasteKa: product.tasteKa || product.taste || '',
+      tasteEn: product.tasteEn || product.taste || ''
     };
     this.showAddModal = true;
   }
@@ -182,7 +200,16 @@ export class ProductManagement implements OnInit {
       brandKa: '',
       brandEn: '',
       countryKa: '',
-      countryEn: ''
+      countryEn: '',
+      technology: '',
+      flavor: '',
+      taste: '',
+      technologyKa: '',
+      technologyEn: '',
+      flavorKa: '',
+      flavorEn: '',
+      tasteKa: '',
+      tasteEn: ''
     };
   }
 
@@ -196,6 +223,9 @@ export class ProductManagement implements OnInit {
     this.formData.description = this.formData.descriptionEn;
     this.formData.brand = this.formData.brandEn;
     this.formData.country = this.formData.countryEn;
+    this.formData.technology = this.formData.technologyEn;
+    this.formData.flavor = this.formData.flavorEn;
+    this.formData.taste = this.formData.tasteEn;
 
     const saveOperation = this.editingProduct && this.editingProduct.id
       ? this.productService.updateProduct(this.editingProduct.id, this.formData)

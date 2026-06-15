@@ -201,28 +201,28 @@
                   <div class="col-md-6">
                     <div class="pm-field">
                       <label>{{ 'PRODUCT_MGMT.FORM_BRAND_KA' | translate }}</label>
-                      <input type="text" [(ngModel)]="formData.brandKa" name="brandKa" required
+                      <input type="text" [(ngModel)]="formData.brandKa" name="brandKa"
                              placeholder="მაგ. მოე და შანდონი">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="pm-field">
                       <label>{{ 'PRODUCT_MGMT.FORM_BRAND_EN' | translate }}</label>
-                      <input type="text" [(ngModel)]="formData.brandEn" name="brandEn" required
+                      <input type="text" [(ngModel)]="formData.brandEn" name="brandEn"
                              placeholder="e.g. Moët & Chandon">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="pm-field">
                       <label>{{ 'PRODUCT_MGMT.FORM_DESC_KA' | translate }}</label>
-                      <textarea [(ngModel)]="formData.descriptionKa" name="descriptionKa" required
+                      <textarea [(ngModel)]="formData.descriptionKa" name="descriptionKa"
                                 rows="3" placeholder="მაგ. აღწერეთ პროდუქტის არომატი, გემო..."></textarea>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="pm-field">
                       <label>{{ 'PRODUCT_MGMT.FORM_DESC_EN' | translate }}</label>
-                      <textarea [(ngModel)]="formData.descriptionEn" name="descriptionEn" required
+                      <textarea [(ngModel)]="formData.descriptionEn" name="descriptionEn"
                                 rows="3" placeholder="e.g. Describe the product aroma, taste..."></textarea>
                     </div>
                   </div>
@@ -287,7 +287,7 @@
                       <label>{{ 'PRODUCT_MGMT.FORM_ALCOHOL' | translate }}</label>
                       <div class="pm-input-suffix">
                         <input type="number" [(ngModel)]="formData.alcoholContent" name="alcoholContent"
-                               min="0" max="100" step="0.1" required placeholder="0.0">
+                               min="0" max="100" step="0.1" placeholder="0.0">
                         <span>%</span>
                       </div>
                     </div>
@@ -297,8 +297,8 @@
                       <label>{{ 'PRODUCT_MGMT.FORM_VOLUME' | translate }}</label>
                       <div class="pm-input-suffix">
                         <input type="number" [(ngModel)]="formData.volume" name="volume"
-                               min="0" required placeholder="750">
-                        <span>ml</span>
+                               min="0" step="0.01" placeholder="0.75">
+                        <span>L</span>
                       </div>
                     </div>
                   </div>
@@ -307,7 +307,7 @@
                       <label>{{ 'PRODUCT_MGMT.FORM_STOCK' | translate }}</label>
                       <div class="pm-input-suffix">
                         <input type="number" [(ngModel)]="formData.stock" name="stock"
-                               min="0" required placeholder="0">
+                               min="0" placeholder="0">
                         <span>units</span>
                       </div>
                     </div>
@@ -315,15 +315,57 @@
                   <div class="col-md-6">
                     <div class="pm-field">
                       <label>{{ 'PRODUCT_MGMT.FORM_COUNTRY_KA' | translate }}</label>
-                      <input type="text" [(ngModel)]="formData.countryKa" name="countryKa" required
+                      <input type="text" [(ngModel)]="formData.countryKa" name="countryKa"
                              placeholder="მაგ. საფრანგეთი">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="pm-field">
                       <label>{{ 'PRODUCT_MGMT.FORM_COUNTRY_EN' | translate }}</label>
-                      <input type="text" [(ngModel)]="formData.countryEn" name="countryEn" required
+                      <input type="text" [(ngModel)]="formData.countryEn" name="countryEn"
                              placeholder="e.g. France">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_TECHNOLOGY_KA' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.technologyKa" name="technologyKa"
+                             placeholder="მაგ. ქვევრის კლასიკური">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_TECHNOLOGY_EN' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.technologyEn" name="technologyEn"
+                             placeholder="e.g. Qvevri Traditional">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_FLAVOR_KA' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.flavorKa" name="flavorKa"
+                             placeholder="მაგ. ალუბლის, შოკოლადის">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_FLAVOR_EN' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.flavorEn" name="flavorEn"
+                             placeholder="e.g. Cherry, chocolate">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_TASTE_KA' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.tasteKa" name="tasteKa"
+                             placeholder="მაგ. სავსე სხეულით, რბილი">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="pm-field">
+                      <label>{{ 'PRODUCT_MGMT.FORM_TASTE_EN' | translate }}</label>
+                      <input type="text" [(ngModel)]="formData.tasteEn" name="tasteEn"
+                             placeholder="e.g. Full-bodied, smooth">
                     </div>
                   </div>
                 </div>
@@ -336,7 +378,7 @@
                 </div>
                 <div class="pm-field">
                   <label>{{ 'PRODUCT_MGMT.FORM_IMAGE' | translate }}</label>
-                  <input type="url" [(ngModel)]="formData.imageUrl" name="imageUrl" required
+                  <input type="url" [(ngModel)]="formData.imageUrl" name="imageUrl"
                          placeholder="https://example.com/image.jpg">
                   <small>{{ 'PRODUCT_MGMT.IMAGE_NOTE' | translate }}</small>
                 </div>
@@ -375,7 +417,7 @@
                     <p class="pm-preview-brand">{{ formData.brandEn || formData.brandKa || formData.brand || 'Brand' }}</p>
                     <div class="pm-preview-meta">
                       <span><i class="bi bi-droplet-half"></i> {{ formData.alcoholContent || 0 }}%</span>
-                      <span><i class="bi bi-cup"></i> {{ formData.volume || 0 }}ml</span>
+                      <span><i class="bi bi-cup"></i> {{ formData.volume || 0 }}{{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}</span>
                       <span><i class="bi bi-geo-alt"></i> {{ formData.countryEn || formData.countryKa || formData.country || '—' }}</span>
                     </div>
                     <div class="pm-preview-price">

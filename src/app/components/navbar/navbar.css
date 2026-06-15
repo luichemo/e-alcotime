@@ -44,7 +44,7 @@
 
 /* Brand Logo & Name */
 .navbar-brand {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 1px;
@@ -77,7 +77,7 @@
 /* Navigation Links */
 .navbar-nav .nav-link {
   color: #ebdec7 !important;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 500;
   font-size: 0.95rem;
   padding: 0.5rem 1rem !important;
@@ -214,7 +214,7 @@
 
 .dropdown-item {
   color: #ebdec7 !important;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 500;
   font-size: 0.9rem;
   padding: 0.7rem 1.1rem !important;
@@ -248,7 +248,7 @@
 .navbar .btn-outline-light {
   border: 1.5px solid rgba(192, 162, 124, 0.4);
   color: #c0a27c;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 600;
   font-size: 0.85rem;
   padding: 0.45rem 1.25rem;
@@ -465,7 +465,7 @@
 }
 
 .user-email-header {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: rgba(235, 222, 199, 0.85);
   font-weight: 600;
   font-size: 0.95rem;
@@ -485,7 +485,7 @@
   background: transparent;
   border: none;
   color: #ebdec7;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
   padding: 0.7rem 1rem;
@@ -591,7 +591,7 @@
 }
 
 .search-wrapper:focus-within {
-  background: rgba(20, 20, 18, 0.6);
+  background: rgba(255, 255, 255, 0.08);
   border-color: #c0a27c;
   box-shadow: 0 0 15px rgba(192, 162, 124, 0.15);
 }
@@ -600,7 +600,7 @@
   background: transparent !important;
   border: none !important;
   color: #ebdec7 !important;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.9rem;
   padding: 0.25rem 0 !important;
   width: 100%;
@@ -647,7 +647,7 @@
 }
 
 .preview-header {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -713,21 +713,21 @@
 }
 
 .preview-name {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   color: #ebdec7;
 }
 
 .preview-brand {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.72rem;
   color: rgba(192, 162, 124, 0.7);
   margin-top: 1px;
 }
 
 .preview-price {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
 }
@@ -743,7 +743,7 @@
 }
 
 .preview-footer {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   color: #c0a27c;
@@ -760,7 +760,7 @@
 }
 
 .preview-no-results {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.85rem;
   color: rgba(235, 222, 199, 0.6);
 }
@@ -862,7 +862,7 @@
 }
 
 .sidebar-section-title {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -873,7 +873,7 @@
 
 /* Sidebar Links */
 .sidebar-link {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.05rem;
   font-weight: 500;
   color: #ebdec7 !important;
@@ -1075,7 +1075,7 @@
 .sub-nav-link {
   color: #c0a27c;
   text-decoration: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 500;
   font-size: 0.84rem;
   padding: 0.4rem 1rem;
@@ -1142,3 +1142,141 @@
     font-size: 0.85rem;
   }
 }
+
+/* Mobile Search Overlay & Dropdown */
+.mobile-search-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #141412 !important;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 1060;
+  animation: mobileSearchSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes mobileSearchSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-search-back-btn {
+  background: transparent;
+  border: none;
+  color: #c0a27c;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.mobile-search-back-btn:active {
+  background-color: rgba(192, 162, 124, 0.1);
+}
+
+.mobile-search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.mobile-search-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(192, 162, 124, 0.25) !important;
+  border-radius: 20px !important;
+  color: #ebdec7 !important;
+  padding: 0.45rem 2.2rem 0.45rem 1rem !important;
+  font-size: 0.9rem !important;
+  height: 38px !important;
+}
+
+.mobile-search-input:focus {
+  border-color: #c0a27c !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.mobile-search-input::placeholder {
+  color: rgba(235, 222, 199, 0.45) !important;
+}
+
+.mobile-search-clear-btn {
+  position: absolute;
+  right: 0.4rem;
+  background: transparent;
+  border: none;
+  color: rgba(192, 162, 124, 0.7);
+  font-size: 0.85rem;
+  padding: 0.35rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.mobile-search-clear-btn:active {
+  color: #c0a27c;
+}
+
+/* Mobile Search Preview Dropdown */
+.mobile-search-preview-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(20, 20, 18, 0.98) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(192, 162, 124, 0.3) !important;
+  border-top: none !important;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+  z-index: 1070;
+  overflow: hidden;
+  max-height: 80vh;
+  animation: fadeIn 0.2s ease;
+}
+
+/* Mobile Search trigger layout */
+.mobile-search-trigger {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(192, 162, 124, 0.05);
+  border: 1px solid rgba(192, 162, 124, 0.15) !important;
+  transition: all 0.3s ease;
+}
+
+.mobile-search-trigger:hover,
+.mobile-search-trigger:active {
+  background: rgba(192, 162, 124, 0.1);
+  transform: scale(1.05);
+}
+
+.mobile-search-trigger:active {
+  transform: scale(0.95);
+}
+
+.mobile-search-trigger i {
+  color: #c0a27c !important;
+  font-size: 1.15rem;
+}
+

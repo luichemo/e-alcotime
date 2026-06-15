@@ -24,4 +24,15 @@ export interface Product {
   brandEn?: string;
   countryKa?: string;
   countryEn?: string;
+
+  // New optional fields
+  technology?: string;
+  flavor?: string;
+  taste?: string;
+  technologyKa?: string;
+  technologyEn?: string;
+  flavorKa?: string;
+  flavorEn?: string;
+  tasteKa?: string;
+  tasteEn?: string;
 }

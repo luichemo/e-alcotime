@@ -46,7 +46,7 @@
               <p class="item-brand text-muted mb-1">{{ item.product.brand }}</p>
               <div class="item-specs">
                 <span><i class="bi bi-droplet-half"></i> {{ item.product.alcoholContent }}%</span>
-                <span><i class="bi bi-cup"></i> {{ item.product.volume }}ml</span>
+                <span><i class="bi bi-cup"></i> {{ item.product.volume }}{{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}</span>
               </div>
               <div class="item-price-mobile d-lg-none mt-2">
                 <span *ngIf="item.product.discountPrice" class="old-price">₾{{ item.product.price }}</span>
@@ -113,10 +113,10 @@
             <strong>₾{{ cartData.total.toFixed(2) }}</strong>
           </div>
 
-          <!-- <a routerLink="/checkout" class="btn btn-checkout w-100 mt-3">
-            <i class="bi bi-lock-fill me-2"></i>
-            {{ 'CART.PROCEED' | translate }}
-          </a> -->
+          <div class="alert alert-warning text-center mt-3 mb-2 py-2 px-3" style="border-radius: 8px; font-size: 0.85rem; font-weight: 500; border: 1px solid rgba(192, 162, 124, 0.25); background: rgba(192, 162, 124, 0.05); color: #ad8d66;">
+            <i class="bi bi-info-circle me-1"></i>
+            {{ 'CART.BUY_NOT_AVAILABLE' | translate }}
+          </div>
 
           <a routerLink="/products" class="btn btn-continue w-100 mt-2">
             <i class="bi bi-arrow-left me-2"></i>
@@ -125,16 +125,16 @@
 
           <div class="trust-badges mt-4">
             <div class="badge-item">
-              <i class="bi bi-shield-check"></i>
-              <span>{{ 'CART.SECURE_PAYMENT' | translate }}</span>
+              <i class="bi bi-telephone"></i>
+              <span>{{ 'CART.CONTACT_PHONE' | translate }}</span>
             </div>
             <div class="badge-item">
-              <i class="bi bi-truck"></i>
-              <span>{{ 'CART.SHIPPING_FREE' | translate }} {{ 'CART.SHIPPING' | translate }}</span>
+              <i class="bi bi-geo-alt"></i>
+              <span>{{ 'CART.CONTACT_ADDRESS' | translate }}</span>
             </div>
             <div class="badge-item">
-              <i class="bi bi-arrow-return-left"></i>
-              <span>{{ 'CART.EASY_RETURNS' | translate }}</span>
+              <i class="bi bi-envelope"></i>
+              <span>{{ 'CART.CONTACT_EMAIL' | translate }}</span>
             </div>
           </div>
         </div>

@@ -195,7 +195,7 @@
           <div class="filter-section" *ngIf="availableVolumes.length > 0">
             <h6 class="filter-title">
               <i class="bi bi-cup me-2"></i>
-              {{ 'PRODUCTS.VOLUME_ML' | translate }}
+              {{ 'PRODUCTS.VOLUME_L' | translate }}
             </h6>
             <div class="filter-pills">
               <button 
@@ -203,7 +203,7 @@
                 class="filter-pill"
                 [class.active]="isVolumeSelected(volume)"
                 (click)="toggleVolume(volume)">
-                {{ volume }}ml
+                {{ volume }}{{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}
               </button>
             </div>
           </div>
@@ -268,7 +268,7 @@
               <i class="bi bi-x" (click)="minAlcoholContent = 0; maxAlcoholContent = 100; onAlcoholContentChange()"></i>
             </span>
             <span class="filter-tag" *ngFor="let volume of selectedVolumes">
-              {{ volume }}ml
+              {{ volume }}{{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}
               <i class="bi bi-x" (click)="toggleVolume(volume)"></i>
             </span>
             <span class="filter-tag" *ngFor="let country of selectedCountries">
@@ -316,7 +316,7 @@
                     <i class="bi bi-droplet-half"></i> {{ product.alcoholContent }}%
                   </span>
                   <span class="detail-item">
-                    <i class="bi bi-cup"></i> {{ product.volume }}ml
+                    <i class="bi bi-cup"></i> {{ product.volume }}{{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}
                   </span>
                   <span class="detail-item country-item">
                     <i class="bi bi-geo-alt"></i>

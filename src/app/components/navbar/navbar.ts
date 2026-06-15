@@ -36,6 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   allProducts: Product[] = [];
   searchResults: Product[] = [];
   showSearchResults: boolean = false;
+  isMobileSearchOpen: boolean = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -50,7 +51,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
     const target = event.target as HTMLElement;
-    if (!target.closest('.search-container')) {
+    if (!target.closest('.search-container') && !target.closest('.mobile-search-overlay')) {
       this.showSearchResults = false;
     }
   }
@@ -89,6 +90,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       this.currentRoute = event.url;
+      this.isMobileSearchOpen = false;
     });
 
     this.currentUser$.subscribe((user) => {
@@ -144,6 +146,35 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  openMobileSearch(): void {
+    this.isMobileSearchOpen = true;
+    this.closeMenu();
+    this.isSidebarOpen = false;
+    setTimeout(() => {
+      const inputEl = document.querySelector('.mobile-search-input') as HTMLInputElement;
+      if (inputEl) {
+        inputEl.focus();
+      }
+    }, 100);
+  }
+
+  closeMobileSearch(): void {
+    this.isMobileSearchOpen = false;
+    this.searchQuery = '';
+    this.searchResults = [];
+    this.showSearchResults = false;
+  }
+
+  clearSearchQuery(): void {
+    this.searchQuery = '';
+    this.searchResults = [];
+    this.showSearchResults = false;
+    const inputEl = document.querySelector('.mobile-search-input') as HTMLInputElement;
+    if (inputEl) {
+      inputEl.focus();
+    }
+  }
+
   onSearchSubmit(): void {
     const query = this.searchQuery.trim();
     if (!query) return;
@@ -152,6 +183,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.searchResults = [];
     this.router.navigate(['/products'], { queryParams: { search: query } });
     this.searchQuery = '';
+    this.isMobileSearchOpen = false;
     this.closeMenu();
   }
 
@@ -159,6 +191,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.showSearchResults = false;
     this.searchResults = [];
     this.searchQuery = '';
+    this.isMobileSearchOpen = false;
     this.router.navigate(['/product', productId]);
     this.closeMenu();
   }

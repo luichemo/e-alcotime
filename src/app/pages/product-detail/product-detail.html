@@ -34,8 +34,11 @@
         <div class="col-lg-6">
           <div class="product-info">
 
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-              <h1 class="product-title">{{ product.name }}</h1>
+            <div class="product-title-container d-flex align-items-center flex-wrap gap-2 mb-2" style="width: 100%;">
+              <h1 class="product-title mb-0" style="display: inline-block;">{{ product.name }}</h1>
+              <span class="detail-stock-badge ms-auto" [class.in-stock]="product.stock > 0" [class.out-of-stock]="product.stock === 0">
+                {{ (product.stock > 0 ? 'PRODUCTS.PRODUCT_CARD.IN_STOCK' : 'PRODUCTS.PRODUCT_CARD.OUT_OF_STOCK') | translate }}
+              </span>
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; width: 100%;">
@@ -52,9 +55,9 @@
               </span>
             </div>
             
-            <div class="purchase-section" *ngIf="product.stock > 0" style="display:none;">
+            <div class="purchase-section" *ngIf="product.stock > 0">
               <div class="quantity-selector">
-                <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 0">
+                <button class="qty-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 1">
                   <i class="bi bi-dash"></i>
                 </button>
                 <input type="number" class="qty-input" [(ngModel)]="quantity" min="1" [max]="product.stock">
@@ -68,25 +71,26 @@
                 <span *ngIf="!addedToCart">{{ 'PRODUCT_DETAIL.ADD_TO_CART' | translate }}</span>
                 <span *ngIf="addedToCart">{{ 'PRODUCT_DETAIL.ADDED_TO_CART' | translate }}</span>
               </button>
+            </div>
 
-              <a routerLink="/cart" class="btn-view-cart" *ngIf="isInCart()">
-                <i class="bi bi-cart3 me-2"></i>
+            <div class="cart-actions-row mb-4" *ngIf="isInCart()">
+              <a routerLink="/cart" class="link-view-cart">
+                <i class="bi bi-cart3"></i>
                 {{ 'PRODUCT_DETAIL.VIEW_CART' | translate }} ({{ getCartQuantity() }})
               </a>
-
-              <button class="btn-add-to-cart danger" *ngIf="isCartNotEmpty()" (click)="clearCart()">
-                <i class="bi bi-trash3 me-1"></i>
+              <button class="link-clear-cart" *ngIf="isCartNotEmpty()" (click)="clearCart()">
+                <i class="bi bi-trash3"></i>
                 {{ 'PRODUCT_DETAIL.CLEAR_CART' | translate }}
               </button>
             </div>
 
-            <div class="product-description mb-4" style="width: 100%;">
-              <p>
-                {{ isDescriptionExpanded ? product.description : (product.description | slice:0:150) +
-                (product.description.length > 150 ? '...' : '') }}
+            <div class="product-description mb-3" style="width: 100%;" *ngIf="product.description">
+              <p class="mb-0">
+                {{ isDescriptionExpanded ? product.description : (product.description | slice:0:120) +
+                (product.description.length > 120 ? '...' : '') }}
               </p>
 
-              <button *ngIf="product.description.length > 150" class="btn btn-link p-0 read-more-btn"
+              <button *ngIf="product.description.length > 120" class="btn btn-link p-0 read-more-btn mt-1"
                 (click)="toggleDescription()">
                 {{ (isDescriptionExpanded ? 'PRODUCT_DETAIL.READ_LESS' : 'PRODUCT_DETAIL.READ_MORE') | translate }}
               </button>
@@ -104,7 +108,7 @@
                 <i class="bi bi-cup"></i>
                 <div>
                   <strong>{{ 'PRODUCT_DETAIL.VOLUME' | translate }}</strong>
-                  <span>{{ product.volume }} ml</span>
+                  <span>{{ product.volume }} {{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}</span>
                 </div>
               </div>
               <div class="spec-item">
@@ -114,13 +118,25 @@
                   <span>{{ product.country }}</span>
                 </div>
               </div>
-              <div class="spec-item">
-                <i class="bi bi-box-seam"></i>
+              <div class="spec-item" *ngIf="product.technology">
+                <i class="bi bi-gear"></i>
                 <div>
-                  <strong>{{ 'PRODUCT_DETAIL.STOCK' | translate }}</strong>
-                  <span [class.text-success]="product.stock > 0" [class.text-danger]="product.stock === 0">
-                    {{ (product.stock > 0 ? 'PRODUCTS.PRODUCT_CARD.IN_STOCK' : 'PRODUCTS.PRODUCT_CARD.OUT_OF_STOCK') | translate }}
-                  </span>
+                  <strong>{{ 'PRODUCT_DETAIL.TECHNOLOGY' | translate }}</strong>
+                  <span>{{ product.technology }}</span>
+                </div>
+              </div>
+              <div class="spec-item" *ngIf="product.flavor">
+                <i class="bi bi-flower1"></i>
+                <div>
+                  <strong>{{ 'PRODUCT_DETAIL.FLAVOR' | translate }}</strong>
+                  <span>{{ product.flavor }}</span>
+                </div>
+              </div>
+              <div class="spec-item" *ngIf="product.taste">
+                <i class="bi bi-emoji-smile"></i>
+                <div>
+                  <strong>{{ 'PRODUCT_DETAIL.TASTE' | translate }}</strong>
+                  <span>{{ product.taste }}</span>
                 </div>
               </div>
             </div>
@@ -140,19 +156,62 @@
     <div class="container">
       <h2 class="section-title text-center mb-5">{{ 'PRODUCT_DETAIL.YOU_MAY_LIKE' | translate }}</h2>
       <div class="row g-4">
-        <div *ngFor="let relatedProduct of relatedProducts" class="col-md-6 col-lg-3">
-          <div class="card h-100 product-card">
-            <div class="product-image-wrapper">
-              <img [src]="relatedProduct.imageUrl" class="card-img-top" [alt]="relatedProduct.name">
+        <div *ngFor="let product of relatedProducts" class="col-6 col-md-4 col-lg-3 product-card-col">
+          <div class="card h-100 product-card" [routerLink]="['/product', product.id]">
+            <div class="product-image-wrapper" [class.img-loading]="!imgLoaded[product.id]">
+              <img [src]="product.imageUrl" 
+                   class="card-img-top" 
+                   [alt]="product.name"
+                   (load)="imgLoaded[product.id] = true"
+                   [style.opacity]="imgLoaded[product.id] ? 1 : 0"
+                   style="transition: opacity 0.3s ease;">
+              <div class="product-badge-ribbon" *ngIf="product.discountPrice">
+                <span>-{{ getDiscountPercentage(product) }}%</span>
+              </div>
             </div>
-            <div class="card-body">
-              <h5 class="card-title">{{ relatedProduct.name }}</h5>
-              <p class="text-muted small">{{ relatedProduct.brand }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <h5 class="product-price mb-0">₾{{ relatedProduct.discountPrice || relatedProduct.price }}</h5>
-                <a [routerLink]="['/product', relatedProduct.id]" class="btn btn-sm btn-outline-primary">
-                  {{ 'PRODUCT_DETAIL.VIEW' | translate }}
-                </a>
+
+            <div class="card-body d-flex flex-column">
+              <span class="product-category">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
+              <h5 class="card-title mt-2">{{ product.name }}</h5>
+              <p class="product-brand text-muted mb-2">{{ product.brand }}</p>
+              
+              <div class="product-details mb-3">
+                <span class="detail-item">
+                  <i class="bi bi-droplet-half"></i> {{ product.alcoholContent }}%
+                </span>
+                <span class="detail-item">
+                  <i class="bi bi-cup"></i> {{ product.volume }}{{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}
+                </span>
+                <span class="detail-item country-item">
+                  <i class="bi bi-geo-alt"></i>
+                  <span class="country-name">{{ product.country }}</span>
+                </span>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center gap-2 mt-auto w-100">
+                <div class="price-wrapper">
+                  <span class="old-price" *ngIf="product.discountPrice">
+                    ₾{{ product.price }}
+                  </span>
+                  <h5 class="product-price mb-0">₾{{ product.discountPrice || product.price }}</h5>
+                </div>
+
+                <div>
+                  <button
+                    *ngIf="product.stock > 0"
+                    class="btn btn-primary btn-sm"
+                    (click)="addToCart(product); $event.stopPropagation()">
+                    <i class="bi" 
+                       [class.bi-cart-plus]="!isInCart(product)" 
+                       [class.bi-cart-check]="isInCart(product)">
+                    </i>
+                  </button>
+                  <div
+                    *ngIf="product.stock === 0"
+                    class="out-of-stock-badge">
+                    {{ 'PRODUCTS.PRODUCT_CARD.OUT_OF_STOCK' | translate }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

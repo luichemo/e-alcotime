@@ -67,7 +67,7 @@ export class Dashboard implements OnInit {
           price: 1200,
           discountPrice: 1100,
           alcoholContent: 13.5,
-          volume: 750,
+          volume: 0.75,
           imageUrl: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=600",
           stock: 8,
           isAvailable: true
@@ -81,7 +81,7 @@ export class Dashboard implements OnInit {
           price: 95,
           discountPrice: 85,
           alcoholContent: 13,
-          volume: 750,
+          volume: 0.75,
           imageUrl: "https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?q=80&w=600",
           stock: 24,
           isAvailable: true
@@ -95,7 +95,7 @@ export class Dashboard implements OnInit {
           price: 420,
           discountPrice: 0,
           alcoholContent: 43,
-          volume: 700,
+          volume: 0.7,
           imageUrl: "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?q=80&w=600",
           stock: 12,
           isAvailable: true
@@ -109,7 +109,7 @@ export class Dashboard implements OnInit {
           price: 85,
           discountPrice: 75,
           alcoholContent: 40,
-          volume: 1000,
+          volume: 1.0,
           imageUrl: "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?q=80&w=600",
           stock: 15,
           isAvailable: true
@@ -123,7 +123,7 @@ export class Dashboard implements OnInit {
           price: 90,
           discountPrice: 80,
           alcoholContent: 41.4,
-          volume: 700,
+          volume: 0.7,
           imageUrl: "https://images.unsplash.com/photo-1608885898957-a599fb1698d6?q=80&w=600",
           stock: 18,
           isAvailable: true
@@ -137,7 +137,7 @@ export class Dashboard implements OnInit {
           price: 18,
           discountPrice: 15,
           alcoholContent: 9,
-          volume: 330,
+          volume: 0.33,
           imageUrl: "https://images.unsplash.com/photo-1532634922-8fe0b757fb13?q=80&w=600",
           stock: 40,
           isAvailable: true
@@ -151,7 +151,7 @@ export class Dashboard implements OnInit {
           price: 9,
           discountPrice: 0,
           alcoholContent: 5.4,
-          volume: 330,
+          volume: 0.33,
           imageUrl: "https://images.unsplash.com/photo-1566633806327-68e152aaf26d?q=80&w=600",
           stock: 60,
           isAvailable: true
@@ -165,7 +165,7 @@ export class Dashboard implements OnInit {
           price: 350,
           discountPrice: 320,
           alcoholContent: 12.5,
-          volume: 750,
+          volume: 0.75,
           imageUrl: "https://images.unsplash.com/photo-1594487523089-f4c7ab536a7b?q=80&w=600",
           stock: 10,
           isAvailable: true
@@ -179,7 +179,7 @@ export class Dashboard implements OnInit {
           price: 160,
           discountPrice: 145,
           alcoholContent: 12,
-          volume: 750,
+          volume: 0.75,
           imageUrl: "https://images.unsplash.com/photo-1516596429074-ba3b3b43e8e7?q=80&w=600",
           stock: 20,
           isAvailable: true
@@ -193,7 +193,7 @@ export class Dashboard implements OnInit {
           price: 48,
           discountPrice: 42,
           alcoholContent: 11,
-          volume: 700,
+          volume: 0.7,
           imageUrl: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=600",
           stock: 30,
           isAvailable: true

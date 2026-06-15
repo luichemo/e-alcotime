@@ -22,6 +22,7 @@ export class ProductDetail implements OnInit {
   loading: boolean = true;
   addedToCart: boolean = false;
   isDescriptionExpanded = false;
+  imgLoaded: { [id: string]: boolean } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -124,8 +125,10 @@ export class ProductDetail implements OnInit {
     return this.cartService.getItemCount() > 0;
   }
 
-  addToCart(): void {
-    if (this.product) {
+  addToCart(product?: Product): void {
+    if (product) {
+      this.cartService.addToCart(product, 1);
+    } else if (this.product) {
       this.cartService.addToCart(this.product, this.quantity);
       this.addedToCart = true;
       
@@ -135,11 +138,19 @@ export class ProductDetail implements OnInit {
     }
   }
 
-  isInCart(): boolean {
+  isInCart(product?: Product): boolean {
+    if (product) {
+      return this.cartService.isInCart(product.id!);
+    }
     return this.product ? this.cartService.isInCart(this.product.id!) : false;
   }
 
   getCartQuantity(): number {
     return this.product ? this.cartService.getProductQuantity(this.product.id!) : 0;
+  }
+
+  getDiscountPercentage(product: Product): number {
+    if (!product.price || !product.discountPrice) return 0;
+    return Math.round(((product.price - product.discountPrice) / product.price) * 100);
   }
 }

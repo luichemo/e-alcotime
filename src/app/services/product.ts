@@ -37,6 +37,9 @@ export class ProductService {
       description: lang === 'ka' ? (product.descriptionKa || product.description) : (product.descriptionEn || product.description),
       brand: lang === 'ka' ? (product.brandKa || product.brand) : (product.brandEn || product.brand),
       country: lang === 'ka' ? (product.countryKa || product.country) : (product.countryEn || product.country),
+      technology: lang === 'ka' ? (product.technologyKa || product.technology) : (product.technologyEn || product.technology),
+      flavor: lang === 'ka' ? (product.flavorKa || product.flavor) : (product.flavorEn || product.flavor),
+      taste: lang === 'ka' ? (product.tasteKa || product.taste) : (product.tasteEn || product.taste),
     };
   }
 

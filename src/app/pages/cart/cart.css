@@ -4,7 +4,7 @@
 
 .cart-hero {
   position: relative;
-  min-height: 35vh;
+  min-height: 18vh;
   background-color: #FAF8F5;
   background-image:
     radial-gradient(at 0% 0%, rgba(192, 162, 124, 0.08) 0px, transparent 50%),

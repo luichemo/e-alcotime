@@ -342,7 +342,7 @@
 }
 
 .sidebar-title {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   color: #c0a27c;
   margin: 0;
@@ -858,7 +858,7 @@
 }
 
 .card-title {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   color: #141412;
   font-size: 0.95rem;
@@ -935,7 +935,7 @@
 
 .price-wrapper .product-price {
   color: #ad8d66;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 1.35rem;
   margin: 0;
@@ -1016,7 +1016,7 @@
 
 .empty-state h3 {
   color: #141412;
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
 }
 

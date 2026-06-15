@@ -1,5 +1,51 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top" [class.scrolled]="isScrolled">
-  <div class="container d-flex align-items-center flex-nowrap gap-3">
+  <div class="container d-flex align-items-center flex-nowrap gap-3" style="position: relative;">
+    <!-- Mobile Search Overlay -->
+    <div class="mobile-search-overlay d-lg-none" *ngIf="isMobileSearchOpen" (click)="$event.stopPropagation()">
+      <button class="btn mobile-search-back-btn" (click)="closeMobileSearch()" aria-label="Close search">
+        <i class="bi bi-arrow-left text-gold-icon"></i>
+      </button>
+      <div class="mobile-search-input-wrapper flex-grow-1">
+        <input type="text" class="form-control mobile-search-input" [(ngModel)]="searchQuery" (input)="onSearchInput()"
+          (focus)="onSearchFocus()" (keydown.enter)="onSearchSubmit()"
+          [placeholder]="'NAVBAR.SEARCH_PLACEHOLDER' | translate">
+        <button class="btn mobile-search-clear-btn" *ngIf="searchQuery" (click)="clearSearchQuery()" aria-label="Clear search">
+          <i class="bi bi-x-lg text-gold-icon"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Search Preview Dropdown -->
+      <div class="mobile-search-preview-dropdown" *ngIf="showSearchResults">
+        <!-- Found matches -->
+        <div *ngIf="searchResults.length > 0">
+          <div class="preview-header">{{ 'NAVBAR.PRODUCTS_FOUND' | translate }}</div>
+          <ul class="preview-list">
+            <li *ngFor="let product of searchResults" (click)="onSelectProduct(product.id!)" class="preview-item">
+              <img [src]="product.imageUrl" [alt]="product.name" class="preview-img">
+              <div class="preview-info">
+                <div class="preview-name text-truncate">{{ product.name }}</div>
+                <div class="preview-brand text-truncate">{{ product.brand }}</div>
+              </div>
+              <div class="preview-price ms-auto text-end">
+                <div *ngIf="product.discountPrice" class="preview-price-original">₾{{ product.price }}</div>
+                <div class="preview-price-current">₾{{ product.discountPrice || product.price }}</div>
+              </div>
+            </li>
+          </ul>
+          <div class="preview-footer text-center" (click)="onSearchSubmit()">
+            {{ 'NAVBAR.VIEW_ALL_RESULTS' | translate }} <i class="bi bi-arrow-right ms-1"></i>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div *ngIf="searchResults.length === 0 && searchQuery.trim() !== ''"
+          class="preview-no-results text-center py-4">
+          <i class="bi bi-search fs-3 text-gold-icon mb-2 d-block"></i>
+          <span class="d-block px-3">{{ 'NAVBAR.NO_RESULTS' | translate }} "{{ searchQuery }}"</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Left: Toggler & Logo -->
     <div class="d-flex align-items-center gap-3">
       <button class="navbar-toggler-custom" [class.open]="isSidebarOpen" type="button" (click)="toggleSidebar()"
@@ -59,6 +105,12 @@
 
     <!-- Right: Desktop Controls / Mobile Cart Icon -->
     <div class="d-flex align-items-center gap-3">
+      <!-- Mobile Search Icon (left of cart icon) -->
+      <button class="btn mobile-search-trigger d-lg-none text-gold p-0 border-0 bg-transparent"
+        (click)="openMobileSearch()" aria-label="Open search">
+        <i class="bi bi-search fs-4"></i>
+      </button>
+
       <!-- Mobile Only Cart Icon (always visible in navbar header for best UX) -->
       <a class="nav-link mobile-cart-header-link d-lg-none position-relative" routerLink="/cart">
         <i class="bi bi-cart3 fs-4 text-gold"></i>

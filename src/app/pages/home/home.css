@@ -671,7 +671,7 @@
 }
 
 .search-wrapper:focus-within {
-  background: rgba(20, 20, 18, 0.8);
+  background: rgba(255, 255, 255, 0.65);
   border-color: #c0a27c;
   box-shadow: 0 0 20px rgba(192, 162, 124, 0.25);
 }
@@ -680,7 +680,7 @@
   background: transparent !important;
   border: none !important;
   color: #141412 !important;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.95rem;
   padding: 0.4rem 0 !important;
   width: 100%;
@@ -790,21 +790,21 @@
 }
 
 .preview-name {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   color: #ebdec7;
 }
 
 .preview-brand {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.72rem;
   color: rgba(192, 162, 124, 0.7);
   margin-top: 1px;
 }
 
 .preview-price {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
 }
@@ -820,7 +820,7 @@
 }
 
 .preview-footer {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   color: #c0a27c;
@@ -837,7 +837,7 @@
 }
 
 .preview-no-results {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.85rem;
   color: rgba(235, 222, 199, 0.6);
 }
@@ -940,7 +940,7 @@
 }
 
 .card-title {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   color: #141412;
   font-size: 0.95rem;
@@ -1017,7 +1017,7 @@
 
 .price-wrapper .product-price {
   color: #ad8d66;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 1.35rem;
   margin: 0;
