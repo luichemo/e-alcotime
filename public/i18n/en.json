@@ -128,7 +128,7 @@
     "VIEW": "View"
   },
   "CART": {
-    "TITLE": "Order Calculator",
+    "TITLE": "Calculator",
     "SUBTITLE": "Calculate the total cost of your selected items",
     "EMPTY": "Calculator is empty",
     "EMPTY_DESC": "Looks like you haven't selected any items yet",
