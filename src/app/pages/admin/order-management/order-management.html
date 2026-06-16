@@ -157,7 +157,7 @@
                 <div class="customer-info">
                   <strong>{{ order.shippingAddress.fullName }}</strong>
                   <small>{{ order.userEmail }}</small>
-                </div>
+                </div> 
               </td>
               <td>{{ getOrderItemsCount(order) }} {{ 'CHECKOUT.ITEMS' | translate }}</td>
               <td><strong class="order-total">₾{{ order.total | number:'1.2-2' }}</strong></td>

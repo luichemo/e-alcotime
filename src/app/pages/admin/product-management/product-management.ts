@@ -24,7 +24,7 @@ export class ProductManagement implements OnInit {
   formData = {
     name: '',
     description: '',
-    category: 'wine' as 'wine' | 'beer' | 'spirits' | 'champagne' | 'whiskey' | 'cognac' | 'sparkling_wine' | 'tequila' | 'rum' | 'gin' | 'other',
+    category: 'wine' as 'wine' | 'beer' | 'spirits' | 'champagne' | 'whiskey' | 'cognac' | 'sparkling_wine' | 'tequila' | 'rum' | 'gin' | 'gift' | 'vape' | 'other',
     price: 0,
     discountPrice: 0,
     alcoholContent: 0,

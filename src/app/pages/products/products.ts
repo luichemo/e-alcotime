@@ -82,6 +82,7 @@ export class Products implements OnInit {
 
   categories = [
     { value: 'all', label: 'All Products', icon: 'bi-grid' },
+    { value: 'gift', label: 'Gifts', icon: 'bi-gift' },
     { value: 'wine', label: 'Wine', icon: 'bi-droplet' },
     { value: 'whiskey', label: 'Whiskey', icon: 'bi-cup-hot' },
     { value: 'cognac', label: 'Cognac', icon: 'bi-gem' },
@@ -92,6 +93,7 @@ export class Products implements OnInit {
     { value: 'spirits', label: 'Spirits', icon: 'bi-thermometer-high' },
     { value: 'beer', label: 'Beer', icon: 'bi-moisture' },
     { value: 'champagne', label: 'Champagne', icon: 'bi-stars' },
+    { value: 'vape', label: 'Vape', icon: 'bi-wind' },
     { value: 'other', label: 'Other', icon: 'bi-three-dots' }
   ];
 

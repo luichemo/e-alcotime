@@ -113,7 +113,7 @@
 
       <!-- Mobile Only Cart Icon (always visible in navbar header for best UX) -->
       <a class="nav-link mobile-cart-header-link d-lg-none position-relative" routerLink="/cart">
-        <i class="bi bi-cart3 fs-4 text-gold"></i>
+        <i class="bi bi-calculator fs-4 text-gold"></i>
         <span *ngIf="cartItemCount > 0"
           class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
           {{ cartItemCount }}
@@ -155,7 +155,7 @@
         <li class="nav-item">
           <a class="nav-link p-2" routerLink="/cart">
             <span class="position-relative d-inline-block">
-              <i class="bi bi-cart3 fs-5"></i>
+              <i class="bi bi-calculator fs-5"></i>
               <span *ngIf="cartItemCount > 0"
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {{ cartItemCount }}
@@ -232,60 +232,102 @@
              (mouseenter)="stopSubNavbarAutoplay()" 
              (mouseleave)="startSubNavbarAutoplay()">
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'all' }" routerLinkActive="active">
-            <i class="bi bi-grid"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/all.png" alt="All" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.ALL' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ sale: 'true' }" routerLinkActive="active">
-            <i class="bi bi-tag-fill" style="color: rgb(192, 2, 2);"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/sale.png" alt="Sale" class="category-icon-img sale-icon-img">
+            </span>
             <span style=" font-weight: 600;">{{ 'CATEGORIES.SALE' | translate }}</span>
           </a>
+
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'gift' }" routerLinkActive="active">
+            <span class="category-icon-wrapper">
+              <img src="/icons/gift.png" alt="Gifts" class="category-icon-img">
+            </span>
+            <span>{{ 'CATEGORIES.GIFT' | translate }}</span>
+          </a>
+
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'whiskey' }"
             routerLinkActive="active">
-            <i class="bi bi-cup-hot"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/whiskey.png" alt="Whiskey" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.WHISKEY' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'spirits' }"
             routerLinkActive="active">
-            <i class="bi bi-thermometer-high"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/spirits.png" alt="Vodka" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.SPIRITS' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'wine' }" routerLinkActive="active">
-            <i class="bi bi-droplet"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/wine.png" alt="Wine" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.WINE' | translate }}</span>
           </a>
 
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'cognac' }"
             routerLinkActive="active">
-            <i class="bi bi-gem"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/cognac.png" alt="Cognac" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.COGNAC' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'sparkling_wine' }"
             routerLinkActive="active">
-            <i class="bi bi-stars"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/sparkling_wine.png" alt="Sparkling Wine" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.SPARKLING_WINE' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'tequila' }"
             routerLinkActive="active">
-            <i class="bi bi-brightness-high"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/tequila.png" alt="Tequila" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.TEQUILA' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'rum' }" routerLinkActive="active">
-            <i class="bi bi-water"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/rum.png" alt="Rum" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.RUM' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'gin' }" routerLinkActive="active">
-            <i class="bi bi-flower1"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/gin.png" alt="Gin" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.GIN' | translate }}</span>
           </a>
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'beer' }" routerLinkActive="active">
-            <i class="bi bi-moisture"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/beer.png" alt="Beer" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.BEER' | translate }}</span>
           </a>
 
+
+
           <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'champagne' }"
             routerLinkActive="active">
-            <i class="bi bi-stars"></i>
+            <span class="category-icon-wrapper">
+              <img src="/icons/champagne.png" alt="Champagne" class="category-icon-img">
+            </span>
             <span>{{ 'CATEGORIES.CHAMPAGNE' | translate }}</span>
+          </a>
+
+          <a class="sub-nav-link" routerLink="/products" [queryParams]="{ category: 'vape' }"
+            routerLinkActive="active">
+            <span class="category-icon-wrapper">
+              <img src="/icons/vape.png" alt="Vape" class="category-icon-img">
+            </span>
+            <span>{{ 'CATEGORIES.VAPE' | translate }}</span>
           </a>
 
         </div>

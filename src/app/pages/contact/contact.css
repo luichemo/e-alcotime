@@ -134,6 +134,50 @@
   margin-bottom: 0;
 }
 
+.detail-text p a {
+  color: #5a5a54;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.detail-text p a:hover {
+  color: #c0a27c;
+}
+
+/* Facebook Badge Styling */
+.social-links .fb-badge-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  padding: 0.6rem 1.4rem;
+  background: rgba(192, 162, 124, 0.05);
+  border: 1px solid rgba(192, 162, 124, 0.25);
+  color: #c0a27c !important;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-links .fb-badge-link:hover {
+  background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%) !important;
+  color: #141412 !important;
+  border-color: #c0a27c !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(192, 162, 124, 0.35);
+}
+
+.social-links .fb-badge-link i {
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.social-links .fb-badge-link:hover i {
+  color: #141412 !important;
+}
+
 .text-warning-gold {
   color: #d7bc96;
 }

@@ -67,7 +67,7 @@
               </div>
 
               <button class="btn-add-to-cart" (click)="addToCart()" [disabled]="addedToCart">
-                <i class="bi" [class.bi-cart-plus]="!addedToCart" [class.bi-cart-check-fill]="addedToCart"></i>
+                <i class="bi" [class.bi-calculator]="!addedToCart" [class.bi-calculator-fill]="addedToCart"></i>
                 <span *ngIf="!addedToCart">{{ 'PRODUCT_DETAIL.ADD_TO_CART' | translate }}</span>
                 <span *ngIf="addedToCart">{{ 'PRODUCT_DETAIL.ADDED_TO_CART' | translate }}</span>
               </button>
@@ -75,7 +75,7 @@
 
             <div class="cart-actions-row mb-4" *ngIf="isInCart()">
               <a routerLink="/cart" class="link-view-cart">
-                <i class="bi bi-cart3"></i>
+                <i class="bi bi-calculator"></i>
                 {{ 'PRODUCT_DETAIL.VIEW_CART' | translate }} ({{ getCartQuantity() }})
               </a>
               <button class="link-clear-cart" *ngIf="isCartNotEmpty()" (click)="clearCart()">
@@ -202,8 +202,8 @@
                     class="btn btn-primary btn-sm"
                     (click)="addToCart(product); $event.stopPropagation()">
                     <i class="bi" 
-                       [class.bi-cart-plus]="!isInCart(product)" 
-                       [class.bi-cart-check]="isInCart(product)">
+                       [class.bi-plus-lg]="!isInCart(product)" 
+                       [class.bi-check-lg]="isInCart(product)">
                     </i>
                   </button>
                   <div

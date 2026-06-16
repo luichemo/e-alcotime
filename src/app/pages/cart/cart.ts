@@ -44,9 +44,22 @@ export class CartComponent implements OnInit {
     }
   }
 
-  removeItem(productId: string): void {
-    const msg = this.translateService.instant('CART.REMOVE_CONFIRM');
-    if (confirm(msg)) {
+  async removeItem(productId: string): Promise<void> {
+    const title = this.translateService.instant('CART.CLEAR_CONFIRM_TITLE');
+    const text = this.translateService.instant('CART.REMOVE_CONFIRM');
+    const confirmButtonText = this.translateService.instant('CART.CLEAR_CONFIRM_YES');
+    const cancelButtonText = this.translateService.instant('CART.CLEAR_CONFIRM_CANCEL');
+
+    const result = await Swal.fire({
+      title,
+      text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText,
+      cancelButtonText
+    });
+
+    if (result.isConfirmed) {
       this.cartService.removeFromCart(productId);
     }
   }
@@ -77,5 +90,9 @@ export class CartComponent implements OnInit {
   getItemTotal(item: CartItem): number {
     const price = item.product.discountPrice || item.product.price;
     return price * item.quantity;
+  }
+
+  getCartItemsCount(): number {
+    return this.cartData ? this.cartData.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
   }
 }

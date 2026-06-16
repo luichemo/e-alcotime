@@ -56,10 +56,6 @@
                   <span>{{ 'ORDER_CONFIRMATION.SUBTOTAL' | translate }} ({{ getOrderItemsCount() }} {{ 'CHECKOUT.ITEMS' | translate }})</span>
                   <span>₾{{ order.total | number:'1.2-2' }}</span>
                 </div>
-                <div class="total-row">
-                  <span>{{ 'ORDER_CONFIRMATION.SHIPPING' | translate }}</span>
-                  <span>{{ 'CART.SHIPPING_FREE' | translate }}</span>
-                </div>
                 <div class="total-row grand-total">
                   <span>{{ 'ORDER_CONFIRMATION.TOTAL' | translate }}</span>
                   <span>₾{{ order.total | number:'1.2-2' }}</span>

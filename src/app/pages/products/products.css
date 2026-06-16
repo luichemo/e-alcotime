@@ -441,19 +441,41 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 1rem;
-  border: 1.5px solid transparent;
+  border: 1.5px solid rgba(192, 162, 124, 0.15);
   border-radius: 10px;
-  background: transparent;
+  background: rgba(192, 162, 124, 0.04);
   color: #5a5a54;
   font-weight: 500;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
-.category-btn i {
-  color: rgba(192, 162, 124, 0.6);
+.category-btn i,
+.category-btn .category-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
+}
+.category-btn .category-icon-img,
+.sale-filter-btn .category-icon-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  filter: invert(60%) sepia(21%) saturate(1067%) hue-rotate(334deg) brightness(94%) contrast(88%);
+  transition: all 0.3s ease;
+}
+.sale-filter-btn .category-icon-img.sale-icon-img {
+  filter: invert(24%) sepia(85%) saturate(7189%) hue-rotate(352deg) brightness(91%) contrast(92%);
+}
+
+.category-btn:hover .category-icon-img,
+.sale-filter-btn:hover .category-icon-img {
+  transform: scale(1.1);
+  filter: invert(72%) sepia(19%) saturate(500%) hue-rotate(350deg) brightness(95%);
+}
+.sale-filter-btn:hover .category-icon-img.sale-icon-img {
+  filter: invert(47%) sepia(87%) saturate(2250%) hue-rotate(328deg) brightness(101%) contrast(101%);
 }
 
 .category-btn .count {
@@ -468,8 +490,8 @@
 }
 
 .category-btn:hover {
-  background: rgba(192, 162, 124, 0.06);
-  border-color: rgba(192, 162, 124, 0.2);
+  background: rgba(192, 162, 124, 0.1);
+  border-color: rgba(192, 162, 124, 0.35);
   color: #141412;
   transform: translateX(4px);
 }
@@ -489,6 +511,11 @@
 
 .category-btn.active i {
   color: #141412;
+}
+
+.category-btn.active .category-icon-img,
+.sale-filter-btn.active .category-icon-img {
+  filter: none !important;
 }
 
 .category-btn.active .count {
@@ -1124,6 +1151,12 @@
     gap: 0.4rem !important;
     justify-content: flex-start !important;
     transform: none !important;
+  }
+
+  .category-btn .category-icon-img,
+  .sale-filter-btn .category-icon-img {
+    width: 22px !important;
+    height: 22px !important;
   }
 
   .category-btn:hover,

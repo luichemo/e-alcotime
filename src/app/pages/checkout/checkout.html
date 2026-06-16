@@ -232,12 +232,8 @@
         <div class="order-summary sticky-top">
           <h5>{{ 'CART.ORDER_SUMMARY' | translate }}</h5>
           <div class="summary-item">
-            <span>{{ 'CART.SUBTOTAL' | translate }} ({{ cart?.items?.length || 0 }} {{ 'CHECKOUT.ITEMS' | translate }})</span>
+            <span>{{ 'CART.SUBTOTAL' | translate }} ({{ getCartItemsCount() }} {{ 'CHECKOUT.ITEMS' | translate }})</span>
             <span>₾{{ cart?.total || 0 | number:'1.2-2' }}</span>
-          </div>
-          <div class="summary-item">
-            <span>{{ 'CART.SHIPPING' | translate }}</span>
-            <span>₾{{ getShippingFee() | number:'1.2-2' }}</span>
           </div>
           <hr>
           <div class="summary-total">

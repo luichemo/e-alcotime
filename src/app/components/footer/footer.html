@@ -10,28 +10,20 @@
          [class.pt-5]="(isAuthenticated$ | async)" 
          [class.pt-4]="(isAuthenticated$ | async) === false">
       <div class="row g-4">
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-5 col-md-6">
           <h5 class="text-warning mb-3">{{ 'FOOTER.ABOUT_TITLE' | translate }}</h5>
           <p class="text-light-gray">
             {{ 'FOOTER.ABOUT_DESC' | translate }}
           </p>
           <div class="social-links mt-3">
-            <a href="https://www.facebook.com/people/Alcotime-%E1%83%90%E1%83%9A%E1%83%99%E1%83%9D%E1%83%97%E1%83%90%E1%83%98%E1%83%9B%E1%83%98/61590775467192/?mibextid=wwXIfr&rdid=WineTuPoE6AsoAXA&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1EHCEwYwDj%2F%3Fmibextid%3DwwXIfr" class="text-white me-3" aria-label="Facebook">
-              <i class="bi bi-facebook fs-5"></i>
-            </a>
-            <a href="#" class="text-white me-3" aria-label="Instagram">
-              <i class="bi bi-instagram fs-5"></i>
-            </a>
-            <a href="#" class="text-white me-3" aria-label="Twitter">
-              <i class="bi bi-twitter fs-5"></i>
-            </a>
-            <a href="#" class="text-white" aria-label="LinkedIn">
-              <i class="bi bi-linkedin fs-5"></i>
+            <a href="https://www.facebook.com/people/Alcotime-%E1%83%90%E1%83%9A%E1%83%99%E1%83%9D%E1%83%97%E1%83%90%E1%83%98%E1%83%9B%E1%83%98/61590775467192/?mibextid=wwXIfr&rdid=WineTuPoE6AsoAXA&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1EHCEwYwDj%2F%3Fmibextid%3DwwXIfr" class="fb-badge-link" aria-label="Facebook">
+              <i class="bi bi-facebook me-2"></i>
+              <span>{{ 'FOOTER.FOLLOW_US' | translate }}</span>
             </a>
           </div>
         </div>
 
-        <div class="col-lg-2 col-md-6">
+        <div class="col-lg-3 col-md-6">
           <h5 class="text-warning mb-3">{{ 'FOOTER.QUICK_LINKS' | translate }}</h5>
           <ul class="list-unstyled footer-links">
             <li><a routerLink="/products" class="text-light-gray">{{ 'FOOTER.SHOP_ALL' | translate }}</a></li>
@@ -42,36 +34,30 @@
           </ul>
         </div>
 
-        <div class="col-lg-3 col-md-6">
-          <h5 class="text-warning mb-3">{{ 'FOOTER.CUSTOMER_SERVICE' | translate }}</h5>
-          <ul class="list-unstyled footer-links">
-            <li><a routerLink="/contact" class="text-light-gray">{{ 'FOOTER.CONTACT_US' | translate }}</a></li>
-            <li><a routerLink="/faq" class="text-light-gray">{{ 'FOOTER.FAQ' | translate }}</a></li>
-            <li><a routerLink="/shipping" class="text-light-gray">{{ 'FOOTER.SHIPPING_INFO' | translate }}</a></li>
-            <li><a routerLink="/returns" class="text-light-gray">{{ 'FOOTER.RETURNS' | translate }}</a></li>
-            <li><a routerLink="/terms" class="text-light-gray">{{ 'FOOTER.TERMS' | translate }}</a></li>
-            <li><a routerLink="/privacy" class="text-light-gray">{{ 'FOOTER.PRIVACY' | translate }}</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-4 col-md-6">
           <h5 class="text-warning mb-3">{{ 'FOOTER.CONTACT_INFO' | translate }}</h5>
           <ul class="list-unstyled footer-contact">
             <li class="mb-2">
               <i class="bi bi-geo-alt-fill text-warning me-2"></i>
-              <span class="text-light-gray">123 Wine Street, City, Country</span>
+              <span class="text-light-gray">{{ 'FOOTER.ADDRESS' | translate }}</span>
             </li>
             <li class="mb-2">
               <i class="bi bi-telephone-fill text-warning me-2"></i>
-              <a href="tel:+1234567890" class="text-light-gray">+1 (234) 567-890</a>
+              <a href="tel:+995500121919" class="text-light-gray">{{ 'FOOTER.PHONE' | translate }}</a>
             </li>
             <li class="mb-2">
               <i class="bi bi-envelope-fill text-warning me-2"></i>
-              <a href="mailto:alcotimeinfo@gmail.com" class="text-light-gray">alcotimeinfo@gmail.com</a>
+              <a href="mailto:alcotimeinfo@gmail.com" class="text-light-gray">{{ 'FOOTER.EMAIL' | translate }}</a>
             </li>
             <li class="mb-2">
               <i class="bi bi-clock-fill text-warning me-2"></i>
               <span class="text-light-gray">{{ 'FOOTER.HOURS' | translate }}</span>
+            </li>
+            <li class="mt-3">
+              <a routerLink="/contact" class="btn contact-btn-footer w-100 py-2">
+                <i class="bi bi-chat-left-text-fill me-2"></i>
+                {{ 'FOOTER.CONTACT_US' | translate }}
+              </a>
             </li>
           </ul>
         </div>
@@ -83,6 +69,10 @@
         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
           <p class="mb-0 text-light-gray">
             &copy; {{ currentYear }} AlcoTime. {{ 'FOOTER.RIGHTS_RESERVED' | translate }}
+            <span class="mx-2">|</span>
+            <a routerLink="/terms" class="text-decoration-none footer-bottom-link">{{ 'FOOTER.TERMS' | translate }}</a>
+            <span class="mx-2">|</span>
+            <a routerLink="/privacy" class="text-decoration-none footer-bottom-link">{{ 'FOOTER.PRIVACY' | translate }}</a>
           </p>
         </div>
         <div class="col-md-6 text-center text-md-end">

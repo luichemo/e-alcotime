@@ -92,7 +92,7 @@
               class="sale-filter-btn"
               [class.active]="showOnSale"
               (click)="toggleOnSale()">
-              <i class="bi bi-tag-fill me-2" sty></i>
+              <img src="/icons/sale.png" alt="Sale" class="category-icon-img sale-icon-img me-2">
               <span>{{ 'PRODUCTS.ON_SALE' | translate }}</span>
               <i class="bi bi-check-circle-fill check-icon"></i>
             </button>
@@ -109,7 +109,9 @@
                 class="category-btn"
                 [class.active]="selectedCategory === cat.value"
                 (click)="onCategoryChange(cat.value)">
-                <i class="bi" [ngClass]="cat.icon"></i>
+                <span class="category-icon-wrapper">
+                  <img [src]="'/icons/' + cat.value + '.png'" [alt]="cat.label" class="category-icon-img">
+                </span>
                 <span>{{ 'CATEGORIES.' + cat.value.toUpperCase() | translate }}</span>
                 <span class="count">{{ getCategoryCount(cat.value) }}</span>
               </button>
@@ -338,8 +340,8 @@
                       class="btn btn-primary btn-sm"
                       (click)="addToCart(product); $event.stopPropagation()">
                       <i class="bi" 
-                         [class.bi-cart-plus]="!isInCart(product)" 
-                         [class.bi-cart-check]="isInCart(product)">
+                         [class.bi-plus-lg]="!isInCart(product)" 
+                         [class.bi-check-lg]="isInCart(product)">
                       </i>
                     </button>
                     <div

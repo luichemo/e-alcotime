@@ -11,7 +11,7 @@
 <section class="cart-content py-4 py-md-5">
   <div class="container">
     <div *ngIf="!cartData || cartData.items.length === 0" class="empty-cart text-center py-4 py-md-5">
-      <i class="bi bi-cart-x empty-icon"></i>
+      <i class="bi bi-calculator empty-icon"></i>
       <h3 class="mt-4 mb-3">{{ 'CART.EMPTY' | translate }}</h3>
       <p class="text-muted mb-4">{{ 'CART.EMPTY_DESC' | translate }}</p>
       <a routerLink="/products" class="btn btn-primary">
@@ -92,18 +92,8 @@
           <h4 class="summary-title">{{ 'CART.ORDER_SUMMARY' | translate }}</h4>
 
           <div class="summary-row">
-            <span>{{ 'CART.SUBTOTAL' | translate }}</span>
+            <span>{{ 'CART.SUBTOTAL' | translate }} ({{ getCartItemsCount() }} {{ 'CHECKOUT.ITEMS' | translate }})</span>
             <strong>₾{{ cartData.subtotal.toFixed(2) }}</strong>
-          </div>
-
-          <div class="summary-row">
-            <span>{{ 'CART.TAX' | translate }}</span>
-            <strong>₾{{ cartData.tax.toFixed(2) }}</strong>
-          </div>
-
-          <div class="summary-row">
-            <span>{{ 'CART.SHIPPING' | translate }}</span>
-            <strong class="text-success">{{ 'CART.SHIPPING_FREE' | translate }}</strong>
           </div>
 
           <hr>

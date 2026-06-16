@@ -223,4 +223,8 @@ export class Checkout implements OnInit, OnDestroy {
   getFinalTotal(): number {
     return this.cart ? this.cart.total + this.getShippingFee() : 0;
   }
+
+  getCartItemsCount(): number {
+    return this.cart ? this.cart.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+  }
 }
