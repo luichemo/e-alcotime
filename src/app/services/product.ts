@@ -16,9 +16,16 @@ import {
   CollectionReference,
   DocumentData
 } from 'firebase/firestore';
-import { Observable, from, map, combineLatest, startWith } from 'rxjs';
+import { Observable, from, map, combineLatest, startWith, of } from 'rxjs';
 import { Product } from '../models/product.model';
 import { TranslateService } from '@ngx-translate/core';
+
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 წუთი
+
+interface CacheEntry {
+  data: Product[];
+  timestamp: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +33,33 @@ import { TranslateService } from '@ngx-translate/core';
 export class ProductService {
   private productsCollection: CollectionReference<DocumentData>;
 
+  // ---- In-memory cache ----
+  private cache = new Map<string, CacheEntry>();
+
   constructor(private firestore: Firestore, private translate: TranslateService) {
     this.productsCollection = collection(this.firestore, 'products');
   }
+
+  /** კეშის ინვალიდაცია — გამოიძახე ნებისმიერი write ოპერაციის შემდეგ */
+  invalidateCache(): void {
+    this.cache.clear();
+  }
+
+  private isCacheValid(key: string): boolean {
+    const entry = this.cache.get(key);
+    if (!entry) return false;
+    return Date.now() - entry.timestamp < CACHE_TTL_MS;
+  }
+
+  private getCached(key: string): Product[] | null {
+    return this.isCacheValid(key) ? this.cache.get(key)!.data : null;
+  }
+
+  private setCached(key: string, data: Product[]): void {
+    this.cache.set(key, { data, timestamp: Date.now() });
+  }
+
+  // ---- Localization ----
 
   private localizeProduct(product: Product, lang: string): Product {
     return {
@@ -61,15 +92,20 @@ export class ProductService {
     );
   }
 
+  // ---- Queries ----
+
   getAllProducts(): Observable<Product[]> {
-    const products$ = from(getDocs(this.productsCollection)).pipe(
-      map(snapshot => {
-        return snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        } as Product));
-      })
-    );
+    const cacheKey = 'all';
+    const cached = this.getCached(cacheKey);
+    const products$ = cached
+      ? of(cached)
+      : from(getDocs(this.productsCollection)).pipe(
+          map(snapshot => {
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+            this.setCached(cacheKey, data);
+            return data;
+          })
+        );
     return this.localizeProductsStream(products$);
   }
 
@@ -92,80 +128,67 @@ export class ProductService {
   }
 
   getAvailableProducts(): Observable<Product[]> {
-    const q = query(
-      this.productsCollection,
-      where('isAvailable', '==', true)
-    );
+    const cacheKey = 'available';
+    const cached = this.getCached(cacheKey);
 
-    const products$ = from(getDocs(q)).pipe(
-      map(snapshot => {
-        const products = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        } as Product));
-        
-        // Sort in memory by createdAt descending
-        return products.sort((a, b) => {
-          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-          return dateB - dateA;
-        });
-      })
-    );
+    const products$ = cached
+      ? of(cached)
+      : from(getDocs(query(this.productsCollection, where('isAvailable', '==', true)))).pipe(
+          map(snapshot => {
+            const data = snapshot.docs
+              .map(doc => ({ id: doc.id, ...doc.data() } as Product))
+              .sort((a, b) => {
+                const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                return dateB - dateA;
+              });
+            this.setCached(cacheKey, data);
+            return data;
+          })
+        );
+
     return this.localizeProductsStream(products$);
   }
 
   getFeaturedProducts(limitCount: number = 8): Observable<Product[]> {
-    const q = query(
-      this.productsCollection,
-      where('isAvailable', '==', true)
+    // კეშიდან ამოვიღეთ getAvailableProducts-ი და slice ვუკეთებთ
+    return this.getAvailableProducts().pipe(
+      map(products => products.slice(0, limitCount))
     );
-
-    const products$ = from(getDocs(q)).pipe(
-      map(snapshot => {
-        const products = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        } as Product));
-        
-        // Sort and limit in memory by createdAt descending
-        return products
-          .sort((a, b) => {
-            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-            return dateB - dateA;
-          })
-          .slice(0, limitCount);
-      })
-    );
-    return this.localizeProductsStream(products$);
   }
 
   getDiscountedProducts(limitCount: number = 8): Observable<Product[]> {
-    const q = query(
-      this.productsCollection,
-      where('isAvailable', '==', true)
-    );
+    // Firestore query-ში ვფილტრავთ discountPrice > 0 — ნაცვლად ყველა პროდუქტის ჩამოტვირთვისა
+    const cacheKey = 'discounted';
+    const cached = this.getCached(cacheKey);
 
-    const products$ = from(getDocs(q)).pipe(
-      map(snapshot => {
-        const products = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        } as Product));
-        
-        // Filter products that have a discountPrice, then sort and limit
-        return products
-          .filter(p => !!p.discountPrice)
-          .sort((a, b) => {
-            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-            return dateB - dateA;
+    const products$ = cached
+      ? of(cached)
+      : from(
+          getDocs(
+            query(
+              this.productsCollection,
+              where('isAvailable', '==', true),
+              where('discountPrice', '>', 0)
+            )
+          )
+        ).pipe(
+          map(snapshot => {
+            const data = snapshot.docs
+              .map(doc => ({ id: doc.id, ...doc.data() } as Product))
+              .sort((a, b) => {
+                const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                return dateB - dateA;
+              });
+            this.setCached(cacheKey, data);
+            return data;
           })
-          .slice(0, limitCount);
-      })
+        );
+
+    return this.localizeProductsStream(products$).pipe(
+      map(products => products.slice(0, limitCount))
     );
-    return this.localizeProductsStream(products$);
   }
 
   getProductById(id: string): Observable<Product | null> {
@@ -186,7 +209,7 @@ export class ProductService {
 
   searchProducts(searchTerm: string): Observable<Product[]> {
     return this.getAllProducts().pipe(
-      map(products => 
+      map(products =>
         products.filter(product =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -203,6 +226,7 @@ export class ProductService {
         createdAt: new Date(),
         updatedAt: new Date()
       });
+      this.invalidateCache();
       return docRef.id;
     } catch (error) {
       console.error('Error adding product:', error);
@@ -217,6 +241,7 @@ export class ProductService {
         ...product,
         updatedAt: new Date()
       });
+      this.invalidateCache();
     } catch (error) {
       console.error('Error updating product:', error);
       throw error;
@@ -227,6 +252,7 @@ export class ProductService {
     try {
       const docRef = doc(this.firestore, 'products', id);
       await deleteDoc(docRef);
+      this.invalidateCache();
     } catch (error) {
       console.error('Error deleting product:', error);
       throw error;
@@ -237,13 +263,14 @@ export class ProductService {
     try {
       const docRef = doc(this.firestore, 'products', id);
       const docSnap = await getDoc(docRef);
-      
+
       if (docSnap.exists()) {
         const currentStock = docSnap.data()['stock'] || 0;
         await updateDoc(docRef, {
           stock: currentStock + quantity,
           updatedAt: new Date()
         });
+        this.invalidateCache();
       }
     } catch (error) {
       console.error('Error updating stock:', error);

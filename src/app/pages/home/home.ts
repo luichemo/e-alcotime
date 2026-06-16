@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } fro
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Product } from '../../models/product.model';
-import { Observable, map } from 'rxjs';
+import { Observable, BehaviorSubject, map } from 'rxjs';
 import { ProductService } from '../../services/product';
 import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
@@ -17,7 +17,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./home.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  discountedProducts$: Observable<Product[]> | null = null;
+  private discountedProductsSubject = new BehaviorSubject<Product[]>([]);
+  discountedProducts$: Observable<Product[]> = this.discountedProductsSubject.asObservable();
   isAuthenticated$: Observable<boolean>;
   currentYear: number = new Date().getFullYear();
 
@@ -57,15 +58,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadDiscountedProducts();
-
-    // Preload products once for high-performance instant filtering in home mobile search
+    // Single Firestore read — reuse for both discounted carousel and mobile search
     this.productService.getAvailableProducts().subscribe({
       next: (products) => {
         this.allProducts = products;
+        // Derive discounted products in-memory (no extra Firestore read)
+        const discounted = products
+          .filter(p => !!p.discountPrice && p.discountPrice < p.price)
+          .slice(0, 8);
+        this.discountedProductsSubject.next(discounted);
       },
       error: (error) => {
-        console.error('Error loading products for home mobile search:', error);
+        console.error('Error loading products:', error);
       }
     });
 
@@ -81,9 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.stopAutoplay();
   }
 
-  loadDiscountedProducts(): void {
-    this.discountedProducts$ = this.productService.getDiscountedProducts(8);
-  }
+  // Discounted products are now derived in ngOnInit from the single getAvailableProducts() call
 
   getDiscountPercentage(product: Product): number {
     if (!product.price || !product.discountPrice) return 0;
