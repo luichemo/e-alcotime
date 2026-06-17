@@ -64,6 +64,7 @@ export class ProductService {
   private localizeProduct(product: Product, lang: string): Product {
     return {
       ...product,
+      imageUrl: product.imageUrl || '/product-placeholder.png',
       name: lang === 'ka' ? (product.nameKa || product.name) : (product.nameEn || product.name),
       description: lang === 'ka' ? (product.descriptionKa || product.description) : (product.descriptionEn || product.description),
       brand: lang === 'ka' ? (product.brandKa || product.brand) : (product.brandEn || product.brand),
@@ -209,13 +210,22 @@ export class ProductService {
 
   searchProducts(searchTerm: string): Observable<Product[]> {
     return this.getAllProducts().pipe(
-      map(products =>
-        products.filter(product =>
-          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.brand.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      )
+      map(products => {
+        const variations = getSearchVariations(searchTerm);
+        return products.filter(product =>
+          variations.some(term =>
+            (product.name && product.name.toLowerCase().includes(term)) ||
+            (product.nameEn && product.nameEn.toLowerCase().includes(term)) ||
+            (product.nameKa && product.nameKa.toLowerCase().includes(term)) ||
+            (product.brand && product.brand.toLowerCase().includes(term)) ||
+            (product.brandEn && product.brandEn.toLowerCase().includes(term)) ||
+            (product.brandKa && product.brandKa.toLowerCase().includes(term)) ||
+            (product.description && product.description.toLowerCase().includes(term)) ||
+            (product.descriptionEn && product.descriptionEn.toLowerCase().includes(term)) ||
+            (product.descriptionKa && product.descriptionKa.toLowerCase().includes(term))
+          )
+        );
+      })
     );
   }
 
@@ -277,4 +287,70 @@ export class ProductService {
       throw error;
     }
   }
+}
+
+const geoToEngKbd: { [key: string]: string } = {
+  'ქ': 'q', 'წ': 'w', 'ე': 'e', 'რ': 'r', 'ტ': 't', 'ყ': 'y', 'უ': 'u', 'ი': 'i', 'ო': 'o', 'პ': 'p',
+  'ა': 'a', 'ს': 's', 'დ': 'd', 'ფ': 'f', 'გ': 'g', 'ჰ': 'h', 'ჯ': 'j', 'კ': 'k', 'ლ': 'l',
+  'ზ': 'z', 'ხ': 'x', 'ც': 'c', 'ვ': 'v', 'ბ': 'b', 'ნ': 'n', 'მ': 'm',
+  'ჭ': 'w', 'ღ': 'r', 'თ': 't', 'შ': 's', 'ჩ': 'd', 'ჟ': 'j', 'ძ': 'z'
+};
+
+const engToGeoKbd: { [key: string]: string } = {
+  'q': 'ქ', 'w': 'წ', 'e': 'ე', 'r': 'რ', 't': 'ტ', 'y': 'ყ', 'u': 'უ', 'i': 'ი', 'o': 'ო', 'p': 'პ',
+  'a': 'ა', 's': 'ს', 'd': 'დ', 'f': 'ფ', 'g': 'გ', 'h': 'ჰ', 'j': 'ჯ', 'k': 'კ', 'l': 'ლ',
+  'z': 'ზ', 'x': 'ხ', 'c': 'ც', 'v': 'ვ', 'b': 'ბ', 'n': 'ნ', 'm': 'მ',
+  'W': 'ჭ', 'R': 'ღ', 'T': 'თ', 'S': 'შ', 'D': 'ჩ', 'J': 'ჟ', 'Z': 'ძ'
+};
+
+function phoneticGeoToEng(str: string): string {
+  const map: { [key: string]: string } = {
+    'ა': 'a', 'ბ': 'b', 'გ': 'g', 'დ': 'd', 'ე': 'e', 'ვ': 'v', 'ზ': 'z', 'თ': 't', 'ი': 'i',
+    'კ': 'c', 'ლ': 'l', 'მ': 'm', 'ნ': 'n', 'ო': 'o', 'პ': 'p', 'ჟ': 'zh', 'რ': 'r', 'ს': 's', 'ტ': 't',
+    'უ': 'u', 'ფ': 'f', 'ქ': 'k', 'ღ': 'gh', 'ყ': 'q', 'შ': 'sh', 'ჩ': 'ch', 'ც': 'ts', 'ძ': 'dz',
+    'წ': 'ts', 'ჭ': 'ch', 'ხ': 'kh', 'ჯ': 'j', 'ჰ': 'h'
+  };
+  let res = '';
+  for (const char of str) {
+    res += map[char] || char;
+  }
+  return res;
+}
+
+function phoneticGeoToEngAlt(str: string): string {
+  const map: { [key: string]: string } = {
+    'ა': 'a', 'ბ': 'b', 'გ': 'g', 'დ': 'd', 'ე': 'e', 'ვ': 'v', 'ზ': 'z', 'თ': 't', 'ი': 'i',
+    'კ': 'k', 'ლ': 'l', 'მ': 'm', 'ნ': 'n', 'ო': 'o', 'პ': 'p', 'ჟ': 'j', 'რ': 'r', 'ს': 's', 'ტ': 't',
+    'უ': 'u', 'ფ': 'p', 'ქ': 'k', 'ღ': 'g', 'ყ': 'q', 'შ': 'sh', 'ჩ': 'ch', 'ც': 'c', 'ძ': 'dz',
+    'წ': 'tz', 'ჭ': 'ch', 'ხ': 'x', 'ჯ': 'j', 'ჰ': 'h'
+  };
+  let res = '';
+  for (const char of str) {
+    res += map[char] || char;
+  }
+  return res;
+}
+
+export function getSearchVariations(query: string): string[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const variations = new Set<string>();
+  variations.add(q);
+
+  let geoToEng = '';
+  for (const char of q) {
+    geoToEng += geoToEngKbd[char] || char;
+  }
+  variations.add(geoToEng);
+
+  let engToGeo = '';
+  for (const char of q) {
+    engToGeo += engToGeoKbd[char] || char;
+  }
+  variations.add(engToGeo);
+
+  variations.add(phoneticGeoToEng(q));
+  variations.add(phoneticGeoToEngAlt(q));
+
+  return Array.from(variations);
 }

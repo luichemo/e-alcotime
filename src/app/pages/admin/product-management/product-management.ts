@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../../models/product.model';
-import { ProductService } from '../../../services/product';
+import { ProductService, getSearchVariations } from '../../../services/product';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
@@ -54,6 +54,7 @@ export class ProductManagement implements OnInit {
   };
 
   loading = false;
+  translating = false;
   errorMessage = '';
   successMessage = '';
 
@@ -62,11 +63,20 @@ export class ProductManagement implements OnInit {
   get filteredProducts(): Product[] {
     const term = this.searchTerm.toLowerCase().trim();
     if (!term) return this.products;
+    const variations = getSearchVariations(term);
     return this.products.filter(p => 
-      (p.name && p.name.toLowerCase().includes(term)) ||
-      (p.brand && p.brand.toLowerCase().includes(term)) ||
-      (p.category && p.category.toLowerCase().includes(term)) ||
-      (p.country && p.country.toLowerCase().includes(term))
+      variations.some(vTerm =>
+        (p.name && p.name.toLowerCase().includes(vTerm)) ||
+        (p.nameEn && p.nameEn.toLowerCase().includes(vTerm)) ||
+        (p.nameKa && p.nameKa.toLowerCase().includes(vTerm)) ||
+        (p.brand && p.brand.toLowerCase().includes(vTerm)) ||
+        (p.brandEn && p.brandEn.toLowerCase().includes(vTerm)) ||
+        (p.brandKa && p.brandKa.toLowerCase().includes(vTerm)) ||
+        (p.category && p.category.toLowerCase().includes(vTerm)) ||
+        (p.country && p.country.toLowerCase().includes(vTerm)) ||
+        (p.countryEn && p.countryEn.toLowerCase().includes(vTerm)) ||
+        (p.countryKa && p.countryKa.toLowerCase().includes(vTerm))
+      )
     );
   }
 
@@ -296,5 +306,72 @@ export class ProductManagement implements OnInit {
     }).catch((error: any) => {
       this.errorMessage = error.message || this.translateService.instant('PRODUCT_MGMT.ERROR_UPDATE_FAILED');
     });
+  }
+
+  async translateText(text: string): Promise<string> {
+    if (!text || !text.trim()) return '';
+    try {
+      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=ka&tl=en&dt=t&q=${encodeURIComponent(text)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Translation request failed');
+      const data = await res.json();
+      if (data && data[0]) {
+        return data[0].map((x: any) => x[0]).join('');
+      }
+      return '';
+    } catch (error) {
+      console.error('Translation error:', error);
+      return '';
+    }
+  }
+
+  async autoTranslate(): Promise<void> {
+    this.translating = true;
+    this.errorMessage = '';
+    try {
+      const tasks = [
+        { source: this.formData.nameKa, targetField: 'nameEn' },
+        { source: this.formData.brandKa, targetField: 'brandEn' },
+        { source: this.formData.descriptionKa, targetField: 'descriptionEn' },
+        { source: this.formData.countryKa, targetField: 'countryEn' },
+        { source: this.formData.technologyKa, targetField: 'technologyEn' },
+        { source: this.formData.flavorKa, targetField: 'flavorEn' },
+        { source: this.formData.tasteKa, targetField: 'tasteEn' },
+      ];
+
+      let translatedCount = 0;
+      for (const task of tasks) {
+        if (task.source && task.source.trim()) {
+          const translated = await this.translateText(task.source);
+          if (translated) {
+            (this.formData as any)[task.targetField] = translated;
+            translatedCount++;
+          }
+        }
+      }
+
+      if (translatedCount > 0) {
+        Swal.fire({
+          title: this.translateService.instant('PRODUCT_MGMT.TRANSLATION_SUCCESS_TITLE') || 'Translation Complete',
+          text: this.translateService.instant('PRODUCT_MGMT.TRANSLATION_SUCCESS_TEXT') || 'Georgian values have been translated to English.',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      } else {
+        Swal.fire({
+          title: 'No Text to Translate',
+          text: 'Please enter values in Georgian fields first.',
+          icon: 'info',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    } catch (err: any) {
+      console.error(err);
+      this.errorMessage = 'Auto-translation failed. Please fill English values manually.';
+    } finally {
+      this.translating = false;
+    }
   }
 }

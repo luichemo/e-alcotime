@@ -836,6 +836,33 @@ th, td {
   color: #141412;
 }
 
+.pm-btn-translate {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.4rem;
+  background: transparent;
+  border: 1.5px solid var(--pm-gold);
+  border-radius: 10px;
+  color: var(--pm-gold-dark);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-right: auto;
+  transition: all 0.2s ease;
+}
+
+.pm-btn-translate:hover:not(:disabled) {
+  background: rgba(192, 162, 124, 0.1);
+  color: var(--pm-gold-dark);
+}
+
+.pm-btn-translate:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: rgba(163, 142, 112, 0.25);
+  color: #5a5a54;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   .pm-form-layout {
@@ -858,8 +885,8 @@ th, td {
   .pm-header { flex-direction: column; align-items: stretch; }
   .pm-add-btn { width: 100%; justify-content: center; }
   .pm-modal-body { padding: 1.25rem; }
-  .pm-modal-footer { flex-direction: column; }
-  .pm-btn-cancel, .pm-btn-submit { width: 100%; justify-content: center; }
+  .pm-modal-footer { flex-direction: column; gap: 0.5rem; }
+  .pm-btn-cancel, .pm-btn-submit, .pm-btn-translate { width: 100%; justify-content: center; margin-right: 0; }
 }
 
 @media (max-width: 576px) {

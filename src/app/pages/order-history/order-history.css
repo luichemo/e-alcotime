@@ -19,6 +19,9 @@
   background: linear-gradient(135deg, #141412 30%, #5a5a54 70%, #ad8d66 100%);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.3;
+  padding-bottom: 0.15em;
 }
 
 .page-header .text-muted {

@@ -381,10 +381,10 @@
     "ADDRESS": "30 D. Aghmashenebeli St, Poti",
     "PHONE": "+995 500 12 19 19",
     "EMAIL": "alcotimeinfo@gmail.com",
-    "HOURS": "Mon-Sun: 10AM - 10AM",
+    "HOURS": "Mon-Sun: 10:00 - 22:00",
     "FOLLOW_US": "Follow us on Facebook",
     "RIGHTS_RESERVED": "All rights reserved.",
-    "RESPONSIBLE_DRINKING": "Drink Responsibly. Must be 18+ to purchase."
+    "RESPONSIBLE_DRINKING": "Consuming large amounts of alcohol is harmful to your health. You must be 18+ to purchase."
   },
   "NOT_FOUND": {
     "TITLE": "Page Not Found",
@@ -482,6 +482,10 @@
     "CANCEL": "Cancel",
     "UPDATE": "Update Product",
     "ADD": "Add Product",
+    "TRANSLATE": "Translate to English",
+    "TRANSLATING": "Translating...",
+    "TRANSLATION_SUCCESS_TITLE": "Translation Complete",
+    "TRANSLATION_SUCCESS_TEXT": "Georgian values have been auto-translated to English.",
     "EDIT": "Edit",
     "DELETE": "Delete",
     "DISABLE": "Disable",

@@ -406,11 +406,8 @@
                 <p class="pm-preview-title">Live Preview</p>
                 <div class="pm-preview-card">
                   <div class="pm-preview-img-wrap">
-                    <img *ngIf="formData.imageUrl" [src]="formData.imageUrl" [alt]="formData.name"
+                    <img [src]="formData.imageUrl || '/product-placeholder.png'" [alt]="formData.name"
                          class="pm-preview-img">
-                    <div *ngIf="!formData.imageUrl" class="pm-preview-img-placeholder">
-                      <i class="bi bi-image"></i>
-                    </div>
                     <div class="pm-preview-badge" *ngIf="formData.discountPrice">SALE</div>
                   </div>
                   <div class="pm-preview-body">
@@ -437,6 +434,11 @@
 
       <!-- Footer -->
       <div class="pm-modal-footer">
+        <button type="button" class="pm-btn-translate" (click)="autoTranslate()" [disabled]="translating || loading">
+          <span *ngIf="translating" class="spinner-border spinner-border-sm me-2"></span>
+          <i *ngIf="!translating" class="bi bi-translate me-2"></i>
+          <span>{{ (translating ? 'PRODUCT_MGMT.TRANSLATING' : 'PRODUCT_MGMT.TRANSLATE') | translate }}</span>
+        </button>
         <button class="pm-btn-cancel" (click)="closeModal()">
           <i class="bi bi-x-lg me-2"></i>{{ 'PRODUCT_MGMT.CANCEL' | translate }}
         </button>

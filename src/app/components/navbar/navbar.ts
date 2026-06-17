@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../services/product';
+import { ProductService, getSearchVariations } from '../../services/product';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -131,10 +131,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const variations = getSearchVariations(query);
     this.searchResults = this.allProducts.filter(product => 
-      product.name.toLowerCase().includes(query) ||
-      product.brand.toLowerCase().includes(query) ||
-      product.category.toLowerCase().includes(query)
+      variations.some(term =>
+        (product.name && product.name.toLowerCase().includes(term)) ||
+        (product.nameEn && product.nameEn.toLowerCase().includes(term)) ||
+        (product.nameKa && product.nameKa.toLowerCase().includes(term)) ||
+        (product.brand && product.brand.toLowerCase().includes(term)) ||
+        (product.brandEn && product.brandEn.toLowerCase().includes(term)) ||
+        (product.brandKa && product.brandKa.toLowerCase().includes(term)) ||
+        (product.category && product.category.toLowerCase().includes(term))
+      )
     ).slice(0, 5);
 
     this.showSearchResults = true;

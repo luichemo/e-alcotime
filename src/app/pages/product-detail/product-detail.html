@@ -111,7 +111,7 @@
                   <span>{{ product.volume }} {{ 'PRODUCTS.PRODUCT_CARD.VOLUME' | translate }}</span>
                 </div>
               </div>
-              <div class="spec-item">
+              <div class="spec-item" *ngIf="product.country">
                 <i class="bi bi-geo-alt"></i>
                 <div>
                   <strong>{{ 'PRODUCT_DETAIL.ORIGIN' | translate }}</strong>

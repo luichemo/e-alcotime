@@ -4,7 +4,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart';
-import { ProductService } from '../../services/product';
+import { ProductService, getSearchVariations } from '../../services/product';
 import { TranslateModule } from '@ngx-translate/core';
 
 interface PriceRange {
@@ -199,11 +199,11 @@ export class Products implements OnInit {
   }
 
   extractFilterOptions(): void {
-    this.availableBrands = [...new Set(this.products.map(p => p.brand))].sort();
+    this.availableBrands = [...new Set(this.products.map(p => p.brand).filter(b => !!b && b.trim() !== ''))].sort();
     
-    this.availableCountries = [...new Set(this.products.map(p => p.country))].sort();
+    this.availableCountries = [...new Set(this.products.map(p => p.country).filter(c => !!c && c.trim() !== ''))].sort();
     
-    this.availableVolumes = [...new Set(this.products.map(p => p.volume))].sort((a, b) => a - b);
+    this.availableVolumes = [...new Set(this.products.map(p => p.volume).filter(v => !!v && v > 0))].sort((a, b) => a - b);
   }
 
   applyFilters(): void {
@@ -219,11 +219,22 @@ export class Products implements OnInit {
 
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
+      const variations = getSearchVariations(term);
       filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(term) ||
-        p.brand.toLowerCase().includes(term) ||
-        p.description.toLowerCase().includes(term) ||
-        p.country.toLowerCase().includes(term)
+        variations.some(vTerm =>
+          (p.name && p.name.toLowerCase().includes(vTerm)) ||
+          (p.nameEn && p.nameEn.toLowerCase().includes(vTerm)) ||
+          (p.nameKa && p.nameKa.toLowerCase().includes(vTerm)) ||
+          (p.brand && p.brand.toLowerCase().includes(vTerm)) ||
+          (p.brandEn && p.brandEn.toLowerCase().includes(vTerm)) ||
+          (p.brandKa && p.brandKa.toLowerCase().includes(vTerm)) ||
+          (p.description && p.description.toLowerCase().includes(vTerm)) ||
+          (p.descriptionEn && p.descriptionEn.toLowerCase().includes(vTerm)) ||
+          (p.descriptionKa && p.descriptionKa.toLowerCase().includes(vTerm)) ||
+          (p.country && p.country.toLowerCase().includes(vTerm)) ||
+          (p.countryEn && p.countryEn.toLowerCase().includes(vTerm)) ||
+          (p.countryKa && p.countryKa.toLowerCase().includes(vTerm))
+        )
       );
     }
 

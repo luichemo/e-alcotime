@@ -13,9 +13,9 @@
 
 /* Typography & Headings */
 .page-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 700;
   font-size: 3rem;
+  line-height: 1.3;
   letter-spacing: 1px;
   background: linear-gradient(135deg, #c0a27c 0%, #ad8d66 100%);
   -webkit-background-clip: text;
@@ -23,11 +23,11 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
   margin-bottom: 0.5rem;
+  padding-bottom: 0.15em;
 }
 
 .brand-tagline {
   color: #ad8d66;
-  font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.35rem;
   font-style: italic;
   letter-spacing: 0.5px;
