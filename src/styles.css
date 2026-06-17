@@ -67,3 +67,81 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateX(100%);
   }
 }
+
+/* Premium SweetAlert2 Styles */
+.swal2-popup {
+  border-radius: 20px !important;
+  font-family: 'Outfit', system-ui, sans-serif !important;
+  border: 1px solid rgba(192, 162, 124, 0.35) !important;
+  box-shadow: 0 15px 40px rgba(192, 162, 124, 0.15) !important;
+  background: #FAF8F5 !important;
+}
+
+.swal2-title {
+  color: #141412 !important;
+  font-weight: 700 !important;
+}
+
+.swal2-html-container {
+  color: #5a5a54 !important;
+  line-height: 1.5 !important;
+}
+
+.swal2-confirm.swal2-styled {
+  background: linear-gradient(135deg, #c0a27c, #a18448) !important;
+  color: #141412 !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  padding: 0.7rem 1.6rem !important;
+  box-shadow: 0 4px 16px rgba(192, 162, 124, 0.25) !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.swal2-confirm.swal2-styled:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(192, 162, 124, 0.35) !important;
+}
+
+.swal2-cancel.swal2-styled {
+  background: transparent !important;
+  border: 1.5px solid rgba(163, 142, 112, 0.35) !important;
+  color: #a18448 !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  padding: 0.7rem 1.6rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.swal2-cancel.swal2-styled:hover {
+  background: rgba(192, 162, 124, 0.05) !important;
+  border-color: #c0a27c !important;
+  color: #c0a27c !important;
+  transform: translateY(-1px) !important;
+}
+
+.swal2-select {
+  border-radius: 12px !important;
+  border: 1.5px solid rgba(192, 162, 124, 0.35) !important;
+  color: #5a5a54 !important;
+  padding: 0.6rem 1rem !important;
+  font-size: 0.95rem !important;
+  outline: none !important;
+  background-color: #ffffff !important;
+  margin-top: 15px !important;
+}
+
+.swal2-select:focus {
+  border-color: #c0a27c !important;
+  box-shadow: 0 0 0 3px rgba(192, 162, 124, 0.15) !important;
+}
+
+/* Custom styling for Georgian guide inside Swal help dialog */
+.swal2-html-container h5 {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.swal2-html-container ul {
+  margin-bottom: 15px;
+}

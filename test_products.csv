@@ -1,0 +1,3 @@
+nameKa,nameEn,category,price,discountPrice,brandKa,brandEn,descriptionKa,descriptionEn,alcoholContent,volume,stock,countryKa,countryEn,technologyKa,technologyEn,flavorKa,flavorEn,tasteKa,tasteEn,imageUrl,isAvailable
+ტესტ პროდუქტი 1,,wine,15.00,,ტესტ ბრენდი 1,,ძალიან კარგი ქართული წითელი ღვინო,,12.5,0.75,10,საქართველო,,,,,,,,,true
+,Test Product 2,beer,5.50,,,Test Brand 2,,Refreshing cold premium lager beer,5.0,0.5,24,,Georgia,,,,,,,,true

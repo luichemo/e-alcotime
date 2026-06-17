@@ -494,6 +494,8 @@
     "SUCCESS_UPDATE": "პროდუქტი წარმატებით განახლდა!",
     "SUCCESS_ADD": "პროდუქტი წარმატებით დაემატა!",
     "SUCCESS_DELETE": "პროდუქტი წარმატებით წაიშალა!",
+    "ADD_SUCCESS_TITLE": "დაემატა!",
+    "UPDATE_SUCCESS_TITLE": "განახლდა!",
     "ERROR_DELETE_FAILED": "პროდუქტის წაშლა ვერ მოხერხდა",
     "ERROR_SAVE_FAILED": "პროდუქტის შენახვა ვერ მოხერხდა",
     "ERROR_UPDATE_FAILED": "პროდუქტის განახლება ვერ მოხერხდა",

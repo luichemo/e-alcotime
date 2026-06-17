@@ -6,16 +6,30 @@
       <h2>{{ 'PRODUCT_MGMT.TITLE' | translate }}</h2>
       <p class="pm-subtitle">Manage your product catalog</p>
     </div>
-    <button class="pm-add-btn" (click)="openAddModal()">
-      <i class="bi bi-plus-lg"></i>
-      {{ 'PRODUCT_MGMT.ADD_NEW' | translate }}
-    </button>
+    <div class="pm-header-actions">
+      <button class="pm-import-btn" (click)="fileInput.click()">
+        <i class="bi bi-upload"></i>
+        <span>CSV იმპორტი</span>
+      </button>
+      <input #fileInput type="file" (change)="onFileSelected($event)" accept=".csv" style="display: none;">
+
+      <button class="pm-export-btn" (click)="exportProducts()" title="ექსპორტი ფილტრებით">
+        <i class="bi bi-download"></i>
+        <span>CSV ექსპორტი</span>
+      </button>
+
+      <button class="pm-help-btn" (click)="showCSVHelp()" title="იმპორტის წესები">
+        <i class="bi bi-question-circle"></i>
+      </button>
+
+      <button class="pm-add-btn" (click)="openAddModal()">
+        <i class="bi bi-plus-lg"></i>
+        <span>{{ 'PRODUCT_MGMT.ADD_NEW' | translate }}</span>
+      </button>
+    </div>
   </div>
 
-  <div *ngIf="successMessage" class="pm-alert pm-alert-success">
-    <i class="bi bi-check-circle-fill"></i>
-    {{ successMessage }}
-  </div>
+
   <div *ngIf="errorMessage && !showAddModal" class="pm-alert pm-alert-error">
     <i class="bi bi-exclamation-triangle-fill"></i>
     {{ errorMessage }}

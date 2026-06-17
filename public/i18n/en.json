@@ -494,6 +494,8 @@
     "SUCCESS_UPDATE": "Product updated successfully!",
     "SUCCESS_ADD": "Product added successfully!",
     "SUCCESS_DELETE": "Product deleted successfully!",
+    "ADD_SUCCESS_TITLE": "Added!",
+    "UPDATE_SUCCESS_TITLE": "Updated!",
     "ERROR_DELETE_FAILED": "Failed to delete product",
     "ERROR_SAVE_FAILED": "Failed to save product",
     "ERROR_UPDATE_FAILED": "Failed to update product",

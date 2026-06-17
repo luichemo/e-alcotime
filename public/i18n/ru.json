@@ -494,6 +494,8 @@
     "SUCCESS_UPDATE": "Товар успешно обновлен!",
     "SUCCESS_ADD": "Товар успешно добавлен!",
     "SUCCESS_DELETE": "Товар успешно удален!",
+    "ADD_SUCCESS_TITLE": "Добавлено!",
+    "UPDATE_SUCCESS_TITLE": "Обновлено!",
     "ERROR_DELETE_FAILED": "Не удалось удалить товар",
     "ERROR_SAVE_FAILED": "Не удалось сохранить товар",
     "ERROR_UPDATE_FAILED": "Не удалось обновить товар",
