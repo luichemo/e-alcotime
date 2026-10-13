@@ -17,7 +17,7 @@ import {
   DocumentData
 } from 'firebase/firestore';
 import { Observable, from, map, combineLatest, startWith, of } from 'rxjs';
-import { Product } from '../models/product.model';
+import { Product, getActiveDiscountPrice } from '../models/product.model';
 import { TranslateService } from '@ngx-translate/core';
 
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 წუთი
@@ -61,9 +61,14 @@ export class ProductService {
 
   // ---- Localization ----
 
-  private localizeProduct(product: Product, lang: string): Product {
+  /**
+   * applySaleWindow=false keeps the stored discountPrice even outside its sale dates
+   * (admin needs the raw value for editing; the shop must only see active discounts).
+   */
+  private localizeProduct(product: Product, lang: string, applySaleWindow = true): Product {
     return {
       ...product,
+      discountPrice: applySaleWindow ? getActiveDiscountPrice(product) : product.discountPrice,
       imageUrl: product.imageUrl || '/product-placeholder.png',
       name: lang === 'ka' ? (product.nameKa || product.name) : (product.nameEn || product.name),
       description: lang === 'ka' ? (product.descriptionKa || product.description) : (product.descriptionEn || product.description),
@@ -75,12 +80,12 @@ export class ProductService {
     };
   }
 
-  private localizeProductsStream(products$: Observable<Product[]>): Observable<Product[]> {
+  private localizeProductsStream(products$: Observable<Product[]>, applySaleWindow = true): Observable<Product[]> {
     return combineLatest([
       products$,
       this.translate.onLangChange.pipe(startWith({ lang: this.translate.currentLang || 'en' }))
     ]).pipe(
-      map(([products, event]) => products.map(p => this.localizeProduct(p, event.lang)))
+      map(([products, event]) => products.map(p => this.localizeProduct(p, event.lang, applySaleWindow)))
     );
   }
 
@@ -95,7 +100,8 @@ export class ProductService {
 
   // ---- Queries ----
 
-  getAllProducts(): Observable<Product[]> {
+  /** applySaleWindow=false (admin) returns discountPrice as stored, regardless of sale dates. */
+  getAllProducts(applySaleWindow = true): Observable<Product[]> {
     const cacheKey = 'all';
     const cached = this.getCached(cacheKey);
     const products$ = cached
@@ -107,7 +113,7 @@ export class ProductService {
             return data;
           })
         );
-    return this.localizeProductsStream(products$);
+    return this.localizeProductsStream(products$, applySaleWindow);
   }
 
   getProductsByCategory(category: string): Observable<Product[]> {
@@ -187,8 +193,9 @@ export class ProductService {
           })
         );
 
+    // discountPrice > 0 in Firestore doesn't mean the sale is running today — drop scheduled/expired ones
     return this.localizeProductsStream(products$).pipe(
-      map(products => products.slice(0, limitCount))
+      map(products => products.filter(p => p.discountPrice > 0).slice(0, limitCount))
     );
   }
 

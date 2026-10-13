@@ -954,3 +954,8 @@ th, td {
   }
   .pm-table tbody td { display: block; padding: 0.35rem 0; border: none; }
 }
+/* Sale window status */
+.pm-sale-active { background: #d1e7dd; color: #0f5132; }
+.pm-sale-scheduled { background: #0d6efd; color: #fff; }
+.pm-sale-expired { background: #6c757d; color: #fff; }
+.pm-sale-none { background: #e9ecef; color: #495057; }

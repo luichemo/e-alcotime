@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Cart, CartItem } from '../models/cart.model';
-import { Product } from '../models/product.model';
+import { Product, getActiveDiscountPrice } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +77,11 @@ export class CartService {
   }
 
   private calculateTotals(cart: Cart): Cart {
+    // Cart keeps product snapshots — re-check sale dates so an expired discount isn't charged
+    cart.items.forEach(item => {
+      item.product.discountPrice = getActiveDiscountPrice(item.product);
+    });
+
     cart.subtotal = cart.items.reduce(
       (total, item) => {
         const price = item.product.discountPrice || item.product.price;
@@ -125,7 +130,7 @@ export class CartService {
             item.product.updatedAt = new Date(item.product.updatedAt);
           }
         });
-        return cart;
+        return this.calculateTotals(cart);
       }
       
       console.log('No saved cart found, returning empty cart');

@@ -87,10 +87,20 @@
               <span class="badge bg-secondary">{{ 'CATEGORIES.' + product.category.toUpperCase() | translate }}</span>
             </td>
             <td >
-              <span *ngIf="product.discountPrice" class="text-decoration-line-through text-muted small">
+              <span *ngIf="getSaleStatus(product) === 'active'" class="text-decoration-line-through text-muted small">
                 ₾{{ product.price }}
               </span>
-              <strong>₾{{ product.discountPrice || product.price }}</strong>
+              <strong>₾{{ getSaleStatus(product) === 'active' ? product.discountPrice : product.price }}</strong>
+              <ng-container *ngIf="getSaleStatus(product) as sale">
+                <div *ngIf="sale !== 'none'" class="small mt-1">
+                  <span class="badge" [ngClass]="'pm-sale-' + sale">
+                    {{ 'PRODUCT_MGMT.SALE_STATUS_' + sale.toUpperCase() | translate }}
+                  </span>
+                  <span *ngIf="product.saleStartDate || product.saleEndDate" class="text-muted d-block">
+                    {{ product.saleStartDate || '…' }} → {{ product.saleEndDate || '…' }}
+                  </span>
+                </div>
+              </ng-container>
             </td>
             <td>
               <span [class.text-danger]="product.stock < 10">
@@ -289,6 +299,30 @@
                       </div>
                     </div>
                   </div>
+                  <ng-container *ngIf="formData.discountPrice">
+                    <div class="col-md-6">
+                      <div class="pm-field">
+                        <label>{{ 'PRODUCT_MGMT.FORM_SALE_START' | translate }}</label>
+                        <input type="date" [(ngModel)]="formData.saleStartDate" name="saleStartDate"
+                               [max]="formData.saleEndDate || null">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="pm-field">
+                        <label>{{ 'PRODUCT_MGMT.FORM_SALE_END' | translate }}</label>
+                        <input type="date" [(ngModel)]="formData.saleEndDate" name="saleEndDate"
+                               [min]="formData.saleStartDate || null">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <small class="text-muted">
+                        <span class="badge me-1" [ngClass]="'pm-sale-' + getSaleStatus(formData)">
+                          {{ 'PRODUCT_MGMT.SALE_STATUS_' + getSaleStatus(formData).toUpperCase() | translate }}
+                        </span>
+                        {{ 'PRODUCT_MGMT.SALE_DATES_HINT' | translate }}
+                      </small>
+                    </div>
+                  </ng-container>
                 </div>
               </div>
 

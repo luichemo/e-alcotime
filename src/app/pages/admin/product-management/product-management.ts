@@ -3,7 +3,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Product } from '../../../models/product.model';
+import { Product, SaleStatus, getSaleStatus } from '../../../models/product.model';
 import { ProductService, getSearchVariations } from '../../../services/product';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
@@ -27,6 +27,8 @@ export class ProductManagement implements OnInit {
     category: 'wine' as 'wine' | 'beer' | 'spirits' | 'champagne' | 'whiskey' | 'cognac' | 'sparkling_wine' | 'tequila' | 'rum' | 'gin' | 'gift' | 'vape' | 'other',
     price: 0,
     discountPrice: 0,
+    saleStartDate: '',
+    saleEndDate: '',
     alcoholContent: 0,
     volume: 0,
     imageUrl: '',
@@ -126,7 +128,7 @@ export class ProductManagement implements OnInit {
 
   loadProducts(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.productService.getAllProducts().subscribe({
+      this.productService.getAllProducts(false).subscribe({
         next: (products) => {
           this.products = products;
           
@@ -162,6 +164,8 @@ export class ProductManagement implements OnInit {
       category: product.category,
       price: product.price,
       discountPrice: product.discountPrice || 0,
+      saleStartDate: product.saleStartDate || '',
+      saleEndDate: product.saleEndDate || '',
       alcoholContent: product.alcoholContent,
       volume: product.volume,
       imageUrl: product.imageUrl,
@@ -203,6 +207,8 @@ export class ProductManagement implements OnInit {
       category: 'wine',
       price: 0,
       discountPrice: 0,
+      saleStartDate: '',
+      saleEndDate: '',
       alcoholContent: 0,
       volume: 0,
       imageUrl: '',
@@ -230,8 +236,22 @@ export class ProductManagement implements OnInit {
     };
   }
 
+  getSaleStatus(product: Parameters<typeof getSaleStatus>[0]): SaleStatus {
+    return getSaleStatus(product);
+  }
+
   onSubmit(): void {
     this.errorMessage = '';
+
+    const { saleStartDate, saleEndDate } = this.formData;
+    if (saleStartDate && saleEndDate && saleEndDate < saleStartDate) {
+      this.errorMessage = this.translateService.instant('PRODUCT_MGMT.ERROR_SALE_DATES');
+      return;
+    }
+    if (!this.formData.discountPrice) {
+      this.formData.saleStartDate = '';
+      this.formData.saleEndDate = '';
+    }
     this.loading = true;
 
     // Populate standard properties with English inputs prior to saving/adding.
@@ -464,7 +484,7 @@ export class ProductManagement implements OnInit {
   }
 
   downloadCSVTemplate(): void {
-    const csvContent = '\ufeffnameKa,nameEn,category,price,discountPrice,brandKa,brandEn,descriptionKa,descriptionEn,alcoholContent,volume,stock,countryKa,countryEn,technologyKa,technologyEn,flavorKa,flavorEn,tasteKa,tasteEn,imageUrl,isAvailable\nტესტ პროდუქტი 1,,wine,15.00,,ტესტ ბრენდი 1,,ძალიან კარგი ქართული წითელი ღვინო,,12.5,0.75,10,საქართველო,,,,,,,,,true\n,Test Product 2,beer,5.50,,,Test Brand 2,,Refreshing cold premium lager beer,5.0,0.5,24,,Georgia,,,,,,,,true\n';
+    const csvContent = '\ufeffnameKa,nameEn,category,price,discountPrice,saleStartDate,saleEndDate,brandKa,brandEn,descriptionKa,descriptionEn,alcoholContent,volume,stock,countryKa,countryEn,technologyKa,technologyEn,flavorKa,flavorEn,tasteKa,tasteEn,imageUrl,isAvailable\nტესტ პროდუქტი 1,,wine,15.00,12.00,2026-11-01,2026-11-30,ტესტ ბრენდი 1,,ძალიან კარგი ქართული წითელი ღვინო,,12.5,0.75,10,საქართველო,,,,,,,,,true\n,Test Product 2,beer,5.50,,,,,Test Brand 2,,Refreshing cold premium lager beer,5.0,0.5,24,,Georgia,,,,,,,,true\n';
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -553,7 +573,7 @@ export class ProductManagement implements OnInit {
     }
 
     const headers = [
-      'nameKa', 'nameEn', 'category', 'price', 'discountPrice',
+      'nameKa', 'nameEn', 'category', 'price', 'discountPrice', 'saleStartDate', 'saleEndDate',
       'brandKa', 'brandEn', 'descriptionKa', 'descriptionEn',
       'alcoholContent', 'volume', 'stock', 'countryKa', 'countryEn',
       'technologyKa', 'technologyEn', 'flavorKa', 'flavorEn',
@@ -608,6 +628,8 @@ export class ProductManagement implements OnInit {
       'category': 'category',
       'price': 'price',
       'discountprice': 'discountPrice',
+      'salestartdate': 'saleStartDate',
+      'saleenddate': 'saleEndDate',
       'alcoholcontent': 'alcoholContent',
       'volume': 'volume',
       'stock': 'stock',
@@ -629,6 +651,15 @@ export class ProductManagement implements OnInit {
       'available': 'isAvailable'
     };
     return mappings[cleaned] || header;
+  }
+
+  /** Accepts YYYY-MM-DD, or DD.MM.YYYY / DD/MM/YYYY (how Excel often re-saves dates). Invalid → ''. */
+  normalizeCsvDate(val: string): string {
+    let m = val.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+    m = val.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/);
+    if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+    return '';
   }
 
   parseCSV(text: string): string[][] {
@@ -728,6 +759,8 @@ export class ProductManagement implements OnInit {
             product[header] = isNaN(numVal) ? 0 : numVal;
           } else if (header === 'isAvailable') {
             product[header] = val.toLowerCase() === 'true' || val === '1' || val === '';
+          } else if (header === 'saleStartDate' || header === 'saleEndDate') {
+            product[header] = this.normalizeCsvDate(val);
           } else {
             product[header] = val;
           }
